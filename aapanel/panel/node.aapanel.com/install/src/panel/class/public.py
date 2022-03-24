@@ -17,6 +17,8 @@ _LAN_PUBLIC = None
 _LAN_LOG = None
 _LAN_TEMPLATE = None
 
+NODE_URL='https://node.aapanel.com'
+
 if sys.version_info[0] == 2:
     reload(sys)
     sys.setdefaultencoding('utf8')
@@ -572,7 +574,7 @@ def GetLocalIp():
         return ipaddress
     except:
         try:
-            url = 'https://brandnew.aapanel.com/api/common/getClientIP'
+            url = 'https://api.ip.sb/ip'
             return HttpGet(url)
         except:
             return GetHost()
@@ -653,7 +655,7 @@ def get_timeout(url,timeout=3):
     except: return 0,False
 
 def get_url(timeout = 0.5):
-    return 'https://node.aapanel.com'
+    return ${NODE_URL};
 
     import json
     try:
