@@ -256,15 +256,15 @@ var aceEditor = {
                     var loadT = layer.open({
                         type: 1,
                         area: ['400px', '180px'],
-                        title: 'Tips',
+                        title: '提示',
                         content: '<div class="ace-clear-form">\
 							<div class="clear-icon"></div>\
-							<div class="clear-title">Do you want to save changes to &nbsp<span class="size_ellipsis" style="max-width:150px;vertical-align: top;" title="' + file_title + '">' + file_title + '</span>&nbsp?</div>\
-							<div class="clear-tips">If you don\'t save, the changes will be lost!</div>\
+							<div class="clear-title">是否保存对&nbsp<span class="size_ellipsis" style="max-width:150px;vertical-align: top;" title="' + file_title + '">' + file_title + '</span>&nbsp的更改</div>\
+							<div class="clear-tips">如果不保存，更改会丢失!</div>\
 							<div class="ace-clear-btn" style="">\
-								<button type="button" class="btn btn-sm btn-default" style="float:left" data-type="2">Dont save</button>\
-								<button type="button" class="btn btn-sm btn-default" style="margin-right:10px;" data-type="1">Cancel</button>\
-								<button type="button" class="btn btn-sm btn-success" data-type="0">Save</button>\
+								<button type="button" class="btn btn-sm btn-default" style="float:left" data-type="2">不保存文件</button>\
+								<button type="button" class="btn btn-sm btn-default" style="margin-right:10px;" data-type="1">取消</button>\
+								<button type="button" class="btn btn-sm btn-success" data-type="0">保存文件</button>\
 							</div>\
 						</div>',
                         success: function(layers, index) {
@@ -305,7 +305,7 @@ var aceEditor = {
         });
         $(window).keyup(function(e){
 			if(e.keyCode === 116 && $('#ace_conter').length == 1){
-				layer.msg('Unable to refresh in editor mode. Please close and try again');
+				layer.msg('编辑器模式下无法刷新网页，请关闭后重试');
 			}
 		});
         // 新建编辑器视图
@@ -453,14 +453,14 @@ var aceEditor = {
                     var loadT = layer.open({
                         type: 1,
                         area: ['350px', '180px'],
-                        title: 'Tips',
+                        title: '提示',
                         content: '<div class="ace-clear-form">\
 							<div class="clear-icon"></div>\
-							<div class="clear-title">Do you want to save changes to all files?</div>\
-							<div class="clear-tips">If you don\'t save, the changes will be lost!</div>\
+							<div class="clear-title">是否保存对全部文件的更改？</div>\
+							<div class="clear-tips">如果不保存，更改会丢失！</div>\
 							<div class="ace-clear-btn" style="">\
-								<button type="button" class="btn btn-sm btn-default clear-btn" style="margin-right:10px;" >Cancel</button>\
-								<button type="button" class="btn btn-sm btn-success save-all-btn">Save</button>\
+								<button type="button" class="btn btn-sm btn-default clear-btn" style="margin-right:10px;" >取消</button>\
+								<button type="button" class="btn btn-sm btn-success save-all-btn">保存文件</button>\
 							</div>\
 						</div>',
                         success: function(layers, index) {
@@ -495,21 +495,21 @@ var aceEditor = {
                             editor_item.ace.setValue(res.data);
                             editor_item.fileType = 0;
                             $('.item_tab_' + editor_item.id + ' .icon-tool').attr('data-file-state', '0').removeClass('glyphicon-exclamation-sign').addClass('glyphicon-remove');
-                            layer.msg('Refresh successfully', { icon: 1 });
+                            layer.msg('刷新成功', { icon: 1 });
                         });
                         return false;
                     }
                     var loadT = layer.open({
                         type: 1,
                         //area: ['350px', '180px'],
-                        title: 'Tips',
+                        title: '提示',
                         content: '<div class="ace-clear-form">\
 							<div class="clear-icon"></div>\
-							<div class="clear-title">Whether to refresh the current file</div>\
-							<div class="clear-tips">Refreshing the current file will overwrite the current modification and continue!</div>\
+							<div class="clear-title">是否刷新当前文件</div>\
+							<div class="clear-tips">刷新当前文件会覆盖当前修改,是否继续!</div>\
 							<div class="ace-clear-btn" style="">\
-								<button type="button" class="btn btn-sm btn-default clear-btn" style="margin-right:10px;" >Cancel</button>\
-								<button type="button" class="btn btn-sm btn-success save-all-btn">Save</button>\
+								<button type="button" class="btn btn-sm btn-default clear-btn" style="margin-right:10px;" >取消</button>\
+								<button type="button" class="btn btn-sm btn-success save-all-btn">确定</button>\
 							</div>\
 						</div>',
                         success: function(layers, index) {
@@ -522,7 +522,7 @@ var aceEditor = {
                                     editor_item.ace.setValue(res.data);
                                     editor_item.fileType == 0;
                                     $('.item_tab_' + editor_item.id + ' .icon-tool').attr('data-file-state', '0').removeClass('glyphicon-exclamation-sign').addClass('glyphicon-remove');
-                                    layer.msg('Refresh successfully', { icon: 1 });
+                                    layer.msg('刷新成功', { icon: 1 });
                                 });
                             });
                         }
@@ -561,7 +561,7 @@ var aceEditor = {
                         var _val = $(this).val();
                         if (_val == '') {
                             $(this).css('border', '1px solid red');
-                            $(this).next('.tips').text('Font setting range 12-45');
+                            $(this).next('.tips').text('字体设置范围 12-45');
                         } else if (!isNaN(_val)) {
                             $(this).removeAttr('style');
                             if (parseInt(_val) > 11 && parseInt(_val) < 45) {
@@ -569,11 +569,11 @@ var aceEditor = {
                             } else {
                                 $('.ace_conter_editor .ace_editors').css('fontSize', '13px');
                                 $(this).css('border', '1px solid red');
-                                $(this).next('.tips').text('Font setting range 12-45');
+                                $(this).next('.tips').text('字体设置范围 12-45');
                             }
                         } else {
                             $(this).css('border', '1px solid red');
-                            $(this).next('.tips').text('Font setting range 12-45');
+                            $(this).next('.tips').text('字体设置范围 12-45');
                         }
                         e.stopPropagation();
 						e.preventDefault();
@@ -588,7 +588,7 @@ var aceEditor = {
 						_this.saveAceConfig(_this.aceConfig,function(res){
 							if(res.status){
 								$('.ace_editors').css('fontSize',_fontSize +'px');
-                                layer.msg('Successful setup', {icon: 1});
+                                layer.msg('设置成功', {icon: 1});
                                 $('.ace_toolbar_menu').hide();
 							}
 						});
@@ -598,7 +598,7 @@ var aceEditor = {
                     //主题
                 case 'themes':
                     $('.ace_toolbar_menu').show().find('.menu-themes').show().siblings().hide();
-                    var _html = '',_arry = ['White', 'Black'];
+                    var _html = '',_arry = ['白色主题', '黑色主题'];
                     for (var i = 0; i < _this.themeList.length; i++) {
                         if (_this.themeList[i] != _this.aceConfig.aceEditor.editorTheme) {
                             _html += '<li data-value="' + _this.themeList[i] + '">' + _this.themeList[i] + '【' + _arry[i] + '】</li>';
@@ -615,7 +615,7 @@ var aceEditor = {
 							for(var item in _this.editor){
 								_this.editor[item].ace.setTheme("ace/theme/"+_theme);
 							}
-							layer.msg('Successful setup', {icon: 1});
+							layer.msg('设置成功', {icon: 1});
 						});
 					});
                     break;
@@ -637,7 +637,7 @@ var aceEditor = {
 							for(var item in _this.editor){
 								_this.editor[item].ace.setOption(_type,_this.aceConfig.aceEditor[_type]);
 							}
-							layer.msg('Successful setup', {icon: 1});
+							layer.msg('设置成功', {icon: 1});
 						});
                     });
                     break;
@@ -645,15 +645,15 @@ var aceEditor = {
                     layer.open({
                         type: 1,
                         area: '1300px',
-                        title: 'Help',
+                        title: '帮助',
                         content: '<div class="helps_conter">\
 							<div class="helps_left">\
-								<div class="helps_item">Common shortcuts:</div>\
+								<div class="helps_item">常用快捷键:</div>\
 								<div class="helps_box">\
 									ctrl+s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save</br>\
-									ctrl+a&nbsp;&nbsp;Select all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl+x&nbsp;&nbsp;Cut</br>\
-									ctrl+c&nbsp;&nbsp;Copy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl+v&nbsp;&nbsp;Paste</br>\
-									ctrl+z&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl+y&nbsp;&nbsp;Anti-cancel</br>\
+									ctrl+a&nbsp;&nbsp;全选&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl+x&nbsp;&nbsp;剪切</br>\
+									ctrl+c&nbsp;&nbsp;复制&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl+v&nbsp;&nbsp;粘贴</br>\
+									ctrl+z&nbsp;&nbsp;撤销&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl+y&nbsp;&nbsp;取消</br>\
 									ctrl+f&nbsp;&nbsp;Find&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl+alt+f&nbsp;&nbsp;Replace</br>\
 									win+alt+0&nbsp;&nbsp;Collapse all</br>\
 									win+alt+shift+0&nbsp;&nbsp;Expand all</br>\
@@ -805,8 +805,8 @@ var aceEditor = {
 		$('.ace_dir_tools').on('click','.search_file',function(e){
 			if($(this).parent().find('.search_input_view').length == 0){
 				$(this).siblings('div').hide();
-				$(this).css('color','#ec4545').attr({'title':'Close'}).find('.glyphicon').removeClass('glyphicon-search').addClass('glyphicon-remove').next().text("Close");
-				$(this).before('<div class="search_input_title">Search Catalog File</div>');
+				$(this).css('color','#ec4545').attr({'title':'关闭'}).find('.glyphicon').removeClass('glyphicon-search').addClass('glyphicon-remove').next().text("关闭");
+				$(this).before('<div class="search_input_title">搜索目录文件</div>');
 				$(this).after('<div class="search_input_view">\
 					<form>\
                         <input type="text" id="search_input_val" class="ser-text pull-left" placeholder="">\
@@ -814,7 +814,7 @@ var aceEditor = {
                     </form>\
                     <div class="search_boxs">\
                         <input id="search_alls" type="checkbox">\
-                        <label for="search_alls"><span>Include Subdirectory Files</span></label>\
+                        <label for="search_alls"><span>包含子目录文件</span></label>\
                     </div>\
                 </div>');
 				$('.ace_catalogue_list').css('top','150px');
@@ -823,7 +823,7 @@ var aceEditor = {
 			}else{
 				$(this).siblings('div').show();
 				$(this).parent().find('.search_input_view,.search_input_title').remove();
-				$(this).removeAttr('style').attr({'title':'Search Content'}).find('.glyphicon').removeClass('glyphicon-remove').addClass('glyphicon-search').next().text("Search");
+				$(this).removeAttr('style').attr({'title':'搜索内容'}).find('.glyphicon').removeClass('glyphicon-remove').addClass('glyphicon-search').next().text("搜索");
 				$('.ace_catalogue_list').removeAttr('style')
 				$('.ace_dir_tools').removeAttr('style');
 				_this.refresh_config = {
@@ -1062,7 +1062,7 @@ var aceEditor = {
                     group:parseInt(_active.attr('data-group')) + 1,
                     is_empty:true
                 },function(){
-                    layer.msg('Refresh successfully',{icon:1});
+                    layer.msg('刷新成功',{icon:1});
                 });
             break;
             case 1: //打开文件
@@ -1087,7 +1087,7 @@ var aceEditor = {
             case 4: //文件重命名
                 var _types = _active.attr('data-file');
                 if(_active.hasClass('active')){
-                    layer.msg('The file is open and the name cannot be modified',{icon:0});
+                    layer.msg('该文件已打开，无法修改名称',{icon:0});
                     return false;
                 }
                 _active.attr('data-edit',2);
@@ -1753,8 +1753,8 @@ var aceEditor = {
 		$('.ace_conter_menu').append('<li class="item active item_tab_'+_id+'" data-type="shortcutKeys" data-id="'+ _id +'" >\
 			<div class="ace_item_box">\
 				<span class="icon_file"><i class="text-icon"></i></span>\
-				<span>'+ (type?conifg.title:('Untitled-'+ _index)) +'</span>\
-				<i class="glyphicon icon-tool glyphicon-remove" aria-hidden="true" data-file-state="0" data-title="'+ (type?conifg.title:('Untitled-'+ _index)) +'"></i>\
+				<span>'+ (type?conifg.title:('新建文件-'+ _index)) +'</span>\
+				<i class="glyphicon icon-tool glyphicon-remove" aria-hidden="true" data-file-state="0" data-title="'+ (type?conifg.title:('新建文件-'+ _index)) +'"></i>\
 			</div>\
 		</li>');
 		$('#ace_editor_' + _id).siblings().removeClass('active');
@@ -2269,7 +2269,7 @@ function ajaxSetup() {
 
 				error_key = 'We need to make sure this has a favicon so that the debugger does';
 				error_find = jqXHR.responseText.indexOf(error_key)
-				if(jqXHR.status == 500 && (jqXHR.responseText.indexOf('An error occurred while the panel was running') != -1 || error_find != -1)){
+				if(jqXHR.status == 500 && (jqXHR.responseText.indexOf('运行时发生错误') != -1 || error_find != -1)){
 					// if(jqXHR.responseText.indexOf('请先绑定宝塔帐号!') != -1){
 					// 	bt.pub.bind_btname(function(){
 					// 		window.location.reload();
@@ -2278,7 +2278,7 @@ function ajaxSetup() {
 					// }
 					if(error_find != -1){
 						var error_body = jqXHR.responseText.split('<!--')[2].replace('-->','')
-						var tmp = error_body.split('During handling of the above exception, another exception occurred:')
+						var tmp = error_body.split('在处理上述异常的过程中，又发生了一个异常:')
 						error_body = tmp[tmp.length-1];
 						var error_msg = '<div>\
 						<h3 style="margin-bottom: 10px;">出错了，面板运行时发生错误！</h3>\
@@ -3095,7 +3095,7 @@ $("#dologin").click(function() {
     layer.confirm(lan.bt.loginout, {
         icon: 3,
         closeBtn: 2,
-        title: "Logout"
+        title: "信息"
     }, function() {
         window.location.href = "/login?dologin=True"
     });
@@ -3815,7 +3815,7 @@ function messagebox(){
 
 function get_message_data(page,callback){
 	if(typeof page === "function") callback = page,page = 1;
-	var loadT = bt.load('Getting message list, please wait...');
+	var loadT = bt.load('正在获取消息列表，请稍候...');
 	bt.send("getData","data/getData",{
 		tojs:'reader_message_list',
 		table:'tasks',
@@ -3924,7 +3924,7 @@ function reader_realtime_tasks(refresh){
 					area:['100%','200px'],
 					shell:'tail -n 100 -f /tmp/panelExec.log',
 					message:function(res){
-							if(res.indexOf('|-Successify ---Script execution completed---') > -1){
+							if(res.indexOf('|-Successify --- 命令已执行! ---') > -1){
 								setTimeout(function(){
 									reader_realtime_tasks(true)
 									reader_message_list()
@@ -4251,7 +4251,7 @@ var Term = {
 				return;
 			}
 		}
-        if (result === "\rServer connection failed!\r" || result == "\rWrong user name or password!\r") {
+        if (result === "\r服务器连接失败!\r" || result == "\r用户名或密码错误!\r") {
             Term.close();
             return;
 		}
@@ -4392,7 +4392,7 @@ var Term = {
 		// 	layer.msg('Error: unable to create websocket connection, please close 【Developer mode】 on the settings page!',{icon:2,time:5000});
 		// 	return;
 		// }
-        var loadT = layer.msg('It is loading the files required by the terminal. Please wait...', { icon: 16, time: 0, shade: 0.3 });
+        var loadT = layer.msg('正在加载终端所需文件，请稍后...', { icon: 16, time: 0, shade: 0.3 });
         loadScript([
         	"/static/js/xterm.js"
         ],function(){
@@ -4417,7 +4417,7 @@ var Term = {
 	            content: '<link rel="stylesheet" href="/static/css/xterm.css" />\
 	            <div class="term-box" style="background-color:#000;padding-top: 7px;" id="term"></div>',
 	            cancel: function (index,lay) {
-					bt.confirm({msg:'<div style="word-break: break-word;">Closing the SSH session, the command in progress in the current command line session may be aborted. Continute?</div>',title: "Cofirm to close the SSH session?"},function(ix){
+					bt.confirm({msg:'<div style="word-break: break-word;">关闭SSH会话后，当前命令行会话正在执行的命令可能被中止，确定关闭吗？</div>',title: "确定要关闭SSH会话吗?"},function(ix){
 						Term.term.dispose();
 						layer.close(index);
 						layer.close(ix);
@@ -4439,7 +4439,7 @@ var Term = {
 	            try {
 	                Term.bws.send(data)
 	            } catch (e) {
-	                Term.term.write('\r\nThe connection is lost and you are trying to reconnect!\r\n')
+	                Term.term.write('\r\n连接丢失,正在尝试重新连接!\r\n')
 	                Term.connect()
 	            }
 	        });
@@ -4469,41 +4469,41 @@ var Term = {
         });
     },
     localhost_login_form:function(result){
-        var template = '<div class="localhost-form-shade"><div class="localhost-form-view bt-form-2x"><div class="localhost-form-title"><i class="localhost-form_tip"></i><span style="vertical-align: middle;">Login failed, please fill the local server information!</span></div>\
+        var template = '<div class="localhost-form-shade"><div class="localhost-form-view bt-form-2x"><div class="localhost-form-title"><i class="localhost-form_tip"></i><span style="vertical-align: middle;">无法自动认证，请填写本地服务器的登录信息!</span></div>\
         <div class="line input_group">\
-            <span class="tname">Server IP</span>\
+            <span class="tname">服务器IP</span>\
             <div class="info-r">\
-                <input type="text" name="host" class="bt-input-text mr5" style="width:240px" placeholder="Server IP" value="127.0.0.1" autocomplete="off" />\
-                <input type="text" name="port" class="bt-input-text mr5" style="width:60px" placeholder="Port" value="22" autocomplete="off"/>\
+                <input type="text" name="host" class="bt-input-text mr5" style="width:240px" placeholder="输入服务器IP" value="127.0.0.1" autocomplete="off" />\
+                <input type="text" name="port" class="bt-input-text mr5" style="width:60px" placeholder="端口" value="22" autocomplete="off"/>\
             </div>\
         </div>\
         <div class="line">\
-            <span class="tname">SSH account</span>\
+            <span class="tname">SSH账号</span>\
             <div class="info-r">\
-                <input type="text" name="username" class="bt-input-text mr5" style="width:305px" placeholder="SSH account" value="root" autocomplete="off"/>\
+                <input type="text" name="username" class="bt-input-text mr5" style="width:305px" placeholder="输入SSH账号" value="root" autocomplete="off"/>\
             </div>\
         </div>\
         <div class="line">\
-            <span class="tname">Verification</span>\
+            <span class="tname">验证方式</span>\
             <div class="info-r ">\
                 <div class="btn-group">\
-                    <button type="button" tabindex="-1" class="btn btn-sm auth_type_checkbox btn-success" data-ctype="0">Password</button>\
-                    <button type="button" tabindex="-1" class="btn btn-sm auth_type_checkbox btn-default data-ctype="1">Server key</button>\
+                    <button type="button" tabindex="-1" class="btn btn-sm auth_type_checkbox btn-success" data-ctype="0">密码验证</button>\
+                    <button type="button" tabindex="-1" class="btn btn-sm auth_type_checkbox btn-default data-ctype="1">私钥验证</button>\
                 </div>\
             </div>\
         </div>\
         <div class="line c_password_view show">\
-            <span class="tname">Password</span>\
+            <span class="tname">密码</span>\
             <div class="info-r">\
-                <input type="text" name="password" class="bt-input-text mr5" placeholder="SSH Password" style="width:305px;" value="" autocomplete="off"/>\
+                <input type="text" name="password" class="bt-input-text mr5" placeholder="请输入SSH密码" style="width:305px;" value="" autocomplete="off"/>\
             </div>\
         </div>\
         <div class="line c_pkey_view hidden">\
-            <span class="tname">Private key</span>\
+            <span class="tname">私钥</span>\
             <div class="info-r">\
-                <textarea rows="4" name="pkey" class="bt-input-text mr5" placeholder="SSH server key" style="width:305px;height: 80px;line-height: 18px;padding-top:10px;"></textarea>\
+                <textarea rows="4" name="pkey" class="bt-input-text mr5" placeholder="请输入SSH私钥" style="width:305px;height: 80px;line-height: 18px;padding-top:10px;"></textarea>\
             </div>\
-        </div><button type="submit" class="btn btn-sm btn-success">Login</button></div></div>';
+        </div><button type="submit" class="btn btn-sm btn-success">登录</button></div></div>';
         $('.term-box').after(template);
         $('.auth_type_checkbox').click(function(){
             var index = $(this).index();
@@ -4527,31 +4527,31 @@ var Term = {
                 switch(name){
                     case 'port':
                         if(!bt.check_port(value)){
-                            bt.msg({status:false,msg:'Server port format error!'});
+                            bt.msg({status:false,msg:'服务器端口格式错误!'});
                             return false;
                         }
                     break;
                     case 'username':
                         if(value == ''){
-                            bt.msg({status:false,msg:'Server user name cannot be empty!'});
+                            bt.msg({status:false,msg:'服务器用户名不能为空!'});
                             return false;
                         }
                     break;
                     case 'password':
                         if(value == '' && $('.c_password_view').hasClass('show')){
-                            bt.msg({status:false,msg:'Server password cannot be empty!'});
+                            bt.msg({status:false,msg:'服务器密码不能为空!'});
                             return false;
                         }
                     break;   
                     case 'pkey':
                         if(value == '' && $('.c_pkey_view').hasClass('show')){
-                            bt.msg({status:false,msg:'The server key cannot be empty!'});
+                            bt.msg({status:false,msg:'服务器秘钥不能为空!'});
                             return false;
                         }
                     break;
                 }
             });
-			form.ps = 'Local server';
+			form.ps = '本地服务器';
 			
 			if(result){
 				if(result.indexOf('@127.0.0.1') != -1){
@@ -4561,12 +4561,12 @@ var Term = {
 					$("input[name='port']").val(port);
 				}
 			}
-            var loadT = bt.load('Adding server information, please wait...');
+            var loadT = bt.load('正在添加服务器信息，请稍后...');
             bt.send('create_host','xterm/create_host',form,function(res){
                 loadT.close();
                  bt.msg(res);
                 if(res.status){
-                    bt.msg({status:true,msg:'Login successful!'});
+                    bt.msg({status:true,msg:'登录成功!'});
                     $('.layui-layer-shade').remove();
                     $('.term_box_all').remove();
                     Term.term.dispose();
@@ -4648,7 +4648,7 @@ function show_ssh_login(is_config) {
                             <div class="bt-form-submit-btn"><button type="button" class="btn btn-sm btn-danger" onclick="' + (is_config ? 'layer.close(ssh_login)' : 'layer.closeAll()') + '">Close</button><button type="button" class="btn btn-sm btn-success ssh-login" onclick="send_ssh_info()">' + (is_config ? 'Confirm' : 'Login SSH') + '</button></div></div>';
     ssh_login = layer.open({
         type: 1,
-        title: is_config ? 'Please fill in the SSH connection configuration' : 'Please enter the SSH login account and password',
+        title: is_config ? '请填写SSH连接配置' : '请输入SSH登录账号和密码',
         area: "500px",
         closeBtn: 0,
         shadeClose: false,
@@ -4694,17 +4694,17 @@ function send_ssh_info() {
         pkey: $("textarea[name='ssh_pkey']").val()
     }
     if (pdata['host'] !== '127.0.0.1' && pdata['host'] !== 'localhost') {
-        layer.msg("Connection address can only be [ 127.0.0.1 or localhost ]");
+        layer.msg("连接地址只能是 [ 127.0.0.1 or localhost ]");
         $("input[name='ssh_host']").focus();
         return;
     }
     if (pdata['port'] < 1 || pdata['port'] > 65535) {
-        layer.msg("Port range is incorrect [1-65535]");
+        layer.msg("端口范围不正确 [1-65535]");
         $("input[name='ssh_port']").focus();
         return;
     }
     if (!pdata['username']) {
-        layer.msg("Username can not be empty!");
+        layer.msg("用户名不能为空!");
         $("input[name='ssh_user']").focus();
         return;
     }
@@ -4712,13 +4712,13 @@ function send_ssh_info() {
     if ($("#rsa_check").attr("class") === "ssh_check_s2") {
         pdata['c_type'] = 'True'
         if (!pdata['pkey']) {
-            layer.msg("Private key cannot be empty!");
+            layer.msg("私钥不能为空!");
             $("input[name='ssh_pkey']").focus();
             return;
         }
     } else {
         if (!pdata['password']) {
-            layer.msg("Password can not be blank!");
+            layer.msg("密码不能为空!");
             $("input[name='ssh_passwd']").focus();
             return;
         }
@@ -4727,7 +4727,7 @@ function send_ssh_info() {
         pdata['is_save'] = '1';
     }
 
-    var loadT = layer.msg('Trying to log in to SSH...', { icon: 16, time: 0, shade: 0.3 });
+    var loadT = layer.msg('尝试登录 SSH...', { icon: 16, time: 0, shade: 0.3 });
     $.post("/term_open", { data: JSON.stringify(pdata) }, function() {
         layer.close(loadT)
         Term.send('reset_connect');
@@ -4744,13 +4744,13 @@ acme = {
     get_orders: function(callback) {
         acme.request('get_orders', {}, function(rdata) {
             callback(rdata)
-        }, 'Getting order list...');
+        }, '正在获取订单列表...');
     },
     //取指定订单
     get_find: function(index, callback) {
         acme.request('get_order_find', { index: index }, function(rdata) {
             callback(rdata)
-        }, 'Getting order information...')
+        }, '正在获取订单信息...')
     },
 
     //下载指定证书包
@@ -4766,7 +4766,7 @@ acme = {
                 window.location.href = '/download?filename=' + rdata.msg
             }
 
-        }, 'Preparing to download..');
+        }, '正在准备下载..');
     },
 
     //删除订单
@@ -4782,12 +4782,12 @@ acme = {
         acme.request('revoke_order', { index: index }, function(rdata) {
             bt.msg(rdata);
             if (callback) callback(rdata)
-        }, 'Revoking certificate...');
+        }, '正在吊销证书...');
     },
 
     //验证域名(手动DNS申请)
     auth_domain: function(index, callback) {
-        acme.show_speed_window('Verifying DNS...', function() {
+        acme.show_speed_window('正在验证DNS...', function() {
             acme.request('apply_dns_auth', { index: index }, function(rdata) {
                 callback(rdata)
             }, false);
@@ -4798,7 +4798,7 @@ acme = {
     get_cert_init: function(pem_file, siteName, callback) {
         acme.request('get_cert_init_api', { pem_file: pem_file, siteName: siteName }, function(cert_init) {
             callback(cert_init);
-        }, 'Getting certificate information...');
+        }, '正在获取证书信息...');
     },
 
     //显示进度
@@ -4841,7 +4841,7 @@ acme = {
     //auth_to 验证路径 网站根目录或dnsapi
     //auto_wildcard 是否自动组合通配符 1.是 0.否 默认0
     apply_cert: function(domains, auth_type, auth_to, auto_wildcard, callback) {
-        acme.show_speed_window('Applying for a certificate...', function() {
+        acme.show_speed_window('正在申请证书...', function() {
             if (auto_wildcard === undefined) auto_wildcard = '0'
             pdata = {
                 domains: JSON.stringify(domains),
@@ -4860,7 +4860,7 @@ acme = {
 
     //续签证书
     renew: function(index, callback) {
-        acme.show_speed_window('Renewing certificate...', function() {
+        acme.show_speed_window('正在续签证书...', function() {
             acme.request('renew_cert', { index: index }, function(rdata) {
                 callback(rdata)
             }, false);
@@ -4884,7 +4884,7 @@ acme = {
 
     //发送到请求
     request: function(action, pdata, callback, msg) {
-        if (msg == undefined) msg = 'Processing, please wait...';
+        if (msg == undefined) msg = '正在处理，请稍候...';
         if (msg) {
             var loadT = layer.msg(msg, { icon: 16, time: 0, shade: 0.3 });
         }
@@ -4903,7 +4903,7 @@ function MessageChannelSettings(){
 		layer.open({
 			type: 1,
 			area: "600px",
-			title: "Setting up notification",
+			title: "设置消息通道",
 			skin:"layer-channel-auth",
 			closeBtn: 2,
 			shift: 5,
@@ -4911,7 +4911,7 @@ function MessageChannelSettings(){
 			content: '<div class="bt-form">\
 				<div class="bt-w-main">\
 					<div class="bt-w-menu" style="width: 110px;">\
-						<p class="bgw">Email</p>\
+						<p class="bgw">邮箱</p>\
 						<p>Telegram</p>\
 					</div>\
 					<div class="bt-w-con pd15" style="margin-left: 110px">\
@@ -4919,12 +4919,12 @@ function MessageChannelSettings(){
 							<div class="conter_box active" >\
 								<div class="bt-form">\
 									<div class="line">\
-										<button class="btn btn-success btn-sm" onclick="MessageChannel.add_receive_info()">Add recipient</button>\
-										<button class="btn btn-default btn-sm" onclick="MessageChannel.sender_info_edit()">Sender settings</button>\
+										<button class="btn btn-success btn-sm" onclick="MessageChannel.add_receive_info()">添加收件者</button>\
+										<button class="btn btn-default btn-sm" onclick="MessageChannel.sender_info_edit()">发送者设置</button>\
 									</div>\
 									<div class="line">\
 										<div class="divtable">\
-											<table class="table table-hover" width="100%" cellspacing="0" cellpadding="0" border="0"><thead><tr><th>Email</th><th width="80px">Operating</th></tr></thead></table>\
+											<table class="table table-hover" width="100%" cellspacing="0" cellpadding="0" border="0"><thead><tr><th>邮箱</th><th width="80px">操作</th></tr></thead></table>\
 											<table class="table table-hover"><tbody id="receive_table"></tbody></table>\
 										</div>\
 									</div>\
@@ -4945,13 +4945,13 @@ function MessageChannelSettings(){
                                 </div>\
                                 <div class="line">\
                                     <span class="tname"></span>\
-                                    <button class="btn btn-success btn-sm addTelegram" style="margin-right: 10px;">Save</button>\
-                                    '+(rdata.telegram.setup?'<button class="btn btn-default btn-sm delTelegram">Clear set</button>':'')+'\
+                                    <button class="btn btn-success btn-sm addTelegram" style="margin-right: 10px;">保存</button>\
+                                    '+(rdata.telegram.setup?'<button class="btn btn-default btn-sm delTelegram">清除</button>':'')+'\
                                 </div>\
                                 <ul class="help-info-text c7" style="margin-top: 315px;">\
-                                    <li>ID: Your telegram user ID</li>\
-                                    <li>Token: Your telegram bot token </li>\
-                                    <li>e.g: [ 12345677:AAAAAAAAA_a0VUo2jjr__CCCCDDD ] <a class="btlink" href="https://forum.aapanel.com/d/5115-how-to-add-telegram-to-panel-notifications" target="_blank" rel="noopener"> Help</a></li>\
+                                    <li>ID: 你的telegram用户ID</li>\
+                                    <li>Token: 你的telegram的token </li>\
+                                    <li>e.g: [ 12345677:AAAAAAAAA_a0VUo2jjr__CCCCDDD ] <a class="btlink" href="https://forum.aapanel.com/d/5115-how-to-add-telegram-to-panel-notifications" target="_blank" rel="noopener"> 帮助</a></li>\
                                 </ul>\
 							</div>\
 						</div>\
@@ -4961,15 +4961,15 @@ function MessageChannelSettings(){
 			success:function(){
                 $('.addTelegram').click(function(){
                     var _id = $('[name=telegram_id]').val(),_token = $('[name=telegram_token]').val();
-                    if(_id == '' || _token == '') return layer.msg('input box cannot be empty!');
-                    var loadT = layer.msg('The notification is being generated, please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+                    if(_id == '' || _token == '') return layer.msg('输入框不能为空!');
+                    var loadT = layer.msg('正在生成通知，请稍候...', { icon: 16, time: 0, shade: [0.3, '#000'] });
                     $.post('/config?action=set_tg_bot',{bot_token:_token,my_id:_id},function(rdata){
                         layer.close(loadT);
                         layer.msg(rdata.msg,{icon:rdata.status?1:2})
                     })
                 })
                 $('.delTelegram').click(function(){
-                    var loadTs = layer.msg('Deleting notification, please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+                    var loadTs = layer.msg('正在删除通知，请稍候...', { icon: 16, time: 0, shade: [0.3, '#000'] });
                     $.post('/config?action=del_tg_info',function(rdata){
                         layer.close(loadTs);
                         layer.msg(rdata.msg,{icon:rdata.status?1:2})
@@ -4993,7 +4993,7 @@ function MessageChannelSettings(){
 var MessageChannel = {
 	//获取推送设置
 	get_channel_settings:function(callback){
-		var loadT = layer.msg('Getting profile, please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+		var loadT = layer.msg('正在获取个人资料，请稍候...', { icon: 16, time: 0, shade: [0.3, '#000'] });
 		$.post('/config?action=get_settings2',function(rdata){
 			layer.close(loadT);
 			if (callback) callback(rdata);
@@ -5007,11 +5007,11 @@ var MessageChannel = {
 				for(var i= 0; i<_list.length;i++){
 					_html += '<tr>\
 					<td>'+ _list[i] +'</td>\
-					<td width="80px" style="text-align:right;"><a onclick="MessageChannel.del_email(\''+ _list[i] + '\')" href="javascript:;" style="color:#20a53a">Del</a></td>\
+					<td width="80px" style="text-align:right;"><a onclick="MessageChannel.del_email(\''+ _list[i] + '\')" href="javascript:;" style="color:#20a53a">删除</a></td>\
 					</tr>'
 				}
 			}else{
-				_html = '<tr><td colspan="2">No Data</td></tr>'
+				_html = '<tr><td colspan="2">无数据</td></tr>'
 			}
 			$('#receive_table').html(_html);
 		})
@@ -5022,27 +5022,27 @@ var MessageChannel = {
 		layer.open({
 			type: 1,
 			area: "400px",
-			title: "Add recipient email",
+			title: "添加收件人电子邮件",
 			closeBtn: 2,
 			shift: 5,
 			shadeClose: false,
 			content: '<div class="bt-form pd20 pb70">\
 	        <div class="line">\
-	            <span class="tname">Recipient mailbox</span>\
+	            <span class="tname">收件人邮箱</span>\
 	            <div class="info-r">\
 	                <input name="creater_email_value" class="bt-input-text mr5" type="text" style="width: 240px" value="">\
 	            </div>\
 	        </div>\
 	        <div class="bt-form-submit-btn">\
-	            <button type="button" class="btn btn-danger btn-sm smtp_closeBtn">Close</button>\
-	            <button class="btn btn-success btn-sm CreaterReceive">Create</button>\
+	            <button type="button" class="btn btn-danger btn-sm smtp_closeBtn">关闭</button>\
+	            <button class="btn btn-success btn-sm CreaterReceive">创建</button>\
 	        </div>\
 	        </div>',
 			success:function(layers,index){
 				$(".CreaterReceive").click(function(){
 					var _receive = $('input[name=creater_email_value]').val();
 					if(_receive != ''){
-						var loadT = layer.msg('Please wait while creating recipient list...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+						var loadT = layer.msg('正在创建收件人列表，请稍候...', { icon: 16, time: 0, shade: [0.3, '#000'] });
 						layer.close(index)
 						$.post('/config?action=add_mail_address',{email:_receive},function(rdata){
 							layer.close(loadT);
@@ -5051,7 +5051,7 @@ var MessageChannel = {
 							layer.msg(rdata.msg,{icon:rdata.status?1:2});
 						})
 					}else{
-						layer.msg('Recipient mailbox cannot be empty！！',{icon:2});
+						layer.msg('收件人邮箱不能为空！！',{icon:2});
 					}
 				})
 
@@ -5063,7 +5063,7 @@ var MessageChannel = {
 	},
 	// 删除收件者
 	del_email:function(mail){
-		var loadT = layer.msg('Deleting['+mail+'],please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] }),_this = this;
+		var loadT = layer.msg('Deleting['+mail+'],请稍候...', { icon: 16, time: 0, shade: [0.3, '#000'] }),_this = this;
 		$.post('/config?action=del_mail_list',{email:mail},function(rdata){
 			layer.close(loadT);
 			layer.msg(rdata.msg,{icon:rdata.status?1:2})
@@ -5072,7 +5072,7 @@ var MessageChannel = {
 	},
 	// 设置发送者邮箱信息
 	sender_info_edit:function (){
-		var loadT = layer.msg('Getting profile, please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+		var loadT = layer.msg('正在获取资料，请等待...', { icon: 16, time: 0, shade: [0.3, '#000'] });
 		$.post('/config?action=get_settings2',function(rdata){
 			layer.close(loadT);
 			var qq_mail = rdata.user_mail.info.msg.qq_mail ? rdata.user_mail.info.msg.qq_mail:'',
@@ -5083,57 +5083,57 @@ var MessageChannel = {
 			layer.open({
 				type: 1,
 				area: "460px",
-				title: "Set sender email information",
+				title: "设置发件人电子邮件信息",
 				closeBtn: 2,
 				shift: 5,
 				shadeClose: false,
 				content: '<div class="bt-form pd20 pb70">\
         	<div class="line">\
-                <span class="tname">Sender email</span>\
+                <span class="tname">发件人电子邮件</span>\
                 <div class="info-r">\
                     <input name="channel_email_value" class="bt-input-text mr5" type="text" style="width: 300px" value="'+qq_mail+'">\
                 </div>\
             </div>\
             <div class="line">\
-                <span class="tname">SMTP password</span>\
+                <span class="tname">SMTP密码</span>\
                 <div class="info-r">\
                     <input name="channel_email_password" class="bt-input-text mr5" type="password" style="width: 300px" value="'+qq_stmp_pwd+'">\
                 </div>\
             </div>\
             <div class="line">\
-                <span class="tname">SMTP server</span>\
+                <span class="tname">SMTP服务器</span>\
                 <div class="info-r">\
                     <input name="channel_email_server" class="bt-input-text mr5" type="text" style="width: 300px" value="'+hosts+'">\
                 </div>\
             </div>\
             <div class="line">\
-                <span class="tname">SMTP port</span>\
+                <span class="tname">SMTP端口</span>\
                 <div class="info-r">\
                     <select class="bt-input-text mr5" id="port_select" style="width:'+(is_custom?'300px':'100px')+'"></select>\
                     <input name="channel_email_port" class="bt-input-text mr5" type="Number" style="display:'+(is_custom? 'none':'inline-block')+'; width: 190px" value="'+port+'">\
                 </div>\
             </div>\
             <ul class="help-info-text c7">\
-            	<li>465 port is recommended, the protocol is SSL/TLS</li>\
-            	<li>Port 25 is SMTP protocol, port 587 is STARTTLS protocol</li>\
+            	<li>推荐465端口，协议为SSL/TLS</li>\
+            	<li>端口25是SMTP协议，端口587是STARTTLS协议</li>\
             </ul>\
             <div class="bt-form-submit-btn">\
-				'+(qq_mail != ''?'<button type="button" class="btn btn-default btn-sm pull-left set_empty">Clear set</button>':'')+'\
-	            <button type="button" class="btn btn-danger btn-sm smtp_closeBtn">Close</button>\
-	            <button class="btn btn-success btn-sm SetChannelEmail">Save</button></div>\
+				'+(qq_mail != ''?'<button type="button" class="btn btn-default btn-sm pull-left set_empty">清除</button>':'')+'\
+	            <button type="button" class="btn btn-danger btn-sm smtp_closeBtn">关闭</button>\
+	            <button class="btn btn-success btn-sm SetChannelEmail">保存</button></div>\
         	</div>',
 				success:function(layers,index){
 					var _option = '';
 					if(is_custom){
 						if(port == '465' || port == ''){
-							_option = '<option value="465" selected="selected">465</option><option value="25">25</option><option value="587">587</option><option value="other">Customize</option>'
+							_option = '<option value="465" selected="selected">465</option><option value="25">25</option><option value="587">587</option><option value="other">自定义</option>'
 						}else if(port == '25'){
-							_option = '<option value="465">465</option><option value="25" selected="selected">25</option><option value="587">587</option><option value="other">Customize</option>'
+							_option = '<option value="465">465</option><option value="25" selected="selected">25</option><option value="587">587</option><option value="other">自定义</option>'
 						}else{
-							_option = '<option value="465">465</option><option value="25">25</option><option value="587" selected="selected">587</option><option value="other">Customize</option>'
+							_option = '<option value="465">465</option><option value="25">25</option><option value="587" selected="selected">587</option><option value="other">自定义</option>'
 						}
 					}else{
-						_option = '<option value="465">465</option><option value="25">25</option><option value="587" >587</option><option value="other" selected="selected">Customize</option>'
+						_option = '<option value="465">465</option><option value="25">25</option><option value="587" >587</option><option value="other" selected="selected">自定义</option>'
 					}
 					$("#port_select").html(_option)
 					$("#port_select").change(function(e){
@@ -5155,12 +5155,12 @@ var MessageChannel = {
 						}else{
 							_port = $('#port_select').val()
 						}
-						if(!_email) return layer.msg('Email address cannot be empty!',{icon:2});
-						if(!_passW) return layer.msg('STMP password cannot be empty!',{icon:2});
-						if(!_server)return layer.msg('STMP server address cannot be empty!',{icon:2})
-						if(!_port) return layer.msg('STMP server port cannot be empty!',{icon:2})
+						if(!_email) return layer.msg('邮件地址不能为空!',{icon:2});
+						if(!_passW) return layer.msg('STMP密码不能为空!',{icon:2});
+						if(!_server)return layer.msg('STMP服务器地址不能为空!',{icon:2})
+						if(!_port) return layer.msg('STMP服务器端口不能为空!',{icon:2})
 
-						var loadT = layer.msg('The notification is being generated, please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+						var loadT = layer.msg('正在生成通知，请稍候...', { icon: 16, time: 0, shade: [0.3, '#000'] });
 						$.post('/config?action=user_mail_send',{email:_email,stmp_pwd:_passW,hosts:_server,port:_port},function(rdata){
 							layer.close(loadT);
 							if(rdata.status){
@@ -5174,7 +5174,7 @@ var MessageChannel = {
 						layer.close(index)
 					})
 					$('.set_empty').click(function(){
-						var loadTs = layer.msg('notification, please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+						var loadTs = layer.msg('通知，请稍等...', { icon: 16, time: 0, shade: [0.3, '#000'] });
 						$.post('/config?action=set_empty',{type:'mail'},function(rdata){
 							layer.close(loadTs);
 							layer.msg(rdata.msg,{icon:rdata.status?1:2})

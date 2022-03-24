@@ -213,7 +213,7 @@
               <div class="bgw" style="height:283.5px">
                   <div class="title c6 f16 plr15 tabs-nav">
                     <span class="active">{{data['lan']['FLOW']}}</span>
-                    <span>Disk IO</span>
+                    <span>磁盘IO</span>
                     <div class="tabs-down">
                       <select class="bt-input-text" name="network-io" style="font-size: 12px;"></select>
                       <select class="bt-input-text hide" name="disk-io" style="font-size: 12px;"></select>
@@ -231,10 +231,10 @@
                     </div>
                     <div class="tabs-item">
                       <div class="bw-info">
-                        <div class="col-sm-6 col-md-3"><p class="c9"><span class="ico-read"></span>Read</p><a id="readBytes">{{data['lan']['S2']}}</a></div>
-                        <div class="col-sm-6 col-md-3"><p class="c9"><span class="ico-write"></span>Write</p><a id="writeBytes">{{data['lan']['S2']}}</a></div>
-                        <div class="col-sm-6 col-md-3"><p class="c9">TPS</p><a id="diskIops">{{data['lan']['S2']}}</a></div>
-                        <div class="col-sm-6 col-md-3"><p class="c9">IO Wait</p><a id="diskTime">{{data['lan']['S2']}}</a></div>
+                        <div class="col-sm-6 col-md-3"><p class="c9"><span class="ico-read"></span>读取</p><a id="readBytes">{{data['lan']['S2']}}</a></div>
+                        <div class="col-sm-6 col-md-3"><p class="c9"><span class="ico-write"></span>写入</p><a id="writeBytes">{{data['lan']['S2']}}</a></div>
+                        <div class="col-sm-6 col-md-3"><p class="c9">每秒读写</p><a id="diskIops">{{data['lan']['S2']}}</a></div>
+                        <div class="col-sm-6 col-md-3"><p class="c9">IO延迟</p><a id="diskTime">{{data['lan']['S2']}}</a></div>
                       </div>
                       <div id="IoStat" style="width:100%;height: 370px;"></div>
                     </div>

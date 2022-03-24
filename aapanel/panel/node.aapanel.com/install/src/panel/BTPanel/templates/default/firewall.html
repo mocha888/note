@@ -97,7 +97,7 @@
                 </div>
                 <div class="ss-text pull-left">
 					<button id="mstscSubmit" onclick='bt.firewall.set_mstsc($("#mstscPort").prop("value"))' class="btn btn-default btn-sm" type="button">{{data['lan']['BTN3']}}</button>
-					<button onclick='firewall.open_sshsafe_config_view()' class="btn btn-default btn-sm" type="button">SSH Safety</button>
+					<button onclick='firewall.open_sshsafe_config_view()' class="btn btn-default btn-sm" type="button">SSH安全管理</button>
                 </div>
             </div>
             <div class="mr50 pull-left" style="border-right: 1px solid #ccc; padding-right: 40px;">
@@ -125,7 +125,7 @@
 								<option value="port">{{data['lan']['F1']}}</option>
 								<option value="address">{{data['lan']['F2']}}</option>
                             </select><input type="text" class="bt-input-text mr5" style="width: 117px;" id="AcceptPort" placeholder="{{data['lan']['F3']}}"><input type="text" class="bt-input-text mr5" id="Ps" placeholder="{{data['lan']['F4']}}"><button id="toAccept" onclick="firewall.add_accept_port()" class="btn btn-default btn-sm va0" type="button">{{data['lan']['F5']}}</button>
-                            <button class="btn btn-default btn-sm sys_firewall" type="button">SYS Firewall</button>
+                            <button class="btn btn-default btn-sm sys_firewall" type="button">系统防火墙</button>
 							<span id="f-ps" class="c9" style="margin-left: 10px;">{{data['lan']['F6']}}</span>
 						</div>
                         <div class="tablescroll">
@@ -145,7 +145,7 @@
                     <div class="tootls_group" style="height: 40px;">
                         <div class="pull-right">
                             <div class="bt_search" style="margin-top: 10px;margin-right: 15px;">
-                                <input type="text" style="width:260px" class="search_input" placeholder="Please enter a keyword search log"><span onclick="firewall.on_search()" class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                <input type="text" style="width:260px" class="search_input" placeholder="面板运行日志"><span onclick="firewall.on_search()" class="glyphicon glyphicon-search" aria-hidden="true"></span>
                             </div>
                         </div>
                         <div class="title c6 plr15">
@@ -216,8 +216,8 @@
             $('.sys_firewall').on('click', function () {
                 $.post('/plugin?action=getConfigHtml', {name: 'firewall'}, function (rdata) {
                     if(rdata.status == false) {
-                        layer.confirm('The SYS Firewall plugin is not installed, <br>please leave to &quot;<a href="/soft" class="btlink">APP Store > Tools</a>&quot;<br> install SYS Firewall plugin first.',
-                            {title: 'No SYS Firewall', icon: 7, closeBtn: 2,}, function () {
+                        layer.confirm('没有安装系统防火墙插件, <br>请转到&quot;<a href="/soft" class="btlink">软件商店 > 系统工具</a>&quot;<br> 安装系统防火墙插件.',
+                            {title: '没有系统防火墙', icon: 7, closeBtn: 2,}, function () {
                             window.location.href = '/soft';
                         });
                     } else {
@@ -268,18 +268,18 @@
             var _this = this;
             layer.open({
                 type: 1,
-                title: "SSH Safety",
+                title: "SSH安全管理",
                 area: '700px',
                 closeBtn: 2,
                 shadeClose: false,
                 content:'<div class="bt-form">\
                 <div class="bt-w-main">\
-                    <div class="bt-w-menu" style="width: 130px;"><p class="bgw">Risk reminder</p><p>Login Method</p><p>Login alarm</p><p>Login logs</p></div>\
+                    <div class="bt-w-menu" style="width: 130px;"><p class="bgw">风险提示</p><p>登录方式</p><p>登录告警</p><p>登录日志</p></div>\
                     <div class="bt-w-con pd15 divtable" style="margin-left: 130px;">\
                         <div class="bt-box">\
                             <div class="divtable">\
                                 <table class="table table-hover">\
-                                    <thead><tr><th width="100">Risk name</th><th>Recommendations for hardening</th><th style="text-align: right;">Operation</th></tr></thead>\
+                                    <thead><tr><th width="100">风险名称</th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;加固建议</th><th style="text-align: right;">操作</th></tr></thead>\
                                 </table>\
 							</div>\
 							<div class="divtable ssh_list_switch" style="height: 479px;overflow: auto;">\
@@ -289,35 +289,35 @@
                         <div class="bt-box" style="display: none;">\
                             <div class="bt-form">\
                                 <div class="line">\
-                                    <span class="tname">Password login</span>\
+                                    <span class="tname">SSH密码登录</span>\
                                     <div class="info-r c4">\
                                         <input class="btswitch btswitch-ios" id="ssh_paw" type="checkbox"><label class="btswitch-btn" for="ssh_paw" title="SSH Password login" style="display: inline-block;"></label>\
-                                        <div style="margin-left:40px;display: inline-block;"><span class="tname">Key login</span>\
+                                        <div style="margin-left:40px;display: inline-block;"><span class="tname">SSH密钥登录</span>\
                                             <input class="btswitch btswitch-ios" id="ssh_key" type="checkbox">\
                                             <label class="btswitch-btn" for="ssh_key" title="SSH Key login"style="margin: 5px 0 0 117px;"></label>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="line">\
-                                    <span class="tname">SSH Key</span>\
+                                    <span class="tname">SSH密钥</span>\
                                     <div class="info-r c4">\
                                         <textarea id="ssh_text_key" class="bt-input-text mr20" style="height:180px;width:330px"></textarea>\
                                     </div>\
                                 </div>\
                                 <div style="margin-left:123px" class="btn-sshkey-group">\
-                                    <button type="button" class="btn btn-success btn-sm btn-copy-sshkey">Copy</button>\
-                                    <button type="button" class="btn btn-success btn-sm btn-download-sshkey">Download</button>\
+                                    <button type="button" class="btn btn-success btn-sm btn-copy-sshkey">复制</button>\
+                                    <button type="button" class="btn btn-success btn-sm btn-download-sshkey">下载</button>\
                                 </div>\
                             </div>\
                         </div>\
                         <div class="bt-box" style="display: none;">\
-                            <button class="btn btn-success btn-sm add_white_ip" type="button">Add IP white list</button>\
-                            <div class="pull-right ssl_login_config_view"><span>Monitor root login</span><input class="btswitch btswitch-ios" id="ssh_root_login" type="checkbox"><label class="btswitch-btn" for="ssh_root_login" title="Monitor root login"></label></div>\
+                            <button class="btn btn-success btn-sm add_white_ip" type="button">添加</button>\
+                            <div class="pull-right ssl_login_config_view"><span>监控root用户登陆</span><input class="btswitch btswitch-ios" id="ssh_root_login" type="checkbox"><label class="btswitch-btn" for="ssh_root_login" title="监控root用户登陆"></label></div>\
                             <div class="divtable mtb15" style="max-height: 441px;overflow: auto;">\
                                 <table id="ssh_ip_white_table" class="table table-hover" style="min-width: 500px;border: 0 none;"></table>\
 							</div>\
 							<ul class="help-info-text c7">\
-								<li>This list is an IP whitelist, and no alarm will be issued when these IPs log in</li>\
+								<li>这个列表是一个IP白名单，当这些IP登录时，不会发出警报。</li>\
 							</ul>\
                         </div>\
                         <div class="bt-box" style="display: none;">\
@@ -362,26 +362,26 @@
                     $(".add_white_ip").click(function(){
                         layer.open({
                             type: 1,
-                            title: "Add detection IP white list",
+                            title: "添加检测IP白名单",
                             area: '340px',
                             closeBtn: 2,
                             shadeClose: false,
-					        btn:['Confirm','Cancel'],
+					        btn:['确定','取消'],
                             content: '<div class="bt-form pd20">\
                             			<div class="line">\
-                                        	<span class="tname" style="width: 83px;">IP address</span>\
+                                        	<span class="tname" style="width: 83px;">IP地址</span>\
                                             <div class="info-r" style="margin-left: 83px;">\
-                                                <input name="ip_white" placeholder="Please enter the correct IP address" class="bt-input-text mr5" type="text" style="width: 211px;">\
+                                                <input name="ip_white" placeholder="请输入正确的IP地址" class="bt-input-text mr5" type="text" style="width: 211px;">\
                                             </div>\
                                         </div>\
                                     </div>',
                             yes:function(index,layers){
                                 var ip_white = $('[name="ip_white"]').val();
                                 if (ip_white == '') {
-                                    layer.msg('NO IP address!', {icon: 2});
+                                    layer.msg('IP地址不能为空!', {icon: 2});
                                     return false;
                                 }else if(!bt.check_ip(ip_white)){
-                                    layer.msg('Wrong IP address，Please enter the correct IP address!', {icon: 2})
+                                    layer.msg('IP地址格式错误，请输入正确的IP地址!', {icon: 2})
                                     return false;
                                 }
                                 $.post('/ssh_security?action=add_return_ip', {ip:ip_white}, function (res) {
@@ -423,7 +423,7 @@
                                 if(res['user_mail']['user_name']){
                                     $.post('/ssh_security?action=start_jian', {}, function (res) {layer.msg(res.msg,{icon:res.status?1:2})})
                                 }else{
-                                    layer.msg('Please go to panel Settings-->Message channel-->Set email',{icon:2,time:10000})
+                                    layer.msg('请前往面板设置-->消息通道，设置发送者邮箱',{icon:2,time:10000})
                                     $('#ssh_root_login').attr("checked",false);
                                 }
                             })
@@ -451,11 +451,11 @@
                         _tbody += '<tr>\
                             <td><span title="'+res.result[i].name+'" style="width:95px" class="overflow_hide_style">'+res.result[i].name+'</span></td>\
                             <td><span title="'+res.result[i].Suggestions+'" style="width:333px" class="overflow_hide_style">'+res.result[i].Suggestions+'</span></td>\
-                            <td style="text-align:right"><a href="javascript:;" class="btlink" onclick="firewall.ssh_scanning_detail('+i+')">Detail</a></td>\
+                            <td style="text-align:right"><a href="javascript:;" class="btlink" onclick="firewall.ssh_scanning_detail('+i+')">详情</a></td>\
                         </tr>'
                     }
                 }else{
-                    _tbody='<tr><td colspan="3" style="text-align:center">No data</td></tr>'
+                    _tbody='<tr><td colspan="3" style="text-align:center">无数据</td></tr>'
                 }
                 $('#ssh_scanning').html(_tbody)
             })
@@ -465,22 +465,22 @@
             var item = this.ssl_scanning_list[index];
             layer.open({
                 type: 1,
-                title:'View details【 '+ item.name  +' 】',
+                title:'查看详情【 '+ item.name  +' 】',
                 area: '500px',
                 closeBtn:2,
-                btn: ['Confirm'],
+                btn: ['确定'],
                 content:'<div class="detail security_detail">\
                     <div class="detail_block">\
-                        <div class="detail_title">Risk name</div>\
+                        <div class="detail_title">风险名称</div>\
                         <div class="detail_conter"><span style="color:red">'+item.name+'</span></div>\
                     </div>\
                     <div class="detail_block">\
-                        <div class="detail_title">Reinforcement recommendations</div>\
+                        <div class="detail_title">加固建议</div>\
                         <div class="detail_conter">\
                         <span>'+(item.Suggestions || item.ps || '')+'</span>'+(item.repair != item.Suggestions? '<pre class="layui-code">'+item.repair+'</pre>': '')+''+(item.list != undefined ? '<pre class="layui-code">'+item.list+'</pre>' : '')+'\
                         </div>\
                     </div>\
-                    <div class="detail_tips">It is recommended to make records and backup during operation</div>\
+                    <div class="detail_tips">操作时建议做好记录和备份</div>\
                     </div>',
                 yes:function(index, layero){
                     layer.close(index);
@@ -494,14 +494,14 @@
         set_template_sshkey:function(){
             var _this = this;
             var loadT = layer.open({
-                title:'Enable SSH key login',
+                title:'开启SSH密钥登录',
                 area:'300px',
                 type:1,
                 closeBtn: 2,
                 content:'<div class="bt-form bt-form pd20 pb70">'+
-                            '<div class="line "><span class="tname" style="width:155px">SSH password login</span><div class="info-r "><select class="bt-input-text mr5 ssh_select_login" style="width:79px"><option value="yes">Open</option><option value="no">Close</option></select></div></div>'+
-                            '<div class="line "><span class="tname" style="width:155px">Key encryption method</span><div class="info-r "><select class="bt-input-text mr5 ssh_select_encryption" style="width:79px"><option value="ed25519">ed25519</option><option value="rsa">rsa</option><option value="dsa">dsa</option></select></div></div>'+
-                            '<div class="bt-form-submit-btn"><button type="button" class="btn btn-sm btn-danger close_ssh_key">Close</button><button type="button" class="btn btn-sm btn-success submit_ssh_key">Submit</button></div>'+
+                            '<div class="line "><span class="tname" style="width:155px">SSH密码登录</span><div class="info-r "><select class="bt-input-text mr5 ssh_select_login" style="width:79px"><option value="yes">开启</option><option value="no">关闭</option></select></div></div>'+
+                            '<div class="line "><span class="tname" style="width:155px">密钥加密方式</span><div class="info-r "><select class="bt-input-text mr5 ssh_select_encryption" style="width:79px"><option value="ed25519">ed25519</option><option value="rsa">rsa</option><option value="dsa">dsa</option></select></div></div>'+
+                            '<div class="bt-form-submit-btn"><button type="button" class="btn btn-sm btn-danger close_ssh_key">关闭</button><button type="button" class="btn btn-sm btn-success submit_ssh_key">提交</button></div>'+
 						'</div>',
 				cancel: function(){ 
 					$('#ssh_key').prop('checked',false);
@@ -554,11 +554,11 @@
                 var _tab =  bt.render({
                     table:'#ssh_ip_white_table',
                     columns:[						
-                        { title: "IP address",templet:function(item){
+                        { title: "IP地址",templet:function(item){
                             return item;
                         }},
-                        { field: 'opt',align:'right',width:50, title: "Operation",templet:function(item){
-                            return '<a href="javascript:;" class="btlink" onclick="firewall.remove_ip_white(\''+item+'\')">Delete</a>';
+                        { field: 'opt',align:'right',width:50, title: "操作",templet:function(item){
+                            return '<a href="javascript:;" class="btlink" onclick="firewall.remove_ip_white(\''+item+'\')">删除</a>';
                         }}
                     ],
                     data:res.msg
@@ -581,10 +581,10 @@
                 var _tab =  bt.render({
                     table:'#ssh_logs_table',
                     columns:[						    
-                        { title: "Detail",templet:function(item){
+                        { title: "详情",templet:function(item){
                             return '<span title="'+item.log+'" class="overflow_hide_style" style="width:330px">'+item.log+'</span>';
                         }},
-                        { field: 'Login time',align:'right',width:140, title: "Login time",templet:function(item){
+                        { field: '操作时间',align:'right',width:140, title: "操作",templet:function(item){
                             return item.addtime
                         }}
                     ],

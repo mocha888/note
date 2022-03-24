@@ -409,7 +409,7 @@ class crontab:
                 shell += '''
 echo "----------------------------------------------------------------------------"
 endDate=`date +"%Y-%m-%d %H:%M:%S"`
-echo "★[$endDate] Successful"
+echo "★[$endDate] 成功"
 echo "----------------------------------------------------------------------------"
 '''
         cronPath=public.GetConfigValue('setup_path')+'/cron'

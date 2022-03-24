@@ -81,7 +81,7 @@
                             <select id="firewalldType" class="bt-input-text c5 mr5" name="type" style="width:120px;">
                                 <option value="port">{{data['lan']['F1']}}</option>
                                 <option value="address">{{data['lan']['F2']}}</option>
-                                <option value="ip_port">Specify IP release port</option>
+                                <option value="ip_port">指定IP放行端口</option>
                             </select>
                             <select id="type_pool" class="bt-input-text c5 mr5" name="type" style="width:80px;">
                                 <option value="tcp">TCP</option>
@@ -181,7 +181,7 @@
                     m = lan.firewall.ip_ps;
                 } else if (type === 'ip_port') {
                     $("#AcceptAddress").show();
-                    m = 'NOTE: Only specified IP addresses are allowed to access a port. For example: Only 192.168.0.1 is allowed to access port 8080.';
+                    m = '说明: 只允许指定IP访问某端口，如: 只允许192.168.0.1访问8080端口.';
                 }
 				$("#AcceptPort").css("width",w);
 				$("#AcceptPort").attr('placeholder',p);
@@ -246,7 +246,7 @@
             $.post('/firewall_new?action=GetList', { p: page, search: search,collback:'firewall.get_list' }, function (rdata) {
 
                 $('.firewallBody').html(rdata.page);
-                var ports_ps = { "3306": "MySQL service default port", "888": "phpMyAdmin default port", "22": "SSH remote service", "20": "FTP active mode data port", "21": "FTP protocol default port", "39000-40000": "FTP passive mode port range", "30000-40000": "FTP passive mode port range","11211":"Memcached service port","873":"Rsync data synchronization service","8888":"aaPanel Linux panel default port"}
+                var ports_ps = { "3306": "MySQL服务默认端口", "888": "phpMyAdmin默认端口", "22": "SSH远程服务", "20": "FTP主动模式数据端口", "21": "FTP协议默认端口", "39000-40000": "FTP被动模端口范围", "30000-40000": "FTP被动模端口范围","11211":"Memcached服务端口","873":"rsync数据同步服务","8888":"宝塔Linux面板默认端口"}
 				var _tab =  bt.render({
 					table:'#firewallBody',
 					columns:[
@@ -280,7 +280,7 @@
                             return item.ps;
                          }},
 						{ field: 'opt',align:'right',width:50, title: "{{data['lan']['TH6']}}",templet:function(item){
-							return '<a href="javascript:;" class="btlink" onclick="firewall.remove_accept_port('+item.id+',\''+item.port+'\')">Delete</a>';
+							return '<a href="javascript:;" class="btlink" onclick="firewall.remove_accept_port('+item.id+',\''+item.port+'\')">删除</a>';
 						}}
 					],
 					data:rdata.data
@@ -320,7 +320,7 @@
                     shadeClose: false,
                     closeBtn: 2,
                     content: '<div class="setchmod bt-form  pb70">'
-                        + '<pre class="crontab-log" style="overflow: auto; border: 0px none; line-height:23px;padding: 15px; margin: 0px; white-space: pre-wrap; height: 405px; background-color: rgb(51,51,51);color:#f1f1f1;border-radius:0px;font-family: \"微软雅黑\"">' + (rdata.msg == '' ? 'Current log is empty' : rdata.msg) + '</pre>'
+                        + '<pre class="crontab-log" style="overflow: auto; border: 0px none; line-height:23px;padding: 15px; margin: 0px; white-space: pre-wrap; height: 405px; background-color: rgb(51,51,51);color:#f1f1f1;border-radius:0px;font-family: \"微软雅黑\"">' + (rdata.msg == '' ? '当前日志为空' : rdata.msg) + '</pre>'
                         + '<div class="bt-form-submit-btn" style="margin-top: 0px;">'
                         + '<button type="button" class="btn btn-danger btn-sm btn-title" style="margin-right:15px;" onclick="firewall.clean_panel_error_logs()">' + lan.public.empty + '</button>'
                         + '<button type="button" class="btn btn-success btn-sm btn-title" onclick="layer.closeAll()">' + lan.public.close + '</button>'
@@ -334,7 +334,7 @@
                 }, 200)
             }).error(function () {
                 layer.closeAll();
-                layer.msg('Unable to get log!', { icon: 2 });
+                layer.msg('无法取回日志信息!', { icon: 2 });
             });
         },
         //清空面板错误日志

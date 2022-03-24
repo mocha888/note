@@ -305,7 +305,7 @@ class system:
         days = math.floor(hours / 24)
         hours = math.floor(hours - (days * 24))
         min = math.floor(min - (days * 60 * 24) - (hours * 60))
-        sys_time = "{} Day(s)".format(int(days))
+        sys_time = "{} 天".format(int(days))
         cache.set(key,sys_time,1800)
         return sys_time
         #return public.getMsg('SYS_BOOT_TIME',(str(int(days)),str(int(hours)),str(int(min))))
@@ -432,7 +432,7 @@ class system:
                 arr['inodes'] = [inodes[1],inodes[2],inodes[3],inodes[4]]
                 diskInfo.append(arr)
             except Exception as ex:
-                public.WriteLog('GET_INFO',str(ex))
+                public.WriteLog('信息获取',str(ex))
                 continue
         cache.set(key,diskInfo,10)
         return diskInfo
@@ -646,16 +646,16 @@ class system:
             data['steal'] = cpu_times_p.steal
             data['guest'] = cpu_times_p.guest
             data['guest_nice'] = cpu_times_p.guest_nice
-            data['total_processes'] = 0
-            data['active_processes'] = 0
+            data['总进程数'] = 0
+            data['活动进程数'] = 0
             for pid in psutil.pids():
                 try:
                     p = psutil.Process(pid)
                     if p.status() == 'running':
-                        data['active_processes'] += 1
+                        data['活动进程数'] += 1
                 except:
                     continue
-                data['total_processes'] += 1
+                data['总进程数'] += 1
 
             cache.set(skey,data,60)
         except: return None
@@ -904,7 +904,7 @@ class system:
             public.ExecShell('/etc/init.d/nginx start')
         if get.type != 'test':
             public.WriteLog("TYPE_SOFT", 'SYS_EXEC_SUCCESS',(execStr,))
-        if len(result[1]) > 1 and get.name != 'pure-ftpd' and get.name != 'redis': return public.returnMsg(False, '<p>Warning message: <p>' + result[1].replace('\n','<br>'))
+        if len(result[1]) > 1 and get.name != 'pure-ftpd' and get.name != 'redis': return public.returnMsg(False, '<p>警告消息: <p>' + result[1].replace('\n','<br>'))
         return public.returnMsg(True,'SYS_EXEC_SUCCESS')
     
     def RestartServer(self,get):
@@ -931,7 +931,7 @@ class system:
     def ReWeb(self,get):
         public.ExecShell("/etc/init.d/bt start")
         public.writeFile('data/restart.pl','True')
-        return public.returnMsg(True,'PANEL_WAS_RESTART')
+        return public.returnMsg(True,'面板已重启')
 
     
     #修复面板

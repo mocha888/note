@@ -17,7 +17,7 @@ pip = public.get_pip_bin()
 try:
     import telegram
 except:
-    public.ExecShell('{} install python-telegram-bot'.format(pip))
+    public.ExecShell('{} install telegram'.format(pip))
     import telegram
 
 class panel_telegram_bot:
@@ -32,19 +32,13 @@ class panel_telegram_bot:
         """
         data = {"setup":True,"bot_token":get.bot_token,"my_id":get.my_id}
         public.writeFile(self.__tg_conf_file,json.dumps(data))
-        call_test_content = """
-aaPanel call test
-
-If you get this notification, your setup is complete!
-"""
-        self.send_by_tg_bot(call_test_content)
-        return public.returnMsg(True,"Setup successfully")
+        return public.returnMsg(True,"设置成功")
 
     # 删除tg机器人
     def del_tg_bot(self,get):
         if os.path.exists(self.__tg_conf_file):
             os.remove(self.__tg_conf_file)
-        return public.returnMsg(True, "Remove successfully")
+        return public.returnMsg(True, "删除成功")
 
     # 获取tg机器人信息
     def get_tg_conf(self,get=None):

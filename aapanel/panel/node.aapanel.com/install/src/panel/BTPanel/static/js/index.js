@@ -135,28 +135,28 @@ var index = {
           obj.unit = lan.index.unit + ':MB/s';
           obj.tData = index.iostat.data.aData;
           obj.formatter = function(config){
-            var _config = config,_tips = "Time："+ _config[0].axisValue +"<br />",options =  {
-              read_bytes:  'Read Bytes',
-              read_count:  'Read Count ',
-              read_merged_count: 'Read Merged Count',
-              read_time: 'Read Wait',
-              write_bytes:  'Write Bytes',
-              write_count:  'Write Count',
-              write_merged_count: 'Write Merged Count',
-              write_time: 'Write Wait',
+            var _config = config,_tips = "时间："+ _config[0].axisValue +"<br />",options =  {
+              read_bytes:  '读取字节数',
+              read_count:  '读取次数 ',
+              read_merged_count: '合并读取次数',
+              read_time: '读取延迟',
+              write_bytes:  '写入字节数',
+              write_count:  '写入次数',
+              write_merged_count: '合并写入次数',
+              write_time: '写入延迟',
             },data = index.iostat.data.tipsData[config[0].dataIndex],list = ['read_count','write_count','read_merged_count','write_merged_count','read_time','write_time',]
             for(var i=0;i < config.length;i++){
               if(typeof config[i].data == "undefined") return false
               _tips +=  '<span style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: '+ config[i].color +';"></span>&nbsp;&nbsp;<span>'+ config[i].seriesName +'：'+ (parseFloat(config[i].data)).toFixed(2) + ' MB/s' + '</span><br />'
             }
             $.each(list,function(index,item){
-              _tips += '<span style="display: inline-block;width: 10px;height: 10px;"></span>&nbsp;&nbsp;<span style="'+ (item.indexOf('time') > -1?('color:'+ ((data[item] > 100 && data[item] < 1000)?'#ff9900':(data[item] >= 1000?'red':'#20a53a'))):'') +'">'+  options[item] +'：' +   data[item]  + (item.indexOf('time') > -1 ?' ms':' per sec')  +  '</span><br />'
+              _tips += '<span style="display: inline-block;width: 10px;height: 10px;"></span>&nbsp;&nbsp;<span style="'+ (item.indexOf('time') > -1?('color:'+ ((data[item] > 100 && data[item] < 1000)?'#ff9900':(data[item] >= 1000?'red':'#20a53a'))):'') +'">'+  options[item] +'：' +   data[item]  + (item.indexOf('time') > -1 ?' ms':' 次/秒')  +  '</span><br />'
             })
             return _tips;
           }
           obj.list = [];
-          obj.list.push({ name: 'Read Bytes', data: index.iostat.data.uData, circle: 'circle', itemStyle: { normal: { color: '#FF4683' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(255,70,131,1)' }, { offset: 1, color: 'rgba(255,70,131,.4' }], false) } }, lineStyle: { normal: { width: 1, color: '#FF4683' } } });
-          obj.list.push({ name: 'Write Bytes', data: index.iostat.data.dData, circle: 'circle', itemStyle: { normal: { color: '#6CC0CF' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(108,192,207,1)' }, { offset: 1, color: 'rgba(108,192,207,.4)' }], false) } }, lineStyle: { normal: { width: 1, color: '#6CC0CF' } } });
+          obj.list.push({ name: '读取字节数', data: index.iostat.data.uData, circle: 'circle', itemStyle: { normal: { color: '#FF4683' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(255,70,131,1)' }, { offset: 1, color: 'rgba(255,70,131,.4' }], false) } }, lineStyle: { normal: { width: 1, color: '#FF4683' } } });
+          obj.list.push({ name: '写入字节数', data: index.iostat.data.dData, circle: 'circle', itemStyle: { normal: { color: '#6CC0CF' } }, areaStyle: { normal: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(108,192,207,1)' }, { offset: 1, color: 'rgba(108,192,207,.4)' }], false) } }, lineStyle: { normal: { width: 1, color: '#6CC0CF' } } });
           option = bt.control.format_option(obj)
           index.iostat.table.setOption(option);
           window.addEventListener("resize", function () {
@@ -240,13 +240,13 @@ var index = {
               }
             }
 
-              layer.tips(rdata.cpu[3] + "</br>" + rdata.cpu[5] + " CPU，" + (rdata.cpu[4]) + " Physical core, " + rdata.cpu[1]+" Logical core</br>"+ cpuText, this, { time: 0, tips: [1, '#999'] });
+              layer.tips(rdata.cpu[3] + "</br>" + rdata.cpu[5] + " 个物理CPU，" + (rdata.cpu[4]) + " 个物理核心, " + rdata.cpu[1]+" 个逻辑核心</br>"+ cpuText, this, { time: 0, tips: [1, '#999'] });
           }, function(){
               layer.closeAll('tips');
           })
 
           $('#memChart').hover(function(){
-              $(this).append('<div class="mem_mask shine_green" title="Click to free RAM"><div class="men_inside_mask"></div><div class="mem-re-con" style="display:block"></div></div>');
+              $(this).append('<div class="mem_mask shine_green" title="点击释放内存"><div class="men_inside_mask"></div><div class="mem-re-con" style="display:block"></div></div>');
               $(this).find('.mem_mask .mem-re-con').animate({top:'5px'},400);
               $(this).next().hide();
           },function(){
@@ -294,9 +294,9 @@ var index = {
           // 磁盘悬浮事件
           for(var i = 0; i < rdata.disk.length; i++){
               var disk = rdata.disk[i],texts = "<strong>"+lan.index.base_info+"</strong></br>"
-              texts += "Partition: " + disk.filesystem + "</br>"
-              texts += "Type: " + disk.type + "</br>"
-              texts += "Mount point: " + disk.path + "</br></br>"
+              texts += "文件系统: " + disk.filesystem + "</br>"
+              texts += "类型: " + disk.type + "</br>"
+              texts += "挂载点: " + disk.path + "</br></br>"
               texts += "<strong>"+ lan.index.inode_info +":</strong></br>"
               texts += lan.index.total+": " + disk.inodes[0] + "</br>"
               texts += lan.index.already_use+": " + disk.inodes[1] + "</br>"
@@ -540,7 +540,7 @@ var index = {
                 res.downAll = res.network[net_key].downTotal;
                 res.upAll = res.network[net_key].upTotal;
             }
-            var net_option = '<option value="all">All</option>';
+            var net_option = '<option value="all">全部</option>';
             $.each(res.network,function(k,v){
                 var act = (k == net_key)?'selected':'';
                 net_option += '<option value="'+k+'" '+act+'>'+k+'</option>';
@@ -564,12 +564,12 @@ var index = {
 
             var disk_option = '';
             $.each(res.iostat,function(k,v){
-                disk_option += '<option value="'+k+'" '+ (k == disk_key?'selected':'') +'>'+ (k == 'ALL'?'All':k) +'</option>';
+                disk_option += '<option value="'+k+'" '+ (k == disk_key?'selected':'') +'>'+ (k == 'ALL'?'全部':k) +'</option>';
             });
             $('select[name="disk-io"]').html(disk_option);
 
             if (index.net.table) index.net.table.setOption({ xAxis: { data: index.net.data.aData }, series: [{ name: lan.index.net_up, data: index.net.data.uData }, { name: lan.index.net_down, data: index.net.data.dData }] });
-            if (index.iostat.table) index.iostat.table.setOption({ xAxis: { data: index.iostat.data.aData }, series: [{ name: 'Read Bytes', data: index.iostat.data.uData }, { name: 'Write Bytes', data: index.iostat.data.dData }] });
+            if (index.iostat.table) index.iostat.table.setOption({ xAxis: { data: index.iostat.data.aData }, series: [{ name: '读取字节数', data: index.iostat.data.uData }, { name: '写入字节数', data: index.iostat.data.dData }] });
             if(callback) callback(res)
         });
     },
@@ -773,7 +773,7 @@ var index = {
         })
     },
     check_update: function () {
-    	var _load = bt.load('Getting updates, please wait...');
+    	var _load = bt.load('正在获取更新内容，请稍候...');
         bt.system.check_update(function (rdata) {
         	_load.close();
             if (rdata.status === false) {
@@ -1105,7 +1105,7 @@ var index = {
                 that.warning_list = res;
                 that.warning_num = res.risk.length;
                 $('.warning_num').css('color',(that.warning_num > 0?'red':'#20a53a')).html(that.warning_num);
-                $('.warning_scan_ps').html(that.warning_num>0?('This scan check <i>'+ that.warning_num +'</i> risks, please repair them in time!'):'There is no risk item detected in this scan, please keep it!');
+                $('.warning_scan_ps').html(that.warning_num>0?('本次扫描共检测到风险项 <i>'+ that.warning_num +'</i> 个,请及时修复!'):'本次扫描检测无风险项，请继续保持!');
                 if(callback) callback(res);
             }
         });
@@ -1116,23 +1116,23 @@ var index = {
      * @return {String} 简化后的时间格式
     */
     get_simplify_time:function(dateTimeStamp){
-        if(dateTimeStamp === 0) return 'Just';
+        if(dateTimeStamp === 0) return '刚刚';
         if(dateTimeStamp.toString().length == 10)  dateTimeStamp = dateTimeStamp * 1000
         var minute = 1000 * 60,hour = minute * 60,day = hour * 24,halfamonth = day * 15,month = day * 30,now = new Date().getTime(),diffValue = now - dateTimeStamp;  
-        if(diffValue < 0) return  'Just';
+        if(diffValue < 0) return  '刚刚';
         var monthC = diffValue / month,weekC = diffValue / (7 * day),dayC = diffValue / day,hourC = diffValue / hour,minC = diffValue / minute;  
         if(monthC >= 1) {  
-            result = "" + parseInt(monthC) + "month ago";  
+            result = "" + parseInt(monthC) + "月前";  
         } else if(weekC >= 1) {  
-            result = "" + parseInt(weekC) + "weeks ago";  
+            result = "" + parseInt(weekC) + "周前";  
         } else if(dayC >= 1) {  
-            result = "" + parseInt(dayC) + "days ago";  
+            result = "" + parseInt(dayC) + "天前";  
         } else if(hourC >= 1) {  
-            result = "" + parseInt(hourC) + "hours ago";  
+            result = "" + parseInt(hourC) + "小时前";  
         } else if(minC >= 1) {  
-            result = "" + parseInt(minC) + "minutes ago";  
+            result = "" + parseInt(minC) + "分钟前";  
         } else{  
-            result = "Just";  
+            result = "刚刚";  
         }     
         return result;
     },
@@ -1143,14 +1143,14 @@ var index = {
     reader_warning_view:function(){
         var that = this;
         function reader_warning_list(data){
-            var html = '',scan_time = '',arry =  [['risk','Risk'],['security','Security'],['ignore','Ignore']],level = [['Low risk','#e8d544'],['Medium risk','#E6A23C'],['High risk','red']]
+            var html = '',scan_time = '',arry =  [['risk','风险项'],['security','无风险项'],['ignore','已忽略项']],level = [['低危','#e8d544'],['中危','#E6A23C'],['高危','red']]
             bt.each(arry,function(index,item){
                 var data_item = data[item[0]],data_title = item[1];
                 html += '<li class="module_item '+ item[0] +'">'+
                         '<div class="module_head">'+
                             '<span class="module_title">'+ data_title +'</span>'+
                             '<span class="module_num">'+ data_item.length +'</span>'+
-                            '<span class="module_cut_show">'+ (item[index] == 'risk' && that.warning_num > 0?'<i>Collapse</i><span class="glyphicon glyphicon-menu-up" aria-hidden="false"></span>':'<i>Details</i><span class="glyphicon glyphicon-menu-down" aria-hidden="false"></span>') +'</span>'+
+                            '<span class="module_cut_show">'+ (item[index] == 'risk' && that.warning_num > 0?'<i>点击折叠</i><span class="glyphicon glyphicon-menu-up" aria-hidden="false"></span>':'<i>查看详情</i><span class="glyphicon glyphicon-menu-down" aria-hidden="false"></span>') +'</span>'+
                         '</div>'+
                         (function(index,item){
                             var htmls = '<ul class="module_details_list '+ (item[0] == 'risk' && that.warning_num > 0?'active':'') +'">';
@@ -1158,16 +1158,16 @@ var index = {
                                 scan_time = items.check_time;
                                 htmls += '<li class="module_details_item">'+
                                     '<div class="module_details_head">'+
-                                        '<span class="module_details_title">'+ items.ps +'<i>（Checked: '+ (that.get_simplify_time(items.check_time) || 'Just') +', time: '+ ( items.taking>1?( items.taking +'Sec'):((items.taking * 1000).toFixed(2) +'ms')) +'）</i></span>'+
-                                        '<span class="operate_tools">'+ (item[0] != 'security'?('<a href="javascript:;" class="btlink cut_details">Detail</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" data-model="'+ items.m_name +'" data-title="'+ items.title +'" '+ (item[0]=='ignore'?'class=\"btlink\"':'') +' data-type="'+item[0]+'">'+ (item[0] != 'ignore'?'Ignore':'Remove') +'</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" class="btlink" data-model="'+ items.m_name +'" data-title="'+ items.title +'">Check</a>'):'<a href="javascript:;" class="btlink cut_details">Detail</a>') +'</span>' +
+                                        '<span class="module_details_title">'+ items.ps +'<i>（&nbsp;检测时间: '+ (that.get_simplify_time(items.check_time) || '刚刚') +', 耗时: '+ ( items.taking>1?( items.taking +'秒'):((items.taking * 1000).toFixed(2) +'毫秒')) +'）</i></span>'+
+                                        '<span class="operate_tools">'+ (item[0] != 'security'?('<a href="javascript:;" class="btlink cut_details">查看详情</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" data-model="'+ items.m_name +'" data-title="'+ items.title +'" '+ (item[0]=='ignore'?'class=\"btlink\"':'') +' data-type="'+item[0]+'">'+ (item[0] != 'ignore'?'忽略':'移除忽略') +'</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" class="btlink" data-model="'+ items.m_name +'" data-title="'+ items.title +'">检测</a>'):'<a href="javascript:;" class="btlink cut_details">查看详情</a>') +'</span>' +
                                     '</div>'+
                                     '<div class="module_details_body">'+
                                         '<div class="module_details_line">'+
-                                            '<div class="module_details_block"><span class="line_title">Test type: </span><span class="line_content">'+ items.title +'</span></div>'+
-                                            '<div class="module_details_block"><span class="line_title">Risk level: </span><span class="line_content" style="color:'+ level[items.level-1][1] +'">'+ level[items.level-1][0] +'</span></div>'+
+                                            '<div class="module_details_block"><span class="line_title">检测类型: </span><span class="line_content">'+ items.title +'</span></div>'+
+                                            '<div class="module_details_block"><span class="line_title">风险等级: </span><span class="line_content" style="color:'+ level[items.level-1][1] +'">'+ level[items.level-1][0] +'</span></div>'+
                                         '</div>'+
-                                        '<div class="module_details_line"><span class="line_title">Risk detail: </span><span class="line_content">'+ items.msg +'</span></div>'+
-                                        '<div class="module_details_line"><span class="line_title">'+ (item[0] != 'security'?'Solution: ':'Suggest: ') +'</span><span class="line_content">'+ 
+                                        '<div class="module_details_line"><span class="line_title">风险描述: </span><span class="line_content">'+ items.msg +'</span></div>'+
+                                        '<div class="module_details_line"><span class="line_title">'+ (item[0] != 'security'?'解决方案: ':'配置建议: ') +'</span><span class="line_content">'+ 
                                         (function(){
                                             var htmlss = '';
                                             bt.each(items.tips,function(indexss,itemss){
@@ -1175,7 +1175,7 @@ var index = {
                                             });
                                             return htmlss;
                                         }()) +'</span></div>'+
-                                        (items.help != ''?('<div class="module_details_line"><span class="line_title">Help: </span><span class="line_content"><a href="'+ items.help +'" target="_blank" class="btlink">'+items.help +'</span></div>'):'') +
+                                        (items.help != ''?('<div class="module_details_line"><span class="line_title">帮助文档: </span><span class="line_content"><a href="'+ items.help +'" target="_blank" class="btlink">'+items.help +'</span></div>'):'') +
                                     '</div>'+
                                 '</li>';
                             });
@@ -1185,26 +1185,26 @@ var index = {
                     +'</li>'
             });
             $('.warning_scan_body').html(html);
-            $('.warning_scan_time').html('Checked: &nbsp;'+ bt.format_data(scan_time));
+            $('.warning_scan_time').html('检测时间: &nbsp;'+ bt.format_data(scan_time));
         }
         bt.open({
             type:'1',
-            title:'Security risk',
+            title:'安全风险',
             area:['850px','700px'],
             skin:'warning_scan_view',
             content:'<div class="warning_scan_view">'+
                 '<div class="warning_scan_head">'+
-                    '<span class="warning_scan_ps">'+ (that.warning_num>0?('This scan check <i>'+ that.warning_num +'</i> risks, please repair them in time!'):'This scan check no risks, please keep it!') +'</span>'+
+                    '<span class="warning_scan_ps">'+ (that.warning_num>0?('本次扫描共检测到风险项 <i>'+ that.warning_num +'</i> 个,请及时修复!'):'本次扫描检测无风险项，请继续保持！') +'</span>'+
                     '<span class="warning_scan_time"></span>'+
-                    '<button class="warning_again_scan">Retest</button>'+
+                    '<button class="warning_again_scan">重新检测</button>'+
                 '</div>'+
                 '<ol class="warning_scan_body"></ol>'+
             '</div>',
             success:function(){
                 $('.warning_again_scan').click(function(){
-                    var loadT = layer.msg('Re detecting security risks, please wait...',{icon:16});
+                    var loadT = layer.msg('正在重新检测安全风险，请稍后...',{icon:16});
                     that.get_warning_list(true,function(){
-                        layer.msg('Scan succeeded',{icon:1});
+                        layer.msg('扫描成功',{icon:1});
                         reader_warning_list(that.warning_list);
                     });
                 });
@@ -1213,16 +1213,16 @@ var index = {
                     if(parseInt($(this).find('.module_num').text()) > 0){
                         if(_list.hasClass('active')){
                             _list.css('height',0);
-                            $(this).find('.module_cut_show i').text('Detail').next().removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
+                            $(this).find('.module_cut_show i').text('查看详情').next().removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
                             setTimeout(function(){  
                                 _list.removeClass('active').removeAttr('style');
                             },500);
                         }else{
-                            $(this).find('.module_cut_show i').text('Collapse').next().removeClass('glyphicon-menu-down').addClass('glyphicon-menu-up');
+                            $(this).find('.module_cut_show i').text('查看详情').next().removeClass('glyphicon-menu-down').addClass('glyphicon-menu-up');
                             _list.addClass('active');
                             var details_list = _list.parent().siblings().find('.module_details_list');
                             details_list.removeClass('active');
-                            details_list.prev().find('.module_cut_show i').text('Detail').next().removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down')
+                            details_list.prev().find('.module_cut_show i').text('点击折叠').next().removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down')
                         }
                     }
                 });
@@ -1232,19 +1232,19 @@ var index = {
                         case 0:
                             if($(this).hasClass('active')){
                                 $(this).parents('.module_details_head').next().hide();
-                                $(this).removeClass('active').text('Detail');
+                                $(this).removeClass('active').text('详情');
                             }else{
                                 var item = $(this).parents('.module_details_item'),indexs = item.index();
-                                $(this).addClass('active').text('Collapse');
+                                $(this).addClass('active').text('折叠');
                                 item.siblings().find('.module_details_body').hide();
-                                item.siblings().find('.operate_tools a:eq(0)').removeClass('active').text('Detail');
+                                item.siblings().find('.operate_tools a:eq(0)').removeClass('active').text('详情');
                                 $(this).parents('.module_details_head').next().show();
                                 $('.module_details_list').scrollTop(indexs * 41);
                             }
                         break;
                         case 1:
                             if(data.type != 'ignore'){
-                                bt.confirm({title:'Ignore risk',msg:'Confirm to ignore【'+ data.title +'】risk?'},function(){
+                                bt.confirm({title:'忽略风险',msg:'是否忽略【'+ data.title +'】风险,是否继续?'},function(){
                                     that.warning_set_ignore(data.model,function(res){
                                         that.get_warning_list(false,function(){
                                             bt.msg(res)
@@ -1285,7 +1285,7 @@ var index = {
      * @return 无返回值
     */
     waring_check_find:function(model_name,callback){
-        var loadT = layer.msg('Detecting the specified module, please wait...',{icon:16,time:0});
+        var loadT = layer.msg('正在检测指定模块，请稍后...',{icon:16,time:0});
         bt.send('check_find','warning/check_find',{m_name:model_name},function(res){
             bt.msg(res);
             if(res.status !== false){
@@ -1302,7 +1302,7 @@ var index = {
      * @return 无返回值
     */
     warning_set_ignore:function(model_name,callback){
-        var loadT = layer.msg('Setting the specified module, please wait...',{icon:16,time:0});
+        var loadT = layer.msg('正在设置模块状态，请稍后...',{icon:16,time:0});
         bt.send('set_ignore','warning/set_ignore',{m_name:model_name},function(res){
             bt.msg(res);
             if(res.status !== false){

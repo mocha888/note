@@ -8,7 +8,7 @@ $('#cutMode span').on('click',function(){
             $('#bt_site_table').empty();
             if (!isSetup) {
                 // layer.msg('Web server is not installed<br/><a href="javascript:;" class="btlink" onclick="bt.soft.install(\'nginx\')">Install Nginx</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" class="btlink" onclick="bt.soft.install(\'apache\')">Install Apache</a>', { icon: 7, shade: [0.3, '#000'], time: 0 });
-                $('#bt_site_table+.mask_layer').removeClass('hide').find('.prompt_description').html('Web server is not installed, <a href="javascript:;" class="btlink" onclick="bt.soft.install(\'nginx\')">Install Nginx</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" class="btlink" onclick="bt.soft.install(\'apache\')">Install Apache</a>');
+                $('#bt_site_table+.mask_layer').removeClass('hide').find('.prompt_description').html('未安装Web服务器, <a href="javascript:;" class="btlink" onclick="bt.soft.install(\'nginx\')">安装Nginx </a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" class="btlink" onclick="bt.soft.install(\'apache\')">安装Apache</a>');
             }
             site.php_table_view();
             site.get_types();
@@ -18,7 +18,7 @@ $('#cutMode span').on('click',function(){
             $.get('/plugin?action=getConfigHtml',{name: "nodejs"},function(res){
                 // if(typeof res !== 'string') $('.site_table_view .mask_layer').removeClass('hide').find('.prompt_description').html('Node version manager is not installed，<a href="javascript:;" class="btlink" onclick="bt.soft.install(\'nodejs\')">Click install</a>');
                 if (typeof res !== 'string') {
-                    $('#bt_node_table+.mask_layer').removeClass('hide').find('.prompt_description').html('Node version manager is not installed，<a href="javascript:;" class="btlink" onclick="bt.soft.install(\'nodejs\')">Click install</a>');
+                    $('#bt_node_table+.mask_layer').removeClass('hide').find('.prompt_description').html('未安装Node版本管理器，<a href="javascript:;" class="btlink" onclick="bt.soft.install(\'nodejs\')">点击安装</a>');
                 } else {
                     $('#bt_node_table+.mask_layer').addClass('hide');
                 }
@@ -44,7 +44,7 @@ var site = {
                 width: '320px',
                 name: 'project_script',
                 value:path,
-                placeholder:'Please select the project startup file and enter the startup command. It cannot be empty',
+                placeholder:'请选择项目启动文件/输入启动命令，不可为空',
                 icon: {
                     type: 'glyphicon-folder-open',
                     select:'file',
@@ -59,8 +59,8 @@ var site = {
                 name: 'project_script',
                 width: '200px',
                 disabled: true,
-                unit: '* Get the startup mode in package.json',
-                placeholder: 'Select the project continue',
+                unit: '* 自动获取package.json文件中的启动模式',
+                placeholder: '请选择项目目录继续操作',
                 list:path?function(configs){
                     that.get_project_script_list(path,configs[2],this)
                 }:[],
@@ -68,7 +68,7 @@ var site = {
                     var project_script = $("[data-name=\'project_script\']");
                     if(formData.project_script === ''){
                         if($("#project_script_two").length === 0){
-                            project_script.parent().after('<div class="inlineBlock"><input type="text" name="project_script_two" id="project_script_two" placeholder="Please select the startup file and startup command, it cannot be empty" class="mt5 bt-input-text mr10 " style="width:420px;" value="" /><span class="glyphicon glyphicon-folder-open cursor" onclick="bt.select_path(\'project_script_two\',\'all\',null,\''+path+'\')" style="margin-right: 18px;"></span></div>')
+                            project_script.parent().after('<div class="inlineBlock"><input type="text" name="project_script_two" id="project_script_two" placeholder="请选择项目启动文件和启动命令，不可为空" class="mt5 bt-input-text mr10 " style="width:420px;" value="" /><span class="glyphicon glyphicon-folder-open cursor" onclick="bt.select_path(\'project_script_two\',\'all\',null,\''+path+'\')" style="margin-right: 18px;"></span></div>')
                         }
                     }else{
                         project_script.parent().next().remove();
@@ -91,7 +91,7 @@ var site = {
                 for (var resKey in res) {
                     arry.push({title: resKey + ' 【' + res[resKey] + '】', value:resKey })
                 }
-                arry.push({title:'Custom command',value:''})
+                arry.push({title:'自定义启动命令',value:''})
                 form.group = that.get_project_select(path);
                 form.group.list = arry;
                 form.group.disabled = false;
@@ -99,10 +99,10 @@ var site = {
                 if(arry.length === 1){
                     var project_script = $("[data-name=\'project_script\']");
                     // form.group.value = '';
-                    project_script.parent().after('<div class="inlineBlock"><input type="text" name="project_script_two" id="project_script_two" placeholder="Please select the startup file and startup command, it cannot be empty" class="mt5 bt-input-text mr10 " style="width:420px;" value="" /><span class="glyphicon glyphicon-folder-open cursor" onclick="bt.select_path(\'project_script_two\',\'file\',null,\''+path+'\')" style="margin-right: 18px;"></span></div>')
+                    project_script.parent().after('<div class="inlineBlock"><input type="text" name="project_script_two" id="project_script_two" placeholder="请选择项目启动文件和启动命令，不可为空" class="mt5 bt-input-text mr10 " style="width:420px;" value="" /><span class="glyphicon glyphicon-folder-open cursor" onclick="bt.select_path(\'project_script_two\',\'file\',null,\''+path+'\')" style="margin-right: 18px;"></span></div>')
                 }
             },function(){
-                form.label = 'Start file/command';
+                form.label = '启动文件/命令';
                 form.group = that.get_project_select_path(path);
                 formObject.$replace_render_content(2)
             })
@@ -120,7 +120,7 @@ var site = {
                 dataFilter: function(res) {
                     if(res.length === 0){
                         layer.closeAll();
-                        bt.msg({status:false,msg:'Please open [Node Version Manager], install at least 1 Node version to continue'})
+                        bt.msg({status:false,msg:'请至少安装一个Node版本，才可以继续添加Node项目'})
                         return;
                     }
                     var arry = [];
@@ -142,7 +142,7 @@ var site = {
             config = config || {}
             var that = this,
                 formLineConfig = [{
-                    label: 'Path',
+                    label: '项目目录',
                     group: {
                         type: 'text',
                         width: '350px',
@@ -165,15 +165,15 @@ var site = {
                             }
                         },
                         value: bt.get_cookie('sites_path') ? bt.get_cookie('sites_path') : '/www/wwwroot',
-                        placeholder: 'Please select the project directory'
+                        placeholder: '请选择项目目录'
                     }
                 }, {
-                    label: 'Name',
+                    label: '项目名称',
                     group: {
                         type: 'text',
                         name: 'project_name',
                         width: '350px',
-                        placeholder: 'Please enter the name of the Node project',
+                        placeholder: '请输入Node项目名称',
                         input: function (formData,formElement,formConfig) {
                             var  project_ps_config = formConfig.config.form[6];
                             project_ps_config.group.value = formData.project_name;
@@ -181,57 +181,57 @@ var site = {
                         }
                     }
                 }, {
-                    label: 'Run opt',
+                    label: '启动选项',
                     group:(function(){
                         return that.get_project_select(config.path)
                     }())
                 }, {
-                    label: 'Port',
+                    label: '项目端口',
                     group: {
                         type: 'number',
                         name: 'port',
                         width: '200px',
-                        placeholder: 'Port of the project',
-                        unit: '* Port of the project',
+                        placeholder: '请输入项目的真实端口',
+                        unit: '* 请输入项目的真实端口',
                     }
                 }, {
-                    label: 'User',
+                    label: '运行用户',
                     group: {
                         type: 'select',
                         name: 'run_user',
                         width: '150px',
-                        unit:'* No special requirements,choose www user',
+                        unit:'* 无特殊需求请选择www用户',
                         list: [{title:'www',value:'www'},{title: 'root', value: 'root'}],
                         tips: 'sssss'
                     }
                 }, {
-                    label: 'Node',
+                    label: 'Node版本',
                     group: {
                         type: 'select',
                         name: 'nodejs_version',
                         width: '150px',
-                        unit: '* Choose the right Node version, <a href="javascript:;" class="btlink" onclick="bt.soft.set_lib_config(\'nodejs\',\'Node.js version manager\')">Install other</a>',
+                        unit: '* 请根据项目选择合适的Node版本, <a href="javascript:;" class="btlink" onclick="bt.soft.set_lib_config(\'nodejs\',\'Node.js版本管理器\')">安装其他版本</a>',
                         list: (function () {
                             return that.get_node_version_list()
                         })()
                     }
                 }, {
-                    label: 'Remarks',
+                    label: '备注',
                     group: {
                         type: 'text',
                         name: 'project_ps',
                         width: '420px',
-                        placeholder: 'Please enter project remarks',
+                        placeholder: '请输入项目备注',
                         value:config.ps,
                     }
                 }, {
-                    label: 'Domain name',
+                    label: '绑定域名',
                     group: {
                         type: 'textarea', //当前表单的类型 支持所有常规表单元素、和复合型的组合表单元素
                         name: 'domains', //当前表单的name
                         style: {'width': '420px', 'height': '120px', 'line-height': '22px'},
                         tips: { //使用hover的方式显示提示
-                            text: '<span>Please enter the domain name to be bound, this option can be empty</span><br>One domain name per line, the default is port 80<br>Pan-analysis adding method *.domain.com<br>If the format of the additional port is www.domain.com:88',
+                            text: '<span>如果需要绑定外网，请输入需要绑定的域名，该选项可为空</span><br>如需填写多个域名，请换行填写，每行一个域名，默认为80端口<br>泛解析添加方法 *.domain.com<br>如另加端口格式为 www.domain.com:88',
                             style: {top: '10px', left: '15px'},
                         }
                     }
@@ -239,10 +239,10 @@ var site = {
                     group:{
                         type:'help',
                         list:[
-                            '[Run opt]: The scripts list in package.json is read by default, or you can select the [Custom Command] option to manually enter the start command',
-                            '[Custom start]: You can select the startup file or directly enter the startup command. Supported startup methods: npm/node/pm2/yarn',
-                            '[Port]：The wrong port will lead to access to 502, if you dont know the port, you can change to the correct port after starting',
-                            '[User]：For security reasons, the www user is used by default to run, and root user running may bring security risks'
+                            '【启动选项】：默认读取package.json中的scripts列表，也可以选择[自定义启动命令]选项来手动输入启动命令',
+                            '【自定义启动命令】：可以选择启动文件，或直接输入启动命令，支持的启动方式：npm/node/pm2/yarn',
+                            '【项目端口】：错误的端口会导致访问502，若不知道端口，可先随意填写，启动项目后再改为正确端口',
+                            '【运行用户】：为了安全考虑，默认使用www用户运行，root用户运行可能带来安全风险'
                         ]
                     }
                 }]
@@ -250,31 +250,31 @@ var site = {
             if (config.path) {
                 formLineConfig.splice(-1, 1)
                 return formLineConfig.concat([{
-                    label: 'Boot',
+                    label: '开机启动',
                     group: {
                         type: 'checkbox',
                         name: 'is_power_on',
                         width: '220px',
-                        title: 'Follow the system to start the service',
+                        title: '跟随系统启动服务',
                     }
                 }, {
                     label: '',
                     group: {
                         type: 'button',
                         name:'saveNodeConfig',
-                        title: 'Save',
+                        title: '保存配置',
                         event: function (data,form,that) {
                             if(data.project_cwd === ''){
-                                bt.msg({status:false,msg:'The project directory cannot be empty'})
+                                bt.msg({status:false,msg:'项目目录不能为空'})
                                 return false
                             }
                             var project_script_two = $('[name="project_script_two"]');
                             if(data.project_script === '' && project_script_two.length < 1 || project_script_two.length > 1 && project_script_two.val() === ''){
-                                bt.msg({status:false,msg:'Start file/command cannot be empty'})
+                                bt.msg({status:false,msg:'启动文件/命令不能为空'})
                                 return false
                             }
                             if(data.port === ''){
-                                bt.msg({status:false,msg:'Project port cannot be empty'})
+                                bt.msg({status:false,msg:'项目端口不能为空'})
                                 return false
                             }
                             if(data.project_script === ''){
@@ -296,9 +296,9 @@ var site = {
         add_node_form:function(callback){
             var that = this;
             var add_node_project = bt_tools.open({
-                title:"Add Node project",
+                title:"添加Node项目",
                 area:'700px',
-                btn:['Confirm','Cancel'],
+                btn:['提交', '取消'],
                 content:{
                     class: 'pd30',
                     form:(function(){
@@ -321,7 +321,7 @@ var site = {
                             if(bt.check_domain(item)){
                                 newArry.push(item.indexOf(':') > -1?item:item+':80')
                             }else{
-                                bt.msg({status:false,msg:'['+ item +'] The format of the bound domain name is incorrect'})
+                                bt.msg({status:false,msg:'['+ item +'] 绑定域名格式错误'})
                                 break;
                             }
                         }
@@ -329,20 +329,20 @@ var site = {
                         defaultParam.domains = newArry
                     }
                     if(form.project_name === ''){
-                        bt.msg({status:false,msg:'Project name cannot be empty'})
+                        bt.msg({status:false,msg:'项目名称不能为空'})
                         return false
                     }
                     var project_script_two =  $('[name="project_script_two"]');
                     if(project_script_two.length && project_script_two.val() === ''){
-                        bt.msg({status:false,msg:'Please enter a custom startup command, it cannot be empty!'});
+                        bt.msg({status:false,msg:'请输入自定义启动命令，不能为空!'});
                         return false
                     }
                     if(form.port === ''){
-                        bt.msg({status:false,msg:'Project port cannot be empty'})
+                        bt.msg({status:false,msg:'项目端口不能为空'})
                         return false
                     }
                     if(form.project_script === null){
-                        bt.msg({status:false,msg:'Please select the project directory to get the start command!'})
+                        bt.msg({status:false,msg:'请选择项目目录，获取启动命令!'})
                         return false
                     }
                     form = $.extend(form,defaultParam)
@@ -383,7 +383,7 @@ var site = {
                 url:'/project/nodejs/is_install_nodejs'
             },function(res){
                 if(callback) callback(res);
-            },{load:'Get the Node project environment'})
+            },{load:'获取Node项目环境'})
         },
 
         /**
@@ -392,7 +392,7 @@ var site = {
          * @param callback {function} 回调函数
          */
         modify_node_project:function(param,callback){
-            this.http({modify_project: 'Modify Node project configuration'},param,callback)
+            this.http({modify_project: '修改Node项目配置'},param,callback)
         },
 
         /**
@@ -401,7 +401,7 @@ var site = {
          * @param callback {function} 回调函数
          */
         remove_node_project:function(param,callback){
-            this.http({remove_project: 'Delete Node project'},param,callback)
+            this.http({remove_project: '删除Node项目'},param,callback)
         },
 
         /**
@@ -409,7 +409,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         get_node_project_domain:function(callback){
-            this.http({project_get_domain: 'Get the list of Node project domain names'},callback)
+            this.http({project_get_domain: '获取Node项目域名列表'},callback)
         },
 
         /**
@@ -419,7 +419,7 @@ var site = {
          * @param callback1 {function} 错误回调行数
          */
         get_start_command:function(params,callback,callback1){
-            this.http({get_run_list: 'Getting project start command'},params,callback,callback1)
+            this.http({get_run_list: '获取项目启动命令'},params,callback,callback1)
         },
         /**
          * @description 添加Node项目域名
@@ -436,7 +436,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         remove_node_project_domain:function(param,callback){
-            this.http({project_remove_domain:'Delete the Node project domain name'},param,callback)
+            this.http({project_remove_domain:'删除Node项目域名'},param,callback)
         },
 
         /**
@@ -445,7 +445,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         start_node_project:function(param,callback){
-            this.http({start_project:'Enable Node project'},param,callback)
+            this.http({start_project:'启用Node项目'},param,callback)
         },
 
         /**
@@ -454,7 +454,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         stop_node_project:function(param,callback){
-            this.http({stop_project:'Stop the Node project'},param,callback)
+            this.http({stop_project:'停止Node项目'},param,callback)
         },
 
         /**
@@ -463,7 +463,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         restart_node_project:function(param,callback){
-            this.http({restart_project:'Restart the Node project'},param,callback)
+            this.http({restart_project:'重启Node项目'},param,callback)
         },
 
         /**
@@ -472,7 +472,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         get_node_project_info:function(param,callback){
-            this.http({get_project_info:'Get Node project information'},param,callback)
+            this.http({get_project_info:'获取Node项目信息'},param,callback)
         },
 
         /**
@@ -481,7 +481,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         bind_node_project_map:function(param,callback){
-            this.http({bind_extranet:'Mapping',verify:false},param,callback)
+            this.http({bind_extranet:'绑定映射',verify:false},param,callback)
         },
         /**
          * @description 绑定外网映射
@@ -489,7 +489,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         unbind_node_project_map:function(param,callback){
-            this.http({unbind_extranet:'Unmapping',verify:false},param,callback)
+            this.http({unbind_extranet:'解绑映射',verify:false},param,callback)
         },
         /**
          * @description 安装node项目依赖
@@ -506,7 +506,7 @@ var site = {
          * @param callback {function} 回调行数
          */
         npm_install_node_module:function(param,callback){
-            this.http({install_module:'Install Node module'},param,callback)
+            this.http({install_module:'安装Node模块'},param,callback)
         },
         /**
          * @description 更新指定模块
@@ -514,14 +514,14 @@ var site = {
          * @param callback {function} 回调行数
          */
         upgrade_node_module:function(param,callback){
-            this.http({upgrade_module:'Update Node module'},param,callback)
+            this.http({upgrade_module:'更新Node模块'},param,callback)
         },/**
          * @description 删除指定模块
          * @param param {object} 请求参数
          * @param callback {function} 回调行数
          */
         uninstall_node_module:function(param,callback){
-            this.http({uninstall_module:'Uninstall the Node module'},param,callback)
+            this.http({uninstall_module:'卸载Node模块'},param,callback)
         },
         /**
          * @description 模拟点击
@@ -537,14 +537,14 @@ var site = {
             var that = this;
             bt.open({
                 type:1,
-                title:'Node project management-['+ row.name +'], add time ['+ row.addtime +']',
+                title:'Node项目管理-['+ row.name +'], 添加时间['+ row.addtime +']',
                 skin:'node_project_dialog',
                 area:['800px','720px'],
                 content:'<div class="bt-form">' +
                         '<div class="bt-w-menu site-menu pull-left"></div>'+
                     '<div id="webedit-con" class="bt-w-con pd15" style="height:100%">' +
                     '</div>'+
-                    '<div class="mask_module hide"><div class="node_mask_module_text">Please turn on <a href="javascript:;" class="btlink mapExtranet" onclick="site.node.simulated_click(2)"> mapping </a>to viewing the configuration information</div></div>'+
+                    '<div class="mask_module hide"><div class="node_mask_module_text">请开启 <a href="javascript:;" class="btlink mapExtranet" onclick="site.node.simulated_click(2)"> 外网映射 </a>后查看配置信息</div></div>'+
                     '</div>',
                 btn:false,
                 success:function(layers){
@@ -570,38 +570,38 @@ var site = {
                     reander_tab_list({
                         el:$layers.find('.bt-w-menu'),
                         list:[{
-                            title:'Project config',
+                            title:'项目配置',
                             active:true,
                             event:that.reander_node_project_config
                         },{
-                            title:'Domain',
+                            title:'域名管理',
                             event:that.reander_node_domain_manage
                         },{
-                            title:'Mapping',
+                            title:'外网映射',
                             event:that.reander_node_project_map,
                         },{
-                            title:'URL rewrite',
+                            title:'伪静态',
                             event:that.reander_node_project_rewrite
                         },{
-                            title:'Config file',
+                            title:'配置文件',
                             event:that.reander_node_file_config
                         },{
                             title:'SSL',
                             event:that.reander_node_project_ssl
                         },{
-                            title:'Load status',
+                            title:'负载状态',
                             event:that.reander_node_service_condition
                         },{
-                            title:'service status',
+                            title:'服务状态',
                             event:that.reander_node_service_status
                         },{
-                            title:'Module',
+                            title:'模块管理',
                             event:that.reander_node_project_module
                         },{
-                            title:'Project log',
+                            title:'项目日志',
                             event:that.reander_node_project_log
                         },{
-                            title:'Website log',
+                            title:'网站日志',
                             event:that.reander_node_site_log
                         }]
 
@@ -631,15 +631,15 @@ var site = {
                             data['is_power_on'] = data['is_power_on']?1:0;
                             var project_script_two =  $('[name="project_script_two"]');
                             if(project_script_two.length && project_script_two.val() === ''){
-                                bt.msg({status:false,msg:'Please enter a custom startup command, it cannot be empty!'});
+                                bt.msg({status:false,msg:'请输入自定义启动命令，不能为空!'});
                                 return false
                             }
                             if(form.port === ''){
-                                bt.msg({status:false,msg:'Project port cannot be empty'})
+                                bt.msg({status:false,msg:'项目端口不能为空'})
                                 return false
                             }
                             if(form.project_script === null){
-                                bt.msg({status:false,msg:'Please select the project directory to get the start command!'})
+                                bt.msg({status:false,msg:'请选择项目目录，获取启动命令！'})
                                 return false
                             }
                             site.node.modify_node_project(data,function(res){
@@ -680,12 +680,12 @@ var site = {
             })
             setTimeout(function(){
                 $(el).append('<ul class="help-info-text c7">' +
-                '<li>[Run opt]: The scripts list in package.json is read by default, or you can select the [Custom Command] option to manually enter the start command</li>' +
-                '<li>[Custom command]: You can select the startup file or directly enter the startup command. Supported startup methods: npm/node/pm2/yarn</li>' +
-                '<li>[Port]：The wrong port will lead to access to 502, if you don’t know the port, you can fill it out at will, and then change to the correct port after starting the project</li>' +
-                '<li>[User]：For security reasons, the www user is used by default to run, and root user running may bring security risks</li>' +
-            '</ul>')
-                if(!row.listen_ok) $(el).find('input[name="port"]').parent().after('<div class="block mt10" style="margin-left: 100px;color: red;line-height: 20px;">The project port may be wrong, it is detected that the current project listens to the following ports[ '+  row.listen.join('/') +' ]</div>');
+                '<li>【启动选项】：默认读取package.json中的scripts列表，也可以选择[自定义启动命令]选项来手动输入启动命令</li>' +
+          '<li>【自定义启动命令】：可以选择启动文件，或直接输入启动命令，支持的启动方式：npm/node/pm2/yarn</li>' +
+          '<li>【项目端口】：错误的端口会导致访问502，若不知道端口，可先随意填写，启动项目后再改为正确端口</li>' +
+          '<li>【运行用户】：为了安全考虑，默认使用www用户运行，root用户运行可能带来安全风险</li>' +
+          '</ul>')
+                if(!row.listen_ok) $(el).find('input[name="port"]').parent().after('<div class="block mt10" style="margin-left: 100px;color: red;line-height: 20px;">项目端口可能有误，检测到当前项目监听了以下端口[ '+  row.listen.join('/') +' ]</div>');
 
             },100)
         },
@@ -697,15 +697,15 @@ var site = {
          */
         reander_node_service_status:function(el,row){
             var arry = [
-                    {title: 'Start', event: this.start_node_project},
-                    {title: 'Stop', event: this.stop_node_project},
-                    {title: 'Restart', event: this.restart_node_project}
+                    {title: '启动', event: this.start_node_project},
+                    {title: '停止', event: this.stop_node_project},
+                    {title: '重启', event: this.restart_node_project}
                 ],
                 that = this,
                 html = $('<div class="soft-man-con bt-form"><p class="status"></p><div class="sfm-opt"></div></div>');
             function reander_service(status){
-                var status_info = status?['Start','#20a53a','play']:['Stop','red','pause'];
-                return 'Status: <span>' + status_info[0] + '</span><span style="color:' + status_info[1] + '; margin-left: 3px;" class="glyphicon glyphicon glyphicon-'+ status_info[2] +'"></span>'
+                var status_info = status?['开启','#20a53a','play']:['停止','red','pause'];
+                return '当前状态: <span>' + status_info[0] + '</span><span style="color:' + status_info[1] + '; margin-left: 3px;" class="glyphicon glyphicon glyphicon-'+ status_info[2] +'"></span>'
             }
             html.find('.status').html(reander_service(row.run))
             el.html(html)
@@ -716,8 +716,8 @@ var site = {
                     !(!row.run && indexs === 1 ) || btn.addClass('hide');
                     btn.on('click', function () {
                         bt.confirm({
-                            title:item.title +'Project-['+ row.name +']',
-                            msg:'Are you sure you want the'+ item.title +'item,'+ (row.run?'The project may be affected,':'') +'continue?'
+                            title:item.title +'项目-['+ row.name +']',
+                            msg:'您确定要'+ item.title +'项目吗,'+ (row.run?'当前项目可能会受到影响,':'') +'是否继续?'
                         },function(index){
                             layer.close(index)
                             item.event.call(that, {project_name:row.name},function(res){
@@ -746,10 +746,10 @@ var site = {
                 list = [{
                     class: 'mb0',
                     items: [
-                        { name: 'nodedomain', width: '340px', type: 'textarea', placeholder: 'Please enter the domain name to be mapped, this option can be empty<br>One domain name per line, default port 80<br>How to add wildcard domain names *.domain.com<br>Specify the port used www.domain.com:88' },
+                        { name: 'nodedomain', width: '340px', type: 'textarea', placeholder: '如果需要绑定外网，请输入需要映射的域名，该选项可为空<br>多个域名，请换行填写，每行一个域名，默认为80端口<br>泛解析添加方法 *.domain.com<br>如另加端口格式为 www.domain.com:88' },
                         {
                             name: 'btn_node_submit_domain',
-                            text: 'Add',
+                            text: '添加',
                             type: 'button',
                             callback: function(sdata) {
                                 var arrs = sdata.nodedomain.split("\n");
@@ -788,7 +788,7 @@ var site = {
             var project_domian = bt_tools.table({
                 el:'#project_domian_list',
                 url:'/project/nodejs/project_get_domain',
-                default: "No domain name list yet",
+                default: "暂无域名列表",
                 param:{project_name:row.name},
                 height:375,
                 beforeRequest:function(params){
@@ -797,22 +797,22 @@ var site = {
                 },
                 column:[{ type: 'checkbox', class: '', width: 20 }, {
                     fid: 'name',
-                    title: 'Domain Name',
+                    title: '域名',
                     type: 'text',
                     template: function(row) {
                         return '<a href="http://' + row.name + ':' + row.port + '" target="_blank" class="btlink">' + row.name + '</a>';
                     }
                 },{
                     fid: 'port',
-                    title: 'Port',
+                    title: '端口',
                     type: 'text'
                 },{
-                    title:'OPT',
+                    title:'操作',
                     type:'group',
                     width:'100px',
                     align: 'right',
                     group:[{
-                        title: 'Del',
+                        title: '删除',
                         event: function (rowc,index,ev,key,rthat) {
                             that.remove_node_project_domain({project_name:row.name,domain:(rowc.name+':'+rowc.port)},function(res){
                                 bt.msg({status:res.status,msg:res.data || res.error_msg})
@@ -824,28 +824,28 @@ var site = {
                 tootls: [{ // 批量操作
                     type: 'batch',
                     positon: ['left', 'bottom'],
-                    placeholder: 'Please select bulk operation',
-                    buttonValue: 'Batch operation',
-                    disabledSelectValue: 'Please select the site that needs batch operation!',
+                    placeholder: '请选择批量操作',
+                    buttonValue: '批量操作',
+                    disabledSelectValue: '请选择需要批量操作的站点!',
                     selectList: [{
-                        title: "Delete domain name",
+                        title: "删除域名",
                         load: true,
                         url: '/project/nodejs/project_remove_domain',
                         param: function (crow) {
                             return {data:JSON.stringify({project_name: row.name,domain: (crow.name+':'+crow.port)})}
                         },
                         callback: function (that) { // 手动执行,data参数包含所有选中的站点
-                            bt.show_confirm("Delete domain names in bulk", "<span style='color:red'>Delete the selected domain name at the same time, do you want to continue?</span>", function () {
+                            bt.show_confirm("批量删除域名", "<span style='color:red'>同时删除选中的域名，是否继续?</span>", function () {
                                 var param = {};
                                 that.start_batch(param, function (list) {
                                     var html = ''
                                     for (var i = 0; i < list.length; i++) {
                                         var item = list[i];
-                                        html += '<tr><td>' + item.name + '</td><td><div style="float:right;"><span style="color:' + (item.request.status ? '#20a53a' : 'red') + '">' + (item.request.status?'Success':'Fail') + '</span></div></td></tr>';
+                                        html += '<tr><td>' + item.name + '</td><td><div style="float:right;"><span style="color:' + (item.request.status ? '#20a53a' : 'red') + '">' + (item.request.status?'成功':'失败') + '</span></div></td></tr>';
                                     }
                                     project_domian.$batch_success_table({
-                                        title: 'Batch deletion',
-                                        th: 'Delete domain name',
+                                        title: '批量删除',
+                                        th: '删除域名',
                                         html: html
                                     });
                                     project_domian.$refresh_table_list(true);
@@ -858,8 +858,8 @@ var site = {
             setTimeout(function(){
 
                 $(el).append('<ul class="help-info-text c7">' +
-                        '<li>If yours is an HTTP project and needs to be mapped, please bind at least one domain name</li>' +
-                        '<li>It is recommended that all domain names use the default port 80</li>' +
+                        '<li>如果您的是HTTP项目，且需要映射到外网，请至少绑定一个域名</li>' +
+                        '<li>建议所有域名都使用默认的80端口</li>' +
                     '</ul>')
 
             },100)
@@ -873,18 +873,18 @@ var site = {
         reander_node_project_map:function(el,row){
             var that = this;
             el.html('<div class="pd15"><div class="ss-text mr50" style="display: block;height: 35px;">' +
-                '   <em title="Mapping">Mapping</em>' +
+                '   <em title="外网映射">外网映射</em>' +
                 '       <div class="ssh-item">' +
                 '           <input class="btswitch btswitch-ios" id="node_project_map" type="checkbox">' +
                 '           <label class="btswitch-btn" for="node_project_map" name="node_project_map"></label>' +
                 '       </div>' +
-                '</div><ul class="help-info-text c7"><li>If your project is an HTTP project and you need to access the Internet through 80443, please use the mapping</li><li>Before using the mapping, please add at least 1 domain name in [Domain Name Management]</li></ul></div>')
+                '</div><ul class="help-info-text c7"><li>如果您的是HTTP项目，且需要外网通过80/443访问，请开启外网映射</li><li>开启外网映射前，请到【域名管理】中至少添加1个域名</li></ul></div>')
             $('#node_project_map').attr('checked',row['project_config']['bind_extranet']?true:false)
             $('[name=node_project_map]').click(function(){
                 var _check = $('#node_project_map').prop('checked'),param = {project_name:row.name};
                 if(!_check) param['domains'] = row['project_config']['domains']
-                layer.confirm((!_check?'Enable':'Disable')+' mapping!,do you want to continue?',{
-                    title:'Mapping',
+                layer.confirm((!_check?'开启':'关闭')+' 外网映射!,是否继续?',{
+                    title:'外网映射',
                     icon:0,
                     closeBtn:2,
                     cancel:function(){
@@ -910,32 +910,32 @@ var site = {
         reander_node_project_module:function(el,row){
             var that = this;
             el.html('<div class="">' +
-                '<div class=""><input class="bt-input-text mr5" name="mname" type="text" value="" style="width:240px" placeholder="Module name" /><button class="btn btn-success btn-sm va0 install_node_module" >Install</button><button class="btn btn-success btn-sm va0 pull-right npm_install_node_config">One-key install</button></div>' +
+                '<div class=""><input class="bt-input-text mr5" name="mname" type="text" value="" style="width:240px" placeholder="模块名称" /><button class="btn btn-success btn-sm va0 install_node_module" >安装模块</button><button class="btn btn-success btn-sm va0 pull-right npm_install_node_config">一键安装项目模块</button></div>' +
                 '<div id="node_module_list"></div>' +
             '</div>');
             var node_project_module_table = bt_tools.table({
                 el:'#node_module_list',
                 url:'/project/nodejs/get_project_modules',
-                default: "The module is not installed, click one-click to install the project module, the default prompt when the data is empty",
+                default: "未安装模块，点击一键安装项目模块, 数据为空时的默认提示",
                 param:{project_name:row.name,project_cwd:row.path},
                 height:'576px',
-                load:'Retrieving module list, please wait...',
+                load:'正在获取模块列表，请稍后...',
                 beforeRequest:function(params){
                     if(params.hasOwnProperty('data') && typeof params.data === 'string') return params
                     return {data:JSON.stringify(params)}
                 },
                 column:[{
                     fid: 'name',
-                    title: 'Module',
+                    title: '模块名称',
                     type: 'text',
                 },{
                     fid: 'version',
-                    title: 'Ver',
+                    title: '版本',
                     type: 'text',
                     width:'60px'
                 },{
                     fid: 'license',
-                    title: 'License',
+                    title: '协议',
                     type: 'text',
                     template:function(row){
                         if(typeof row.license === "object") return '<span>'+row.license.type+'<span>';
@@ -943,21 +943,21 @@ var site = {
                     }
                 },{
                     fid: 'description',
-                    title: 'Description',
+                    title: '描述',
                     width:235,
                     type: 'text',
                     template:function(row){
                         return '<span>'+row.description + '<a href="javascript:;"></a></span>'
                     }
                 },{
-                    title:'OPT',
+                    title:'操作',
                     type:'group',
                     width:'125px',
                     align: 'right',
                     group:[{
-                        title: 'Update',
+                        title: '更新',
                         event: function (rowc,index,ev,key,rthat) {
-                            bt.show_confirm("Update module", "<span style='color:red'>Updating the ["+rowc.name+"] module may affect the operation of the project, continue?</span>", function () {
+                            bt.show_confirm("更新模块", "<span style='color:red'>更新 ["+rowc.name+"] 模块可能会影响项目运行，继续吗?</span>", function () {
                                 that.upgrade_node_module({project_name:row.name,mod_name:rowc.name},function(res){
                                     bt.msg({status:res.status,msg:res.data || res.error_msg})
                                     rthat.$refresh_table_list(true);
@@ -965,9 +965,9 @@ var site = {
                             });
                         }
                     },{
-                        title: 'Uninstall',
+                        title: '卸载',
                         event: function (rowc,index,ev,key,rthat) {
-                            bt.show_confirm("Uninstall the module", "<span style='color:red'>Uninstalling the ["+rowc.name+"] module may affect the operation of the project, continue?</span>", function () {
+                            bt.show_confirm("卸载模块", "<span style='color:red'>卸载 ["+rowc.name+"] 模块可能会影响项目运行，继续吗?</span>", function () {
                                 that.uninstall_node_module({project_name:row.name,mod_name:rowc.name},function(res){
                                     bt.msg({status:res.status,msg:res.data || res.error_msg})
                                     rthat.$refresh_table_list(true);
@@ -984,7 +984,7 @@ var site = {
             //安装模块
             $('.install_node_module').on('click',function(){
                 var _mname = $('input[name=mname]').val();
-                if(!_mname) return layer.msg('Please enter the module name and version',{icon:2})
+                if(!_mname) return layer.msg('请输入模块名称及版本',{icon:2})
                 that.npm_install_node_module({project_name:row.name,mod_name:_mname},function(res){
                     bt.msg({status:res.status,msg:res.data || res.error_msg})
                     node_project_module_table.$refresh_table_list(true);
@@ -1042,7 +1042,7 @@ var site = {
             if(!row.run){
                 el.html('').next().removeClass('hide')
                 if(el.next().find('.node_mask_module_text').length === 1) {
-                    el.next().find('.node_mask_module_text').hide().parent().append('<div class="node_mask_module_text">Please start the service first and try again,<a href="javascript:;" class="btlink" onclick="site.node.simulated_click(7)">Set service status</a></div>')
+                    el.next().find('.node_mask_module_text').hide().parent().append('<div class="node_mask_module_text">请先启动服务后重新尝试,<a href="javascript:;" class="btlink" onclick="site.node.simulated_click(7)">设置服务状态</a></div>')
                 }else{
                     el.next().find('.node_mask_module_text:eq(1)').show().prev().hide()
                 }
@@ -1113,59 +1113,59 @@ var site = {
                     '<table class="table">' +
                     '<tbody>' +
                     '<tr>' +
-                    '<th width="50">Name</th><td  width="100">' + rdata.name + '</td>' +
-                    '<th width="50">Status</th><td  width="90">' + rdata.status + '</td>' +
-                    '<th width="60">User</th><td width="100">' + rdata.user + '</td>' +
-                    '<th width="80">Start Time</th><td width="150">' + getLocalTime(rdata.create_time) + '</td>' +
+                    '<th width="50">名称</th><td  width="100">' + rdata.name + '</td>' +
+                    '<th width="50">状态</th><td  width="90">' + rdata.status + '</td>' +
+                    '<th width="60">用户</th><td width="100">' + rdata.user + '</td>' +
+                    '<th width="80">启动时间</th><td width="150">' + getLocalTime(rdata.create_time) + '</td>' +
                     '</tr>' +
                     '<tr>' +
                         '<th>PID</th><td  >' + rdata.pid + '</td>' +
                         '<th>PPID</th><td >' + rdata.ppid + '</td>' +
-                        '<th>Thread</th><td>' + rdata.threads + '</td>' +
+                        '<th>线程</th><td>' + rdata.threads + '</td>' +
                         '<th>Socket</th><td>' + rdata.connects + '</td>' +
                     '</tr>' +
                     '<tr>' +
                         '<th>CPU</th><td>' + rdata.cpu_percent + '%</td>' +
-                        '<th>RAM</th><td>' + ToSize(rdata.memory_used) + '</td>' +
-                        '<th>Disk/R</th><td>' + ToSize(rdata.io_read_bytes) + '</td>' +
-                        '<th>Dis/W</th><td>' + ToSize(rdata.io_write_bytes) + '</td>' +
+                        '<th>内存</th><td>' + ToSize(rdata.memory_used) + '</td>' +
+                        '<th>io读/R</th><td>' + ToSize(rdata.io_read_bytes) + '</td>' +
+                        '<th>io写</th><td>' + ToSize(rdata.io_write_bytes) + '</td>' +
 
                     '</tr>' +
                     '<tr>' +
 
                     '</tr>' +
                     '<tr>' +
-                    '<th width="50">Command</th><td colspan="7" style="word-break: break-word;width: 570px">' + rdata.exe + '</td>' +
+                    '<th width="50">命令</th><td colspan="7" style="word-break: break-word;width: 570px">' + rdata.exe + '</td>' +
                     '</tr>' +
                     '</tbody>' +
                     '</table>' +
                     '</div>' +
-                    '<h3 class="tname">Network</h3>' +
+                    '<h3 class="tname">网络</h3>' +
                     '<div class="divtable" >' +
                     '<div style="height:160px;overflow:auto;border:#ddd 1px solid" id="nodeNetworkList">' +
                     '<table class="table table-hover" style="border:none">' +
                     '<thead>' +
                     '<tr>' +
-                    '<th>Client address</th>' +
-                    '<th>Client port</th>' +
-                    '<th>Protocol</th>' +
+                    '<th>客户端地址</th>' +
+                    '<th>客户端端口</th>' +
+                    '<th>协议</th>' +
                     '<th>FD</th>' +
-                    '<th>local address</th>' +
-                    '<th>local port</th>' +
-                    '<th>Status</th>' +
+                    '<th>本地地址</th>' +
+                    '<th>本地端口</th>' +
+                    '<th>状态</th>' +
                     '</tr>' +
                     '</thead>' +
                     '<tbody>' + connectionsBody + '</tbody>' +
                     '</table>' +
                     '</div>' +
                     '</div>' +
-                    '<h3 class="tname">Open files</h3>' +
+                    '<h3 class="tname">打开的文件列表</h3>' +
                     '<div class="divtable" >' +
                     '<div style="height:160px;overflow:auto;border:#ddd 1px solid" id="nodeFileList">' +
                     '<table class="table table-hover" style="border:none">' +
                     '<thead>' +
                     '<tr>' +
-                    '<th>Files</th>' +
+                    '<th>文件</th>' +
                     '<th>mode</th>' +
                     '<th>position</th>' +
                     '<th>flags</th>' +
@@ -1196,7 +1196,7 @@ var site = {
                 },function(res){
                     $('#webedit-con .node_project_log').html('<pre class="command_output_pre" style="height:640px;">'+(typeof res == "object"?res.error_msg:res)+'</pre>')
                     $('.command_output_pre').scrollTop($('.command_output_pre').prop('scrollHeight'))
-                },{load:'Get Node project log',verify:false})
+                },{load:'获取Node项目日志',verify:false})
         },
 
         reander_node_site_log:function(el,row){
@@ -1228,7 +1228,7 @@ var site = {
          */
         request_module_log_command:function(config){
             var r_command = layer.open({
-                title:config.name || 'Module is being installed, please wait...',
+                title:config.name || '正在安装模块，请稍后...',
                 type: 1,
                 closeBtn: 0,
                 area:['500px','342px'],
@@ -1271,8 +1271,8 @@ var site = {
             url: '/project/nodejs/get_project_list',
             minWidth: '1000px',
             autoHeight: true,
-            default: "The item list is empty", //数据为空时的默认提示\
-            load:'Getting the list of Node projects, please wait...',
+            default: "项目列表为空", //数据为空时的默认提示\
+            load:'正在获取Node项目列表，请稍后...',
             beforeRequest:function(params){
                 if(params.hasOwnProperty('data') && typeof params.data === 'string') {
                     var oldParams = JSON.parse(params['data'])
@@ -1285,7 +1285,7 @@ var site = {
                 { type: 'checkbox', class: '', width: 20 },
                 {
                     fid: 'name',
-                    title: 'Name',
+                    title: '项目名称',
                     width: 85,
                     type: 'link',
                     event: function(row, index, ev) {
@@ -1297,21 +1297,21 @@ var site = {
                 },
                 {
                     fid: 'run',
-                    title: 'Status',
+                    title: '服务状态',
                     width: 85,
                     config: {
                         icon: true,
                         list: [
-                            [true, 'Running', 'bt_success', 'glyphicon-play'],
-                            [false, 'Stop', 'bt_danger', 'glyphicon-pause']
+                            [true, '运行中', 'bt_success', 'glyphicon-play'],
+                            [false, '未启动', 'bt_danger', 'glyphicon-pause']
                         ]
                     },
                     type: 'status',
                     event: function(row, index, ev, key, that) {
                         var status = row.run;
                         bt.confirm({
-                            title:status?'Stop project':'Startup project',
-                            msg:status?'After stopping the project, the project service will stop running, continue?':'Startup Node project ['+ row.name +'], continue operation?'
+                            title:status? '停止项目' : '启动项目',
+                            msg:status?'停止项目后，当前项目服务将停止运行，继续吗?':'启用Node项目 ['+ row.name +'], 继续操作?'
                         },function(index){
                             layer.close(index)
                             site.node[status?'stop_node_project':'start_node_project']({project_name:row.name},function(res){
@@ -1350,7 +1350,7 @@ var site = {
                     }
                 },
                 {
-                    title:'RAM',
+                    title:'内存',
                     type:'text',
                     template:function(row){
                         if($.isEmptyObject(row['load_info'])) return '<span>-</span>'
@@ -1363,8 +1363,8 @@ var site = {
                 },
                 {
                     fid: 'path',
-                    title: 'Root directory',
-                    tips: 'Open Directory',
+                    title: '根目录',
+                    tips: '打开目录',
                     type: 'link',
                     event: function(row, index, ev) {
                         openPath(row.path);
@@ -1375,7 +1375,7 @@ var site = {
                 },
                 {
                     fid:'node_version',
-                    title:'Node version',
+                    title:'Node版本',
                     type:'text',
                     width: 102,
                     template:function(row){
@@ -1383,7 +1383,7 @@ var site = {
                     }
                 },{
                     fid: 'ps',
-                    title: 'Remark',
+                    title: '备注',
                     type: 'input',
                     blur: function(row, index, ev, key, that) {
                         if (row.ps == ev.target.value) return false;
@@ -1398,23 +1398,23 @@ var site = {
                     }
                 },{
                     fid: 'ssl',
-                    title: 'SSL',
-                    tips: 'Deployment certificate',
+                    title: 'SSL证书',
+                    tips: '部署证书',
                     width: 100,
                     type: 'text',
                     template: function(row, index) {
                         var _ssl = row.ssl,
                             _info = '',
                             _arry = [
-                                ['issuer', 'issuer'],
-                                ['notAfter', 'Due date'],
-                                ['notBefore', 'Application date'],
-                                ['dns', 'Available domain names']
+                                ['issuer', '证书品牌'],
+                                ['notAfter', '到期日期'],
+                                ['notBefore', '申请日期'],
+                                ['dns', '可用域名']
                             ];
                         try {
                             if (typeof row.ssl.endtime != 'undefined') {
                                 if (row.ssl.endtime < 0) {
-                                    return '<a class="btlink bt_danger" href="javascript:;">Exp in ' + Math.row.ssl.endtime + ' days</a>';
+                                    return '<a class="btlink bt_danger" href="javascript:;">已过期 ' + Math.row.ssl.endtime + ' 天</a>';
                                 }
                             }
                         } catch (error) {}
@@ -1422,7 +1422,7 @@ var site = {
                             var item = _ssl[_arry[i][0]];
                             _info += _arry[i][1] + ':' + item + (_arry.length - 1 != i ? '\n' : '');
                         }
-                        return row.ssl === -1 ? '<a class="btlink bt_warning" href="javascript:;">Not Set</a>' : '<a class="btlink ' + (row.ssl.endtime < 7 ? 'bt_danger' : '') + '" href="javascript:;" title="' + _info + '">Exp in ' + row.ssl.endtime + ' days</a>';
+                        return row.ssl === -1 ? '<a class="btlink bt_warning" href="javascript:;">未部署</a>' : '<a class="btlink ' + (row.ssl.endtime < 7 ? 'bt_danger' : '') + '" href="javascript:;" title="' + _info + '">Exp in ' + row.ssl.endtime + ' 天</a>';
                     },
                     event: function(row) {
                         site.node.set_node_project_view(row);
@@ -1431,19 +1431,19 @@ var site = {
                         }, 500);
                     }
                 },{
-                    title: 'OPT',
+                    title: '操作',
                     type: 'group',
                     width: 100,
                     align: 'right',
                     group: [{
-                        title: 'Set',
+                        title: '设置',
                         event: function(row, index, ev, key, that) {
                             site.node.set_node_project_view(row);
                         }
                     }, {
-                        title: 'Del',
+                        title: '删除',
                         event: function(row, index, ev, key, that) {
-                            bt.prompt_confirm('Delete item','You are deleting the Node project-['+ row.name +'], continue?',function(){
+                            bt.prompt_confirm('删除项目', '您正在删除Node项目-['+ row.name +'], 继续吗?',function(){
                                 site.node.remove_node_project({project_name:row.name},function(res){
                                     bt.msg({status:res.status,msg:res.data || res.error_msg})
                                     node_table.$refresh_table_list(true);
@@ -1461,7 +1461,7 @@ var site = {
                 type: 'group',
                 positon: ['left', 'top'],
                 list: [{
-                    title: 'Add Node project',
+                    title: '添加Node项目',
                     active: true,
                     event: function(ev) {
                         site.node.add_node_form(function(res,index){
@@ -1473,25 +1473,25 @@ var site = {
                         })
                     }
                 },{
-                    title: 'Node version manager',
+                    title: 'Node版本管理器',
                     event: function(ev) {
-                        bt.soft.set_lib_config('nodejs','Node.js version manager')
+                        bt.soft.set_lib_config('nodejs','Node.js版本管理器')
                     }
                 }]
             }, { // 搜索内容
                 type: 'search',
                 positon: ['right', 'top'],
-                placeholder: 'Please enter the project name',
+                placeholder: '请输入项目名称',
                 searchParam: 'search', //搜索请求字段，默认为 search
                 value: '', // 当前内容,默认为空
             }, { // 批量操作
                 type: 'batch', //batch_btn
                 positon: ['left', 'bottom'],
-                placeholder: 'Please select bulk operation',
-                buttonValue: 'Batch operation',
-                disabledSelectValue: 'Please select the site that needs batch operation!',
+                placeholder: '请选择批量操作',
+                buttonValue: '批量操作',
+                disabledSelectValue: '请选择需要批量操作的站点!',
                 selectList: [{
-                    title: "Delete item",
+                    title: "删除项目",
                     url: '/project/nodejs/remove_project',
                     param:function(row){
                         return {
@@ -1500,14 +1500,14 @@ var site = {
                     },
                     refresh: true,
                     callback: function(that) {
-                        bt.prompt_confirm('Delete items in bulk','You are deleting the selected Node project. Continue?',function(){
+                        bt.prompt_confirm('批量删除项目', '您正在删除选中的Node项目，继续吗?',function(){
                             that.start_batch({}, function(list) {
                                 var html = '';
                                 for (var i = 0; i < list.length; i++) {
                                     var item = list[i];
                                     html += '<tr><td><span>' + item.name + '</span></td><td><div style="float:right;"><span style="color:' + (item.requests.status ? '#20a53a' : 'red') + '">' + (item.requests.status?item.requests.data:item.requests.error_msg) + '</span></div></td></tr>';
                                 }
-                                node_table.$batch_success_table({ title: 'Delete items in bulk', th: 'project name', html: html });
+                                node_table.$batch_success_table({ title: '批量删除项目', th: '项目名称', html: html });
                                 node_table.$refresh_table_list(true);
                             });
                         })
@@ -1537,7 +1537,7 @@ var site = {
             param:{table:'sites'}, //参数
             minWidth:'1000px',
             autoHeight:true,
-            default:"Site list is empty", // 数据为空时的默认提示
+            default:"站点列表为空", // 数据为空时的默认提示
             beforeRequest:function(param){
                 param.type = bt.get_cookie('site_type') || -1;
                 return param;
@@ -1579,7 +1579,7 @@ var site = {
                 {
                     fid: 'path',
                     title: lan.site.root_dir,
-                    tips: 'Open path',
+                    tips: '打开目录',
                     type: 'link',
                     event: function (row,index,ev) {
                         openPath(row.path);
@@ -1619,8 +1619,8 @@ var site = {
                         $(this).blur();
                     }
                 }},
-                {fid:'php_version',title:'PHP',tips:'Selete php version',width:57,type:'link',template:function(row,index){
-                    if(row.php_version.indexOf('static') > -1) return  row.php_version;
+                {fid:'php_version',title:'PHP',tips:'选择php版本',width:57,type:'link',template:function(row,index){
+                    if(row.php_version.indexOf('静态') > -1) return  row.php_version;
                     return row.php_version;
                 },event:function(row,index){
                     site.web_edit(row);
@@ -1628,12 +1628,12 @@ var site = {
                         $('.site-menu p:eq(9)').click();
                     },500);
                 }},
-                {fid:'ssl',title:'SSL',tips:'Deployment certificate',width:140,type:'text',template:function(row,index){
-                    var _ssl = row.ssl,_info = '',_arry = [['issuer','Certificate'],['notAfter','Due date'],['notBefore','Application date'],['dns','Domain name']];
+                {fid:'ssl',title:'SSL证书',tips:'部署证书',width:140,type:'text',template:function(row,index){
+                    var _ssl = row.ssl,_info = '',_arry = [['issuer','证书品牌'],['notAfter','到期日期'],['notBefore','申请日期'],['dns','可用域名']];
                     try {
                         if (typeof row.ssl.endtime != 'undefined') {
                             if (row.ssl.endtime < 0) {
-                                return '<a class="btlink bt_danger" href="javascript:;">Exp in ' + Math.row.ssl.endtime + ' days</a>';
+                                return '<a class="btlink bt_danger" href="javascript:;">已过期 ' + Math.row.ssl.endtime + ' 天</a>';
                             }
                         }
                     } catch (error) {}
@@ -1641,7 +1641,7 @@ var site = {
                         var item = _ssl[_arry[i][0]];
                         _info += _arry[i][1] + ':' + item + (_arry.length - 1 != i ? '\n' : '');
                     }
-                    return row.ssl === -1 ? '<a class="btlink bt_warning" href="javascript:;">Not Set</a>' : '<a class="btlink ' + (row.ssl.endtime < 7 ? 'bt_danger' : '') + '" href="javascript:;" title="' + _info + '">Exp in ' + row.ssl.endtime + ' days</a>';
+                    return row.ssl === -1 ? '<a class="btlink bt_warning" href="javascript:;">未部署t</a>' : '<a class="btlink ' + (row.ssl.endtime < 7 ? 'bt_danger' : '') + '" href="javascript:;" title="' + _info + '">剩余 ' + row.ssl.endtime + ' 天</a>';
                 },event:function(row,index,ev,key,that){
                     console.log(row,'111');
                     site.web_edit(row);
@@ -1649,27 +1649,9 @@ var site = {
                         $('.site-menu p:eq(8)').click();
                     },500);
                 }},
-                {
-                    fid:'attack',
-                    title:'Attack',
-                    width:80,
-                    type:'text',
-                    template:function(row,index){
-                        return '<a class="btlink '+(row.attack > 0 ?'bt_danger':'')+'" style="cursor: pointer;">'+row.attack+'</a>'
-                    },
-                    event:function(row){
-                        site.web_edit(row);
-                        setTimeout(function () {
-                            $('.site-menu p:eq(14)').click();
-                            setTimeout(function(){
-                                $('#tabLogs span:eq(2)').click();
-                            },500)
-                        }, 500);
-                    }
-                },
                 {title:lan.site.operate,type:'group',width:119,align:'right',group:[
                 {
-                    title:'WAF',
+                    title:'防火墙',
                     event:function(row,index,ev,key,that){
                         site.site_waf(row.name);
                     }
@@ -1680,7 +1662,7 @@ var site = {
                         site.web_edit(row,true);
                     }
                 },{
-                    title:'Del',
+                    title:'删除',
                     event:function(row,index,ev,key,that){
                         site.del_site(row.id,row.name,function(){
                             that.$refresh_table_list(true);
@@ -1720,65 +1702,47 @@ var site = {
                         }
                     });
                 });
-                if($('#bt_site_table table thead th:eq(9) a').length == 0){
-                    var Attack_tips = '<ul class="help-info-text c7">\
-                      <li>Log analysis: Scan the logs(/www/wwwroot/.log) for requests with attack (types include:<em style="color:red">xss,sql,san,php</em>)</li>\
-                      <li>Analyzed log data contains intercepted requests</li>\
-                      <li>By default, the last scan data is displayed (if not, please click log scan)</li>\
-                      <li>If the log file is too large, scanning may take a long time, please be patient</li>\
-                      <li><a class="btlink" href="https://forum.aapanel.com/d/3351-nginx-waf-instructions" target="_blank">aaPanel WAF</a> can effectively block such attacks</li>\
-                      </ul>'
-                    $('#bt_site_table table thead th:eq(9)>span').css({'width':'42px','display':'initial'})   //设置扫描th大小
-                    //追加tips并设置样式
-                    $('#bt_site_table table thead th:eq(9)').append($('<a class="bt-ico-ask">?</a>').css({'border-color':'#666','color':'#666'}).hover(function(){
-                        $(this).css({'border-color':'#fb7d00','color':'#fff'})
-                        layer.tips(Attack_tips, $(this), { time: 0, tips: [1, '#fff'],area: ['500px', '180px']});
-                    },function(){
-                        $(this).css({'border-color':'#666','color':'#666'})
-                        layer.closeAll('tips');
-                    }))
-                }
             },
             // 渲染完成
             tootls:[{ // 按钮组
                 type:'group',
                 positon:['left','top'],
                 list:[
-                    {title:'Add site',active:true, event:function(ev){ site.add_site(function(){
+                    {title:'添加站点',active:true, event:function(ev){ site.add_site(function(){
                         site_table.$refresh_table_list(true) });
                         bt.set_cookie('site_type','-1');
                     }},
-                    {title:'Default Page',event:function(ev){ site.set_default_page() }},
-                    {title:'Default Website',event:function(ev){ site.set_default_site() }},
-                    {title:'PHP CLI version',event:function(ev){ site.get_cli_version()}}
+                    {title:'修改默认页',event:function(ev){ site.set_default_page() }},
+                    {title:'默认站点',event:function(ev){ site.set_default_site() }},
+                    {title:'PHP命令行版本',event:function(ev){ site.get_cli_version()}}
                 ]
             },{ // 搜索内容
                 type:'search',
                 positon:['right','top'],
-                placeholder:'Domain or Remarks',
+                placeholder:'请输入域名或备注',
                 searchParam:'search', //搜索请求字段，默认为 search
                 value:'',// 当前内容,默认为空
             },{ // 批量操作
                 type:'batch',//batch_btn
                 positon:['left','bottom'],
-                placeholder:'Select batch operation',
-                buttonValue:'Execute',
-                disabledSelectValue:'Select the website to execute!',
+                placeholder:'请选择批量操作',
+                buttonValue:'批量操作',
+                disabledSelectValue:'请选择需要批量操作的站点!',
                 selectList:[
                     {
-                        group:[{title:lan.site.enable_website,param:{status:1}},{title:'Disable website',param:{status:0}}],
+                        group:[{title:lan.site.enable_website,param:{status:1}},{title:'停止站点',param:{status:0}}],
                         url:'/site?action=set_site_status_multiple',
                         confirmVerify:false, //是否提示验证方式
                         paramName:'sites_id', //列表参数名,可以为空
                         paramId:'id', // 需要传入批量的id
-                        theadName:'Name',
+                        theadName:'站点名称',
                         refresh: true
                     },{
                         title:lan.site.backup_website,
                         url:'/site?action=ToBackup',
                         paramId:'id',
                         load:true,
-                        theadName:'Name',
+                        theadName:'站点名称',
                         refresh: true,
                         callback:function(that){ // 手动执行,data参数包含所有选中的站点
                             that.start_batch({},function(list){
@@ -1787,7 +1751,7 @@ var site = {
                                     var item = list[i];
                                     html += '<tr><td><span style="width: 150px;" class="limit-text-length" title="' + item.name + '">'+ item.name +'</span></td><td class="text-right"><span style="color:'+ (item.request.status?'#20a53a':'red') +'">'+ item.request.msg +'</span></td></tr>';
                                 }
-                                site_table.$batch_success_table({title:'Batch backup',th:'Site name',html:html});
+                                site_table.$batch_success_table({title:'批量备份',th:'站点名称',html:html});
                                 site_table.$refresh_table_list(true);
                             });
                         }
@@ -1796,11 +1760,11 @@ var site = {
                         url:'/site?action=set_site_etime_multiple',
                         paramName:'sites_id', //列表参数名,可以为空
                         paramId:'id', // 需要传入批量的id
-                        theadName:'Name',
+                        theadName:'站点名称',
                         refresh: true,
                         confirm:{
                             title:'Batch set expired date',
-                            content:'<div class="line"><span class="tname">Expired date</span><div class="info-r "><input name="edate" id="site_edate" class="bt-input-text mr5" placeholder="yyyy-MM-dd" type="text"></div></div>',
+                            content:'<div class="line"><span class="tname">到期时间</span><div class="info-r "><input name="edate" id="site_edate" class="bt-input-text mr5" placeholder="yyyy-MM-dd" type="text"></div></div>',
                             success:function(){
                                 laydate.render({
                                     elem: '#site_edate'
@@ -1819,7 +1783,7 @@ var site = {
                                 if(site_edate_val != ''){
                                     request({'edate':site_edate_val==='Forever'?'0000-00-00':site_edate_val});
                                 }else{
-                                    layer.tips('Input expired date','#site_edate',{tips:['1','red']});
+                                    layer.tips('设置的到期时间不得小于当前时间','#site_edate',{tips:['1','red']});
                                     $('#site_edate').css('border-color','red');
                                     $('#site_edate').click();
                                     setTimeout(function(){
@@ -1834,12 +1798,12 @@ var site = {
                         url:'/site?action=set_site_php_version_multiple',
                         paramName:'sites_id', //列表参数名,可以为空
                         paramId:'id', // 需要传入批量的id
-                        theadName:'Name',
+                        theadName:'站点名称',
                         refresh: true,
                         confirm:{
-                            title:'Batch set php version',
+                            title:'批量设置PHP版本',
                             area:'420px',
-                            content:'<div class="line"><span class="tname">PHP version</span><div class="info-r"><select class="bt-input-text mr5 versions" name="versions" style="width:150px"></select></span></div><ul class="help-info-text c7" style="font-size:11px"><li>Please select the version according to your program requirements.</li><li>If not necessary, please try not to use PHP 5.2, which will reduce your server security.</li><li>PHP 7 does not support mysql extension, mysqli and mysql_pdo will be installed by default.</li></ul></div>',
+                            content:'<div class="line"><span class="tname">PHP version</span><div class="info-r"><select class="bt-input-text mr5 versions" name="versions" style="width:150px"></select></span></div><ul class="help-info-text c7" style="font-size:11px"><li>请根据您的程序需求选择版本</li><li>若非必要,请尽量不要使用PHP5.2,这会降低您的服务器安全性:</li><li>PHP7不支持mysql扩展，默认安装mysqli以及mysql-pdo。</li></ul></div>',
                             success:function(){
                                 bt.site.get_all_phpversion(function(res){
                                     var html = '';
@@ -1867,8 +1831,8 @@ var site = {
                             return JSON.stringify(arry);
                         },
                         confirm:{
-                            title:'Batch set category',
-                            content:'<div class="line"><span class="tname">Site category</span><div class="info-r"><select class="bt-input-text mr5 site_types" name="site_types" style="width:150px"></select></span></div></div>',
+                            title:'批量设置分类',
+                            content:'<div class="line"><span class="tname">站点分类</span><div class="info-r"><select class="bt-input-text mr5 site_types" name="site_types" style="width:150px"></select></span></div></div>',
                             success:function(){
                                 bt.site.get_type(function(res){
                                     var html = '';
@@ -1889,7 +1853,7 @@ var site = {
                             $.each(list,function(index,item){
                                 html += '<tr><td>'+ item.name +'</td><td><div style="float:right;"><span style="color:'+ (res.status?'#20a53a':'red') +'">'+ res.msg +'</span></div></td></tr>';
                             });
-                            that.$batch_success_table({title:'Batch set category',th:'Site name',html:html});
+                            that.$batch_success_table({title:'批量设置分类',th:'站点名称',html:html});
                             that.$refresh_table_list(true);
                         }
                     },{
@@ -1928,8 +1892,8 @@ var site = {
                                         html += '<tr><td>' + item.name + '</td><td><div style="float:right;"><span style="color:' + (item.request.status ? '#20a53a' : 'red') + '">' + item.request.msg + '</span></div></td></tr>';
                                     }
                                     site_table.$batch_success_table({
-                                        title: 'Batch delete',
-                                        th: 'site name',
+                                        title: '批量删除',
+                                        th: '站点名称',
                                         html: html
                                     });
                                     site_table.$refresh_table_list(true);
@@ -1960,11 +1924,11 @@ var site = {
             active = bt.get_cookie('site_type') || -1,
             select = $('.site_class_type');
         if(select.find('.bt_select_list li').length > 1) return false
-        res.unshift({ id: -1, name: "Category manager" });
+        res.unshift({ id: -1, name: "全部分类" });
         $.each(res, function(index, item) {
             html += '<li class="item ' + (parseInt(active) == item.id ? 'active' : '') + '" data-id="' + item.id + '">' + item.name + '</li>';
         });
-        html += '<li role="separator" class="divider"></li><li class="item" data-id="type_sets">Category set</li>';
+        html += '<li role="separator" class="divider"></li><li class="item" data-id="type_sets">分类设置</li>';
         select.find('.bt_select_value').on('click', function(ev) {
             var $this = this;
             $(this).next().show();
@@ -1991,7 +1955,7 @@ var site = {
         if (!select.find('.bt_select_list li.active').length) {
             select.find('.bt_select_list li:eq(0)').addClass('active');
             // select.find('.bt_select_value .bt_select_content').text('Classification: 默认分类');
-            select.find('.bt_select_value .bt_select_content').text('Classification: 默认分类');
+            select.find('.bt_select_value .bt_select_content').text('分类: 默认分类');
         } else {
             // select.find('.bt_select_value .bt_select_content').text('Classification: ' + select.find('.bt_select_list li.active').text());
             select.find('.bt_select_value .bt_select_content').text(select.find('.bt_select_list li.active').text());
@@ -2080,20 +2044,20 @@ var site = {
                         }
                     },
                     {
-                        field: 'ssl', title: 'SSL', templet: function (item) {
+                        field: 'ssl', title: 'SSL证书', templet: function (item) {
                             var _ssl = '';
                             if (item.ssl == -1)
                             {
-                                _ssl = '<a class="ssl_tips btlink" style="color:orange;">Not Set</a>';
+                                _ssl = '<a class="ssl_tips btlink" style="color:orange;">未部署</a>';
                             }else{
-                                var ssl_info = "Certificate: "+item.ssl.issuer+"<br>Due date: " + item.ssl.notAfter+"<br>Application date: " + item.ssl.notBefore +"<br>Domain name: " + item.ssl.dns.join("/");
+                                var ssl_info = "证书品牌: "+item.ssl.issuer+"<br>到期日期: " + item.ssl.notAfter+"<br>申请日期: " + item.ssl.notBefore +"<br>可用域名: " + item.ssl.dns.join("/");
                                 if(item.ssl.endtime < 0){
-                                    _ssl = '<a class="ssl_tips btlink" style="color:red;" data-tips="'+ssl_info+'">Expired</a>';
+                                    _ssl = '<a class="ssl_tips btlink" style="color:red;" data-tips="'+ssl_info+'">已过期</a>';
 
                                 }else if(item.ssl.endtime < 20){
-                                    _ssl = '<a class="ssl_tips btlink" style="color:red;" data-tips="'+ssl_info+'">Exp in '+(item.ssl.endtime+' days')+'</a>';
+                                    _ssl = '<a class="ssl_tips btlink" style="color:red;" data-tips="'+ssl_info+'">剩余 '+(item.ssl.endtime+' 天')+'</a>';
                                 }else{
-                                    _ssl = '<a class="ssl_tips btlink" style="color:green;" data-tips="'+ssl_info+'">Exp in '+item.ssl.endtime+' days</a>';
+                                    _ssl = '<a class="ssl_tips btlink" style="color:green;" data-tips="'+ssl_info+'">剩余 '+item.ssl.endtime+' 天</a>';
                                 }
                             }
                             return _ssl;
@@ -2255,7 +2219,7 @@ var site = {
                     closeBtn: 2,
                     shift: 5,
                     shadeClose: false,
-                    content: "<div class='divtable pd15 style='padding-bottom: 0'><button id='btn_data_backup' class='btn btn-success btn-sm' type='button' style='margin-bottom:10px'>" + lan.database.backup + "</button><table width='100%' id='SiteBackupList' class='table table-hover'></table><ul class='help-info-text c7'><li>Before restoring data, all data in the root dir of the website  will be moved to the panel recycle bin.</li></ul><div class='page sitebackup_page'></div></div>"
+                    content: "<div class='divtable pd15 style='padding-bottom: 0'><button id='btn_data_backup' class='btn btn-success btn-sm' type='button' style='margin-bottom:10px'>" + lan.database.backup + "</button><table width='100%' id='SiteBackupList' class='table table-hover'></table><ul class='help-info-text c7'><li>在还原数据之前，网站根目录中的所有数据都将移动到面板回收站.</li></ul><div class='page sitebackup_page'></div></div>"
                 });
             }
             setTimeout(function() {
@@ -2302,10 +2266,10 @@ var site = {
                         data.file_name = $(this).attr('backup-name');
                         data.site_id = $(this).attr('site-id');
                     // console.log(data);
-                    layer.confirm('Are you sure to restore backup file?', {
+                    layer.confirm('你确定要还原备份文件吗?', {
                         icon: 0,
                         closeBtn: 2,
-						title: 'Restore backup file',
+						title: '恢复备份文件',
 					}, function (index) {
                         $.post('/files?action=restore_website', data, function(rdata) {
                             layer.close(index);
@@ -2335,7 +2299,7 @@ var site = {
                     el: '#bt_backup_table',
                     url: '/data?action=getData',
                     param: { table: 'backup', search: config.id, type: '0' },
-                    default: "[" + config.name + "] Currently no backup", //数据为空时的默认提示
+                    default: "[" + config.name + "] 站点备份列表为空", //数据为空时的默认提示
                     column: [
                         { type: 'checkbox', class: '', width: 20 },
                         { fid: 'name', title: lan.site.filename, width: 250, fixed: true },
@@ -2355,16 +2319,16 @@ var site = {
                             width: 165,
                             align: 'right',
                             group: [{
-                                title:'Restore',
+                                title:'恢复',
                                 event: function(row) {
                                     var data = {};
                                         data.file_name = row.name;
                                         data.site_id = config.id;
                                     // console.log(data);
-                                    layer.confirm('Are you sure to restore backup file?', {
+                                    layer.confirm('你确定要还原备份文件吗?', {
                                         icon: 0,
                                         closeBtn: 2,
-                                        title: 'Restore backup file',
+                                        title: '恢复备份文件',
                                     }, function (index) {
                                         $.post('/files?action=restore_website', data, function(rdata) {
                                             layer.close(index);
@@ -2400,7 +2364,7 @@ var site = {
                          * @param {function} callback
                          */
                         del_site_backup: function(config, callback) {
-                            bt.confirm({ title: lan.site.del_bak_file, msg: 'The website backup is about to be deleted [' + config.name + '], do you want to continue?' }, function() {
+                            bt.confirm({ title: lan.site.del_bak_file, msg: '删除站点备份 [' + config.name + '], 是否继续?' }, function() {
                                 bt_tools.send('site/DelBackup', { id: config.id }, function(rdata) {
                                     if (callback) callback(rdata);
                                 }, true);
@@ -2415,7 +2379,7 @@ var site = {
                         type: 'group',
                         positon: ['left', 'top'],
                         list: [{
-                            title: 'Backup',
+                            title: '备份站点',
                             active: true,
                             event: function(ev, that) {
                                 bt.site.backup_data(config.id, function(rdata) {
@@ -2431,12 +2395,12 @@ var site = {
                         type: 'batch',
                         positon: ['left', 'bottom'],
                         config: {
-                            title: ' Delete',
+                            title: ' 删除',
                             url: '/site?action=DelBackup',
                             paramId: 'id',
                             load: true,
                             callback: function(that) {
-                                bt.confirm({ title: 'Delete site backups in bulk', msg: 'Do you want to delete selected site backups in batches?', icon: 0 }, function(index) {
+                                bt.confirm({ title: '批量删除站点备份', msg: '是否批量删除选中的站点备份，是否继续?', icon: 0 }, function(index) {
                                     layer.close(index);
                                     that.start_batch({}, function(list) {
                                         var html = '';
@@ -2444,7 +2408,7 @@ var site = {
                                             var item = list[i];
                                             html += '<tr><td><span style="width: 150px;" class="limit-text-length" title="' + item.name + '">' + item.name + '</span></td><td class="text-right"><span style="color:' + (item.request.status ? '#20a53a' : 'red') + '">' + item.request.msg + '</span></td></tr>';
                                         }
-                                        backup_table.$batch_success_table({ title: 'Delete site backups in bulk', th: 'file name', html: html });
+                                        backup_table.$batch_success_table({ title: '批量删除站点备份', th: '文件名', html: html });
                                         backup_table.$refresh_table_list(true);
                                         thatC.$modify_row_data({ backup_count: thatC.event_rows_model.rows.backup_count - list.length });
                                     });
@@ -2471,7 +2435,7 @@ var site = {
         var layerT = layer.open({
             type: 1,
             area: '590px',
-            title: 'Recovering the backup...',
+            title: '恢复备份...',
             closeBtn: 0,
             content: '<div><div><pre class="backup_logs" style="height: 390px;background: #000;color: #fff;margin-bottom: 0;"></pre></div></div>',
         });
@@ -2530,7 +2494,7 @@ var site = {
                         block_class: 'redirect_check',
                         hide:true,
                         name:'redirect',
-                        label_tips:'Add [<span></span>] domain name to the main domain name',
+                        label_tips:'将[<span></span>] 域名添加到主域名中',
                         event:function(value,form,that,config,ev){
                             var domain = form['redirect'].next().find('span').text(),
                                 domain_textarea = form['webname'],
@@ -2540,8 +2504,8 @@ var site = {
                                 domain_textarea.val(domain_textarea.val() + '\r' + domain);
                                 form['tourl'].parents('.line').removeClass('hide');
                                 var radio_list = form['tourl'].parents('.line').find('.redirect_tourl');
-                                $(".redirect_tourl:eq(1)").find('label').html('Redirect the main domain name [<span title="'+ domain_one +'"> '+ domain_one +'</span>] to [<span title="'+ domain +'">'+ domain +'</span>] domain name');
-                                $(".redirect_tourl:eq(2)").find('label').html('Redirect the [<span title="'+ domain +'">'+ domain +'</span>] domain name to the main domain [<span title="'+ domain_one +'">'+ domain_one +'</span>]');
+                                $(".redirect_tourl:eq(1)").find('label').html('重定向主域名 [<span title="'+ domain_one +'"> '+ domain_one +'</span>] 到 [<span title="'+ domain +'">'+ domain +'</span>] 域名');
+                                $(".redirect_tourl:eq(2)").find('label').html('重定向 [<span title="'+ domain +'">'+ domain +'</span>] 域名到主域 [<span title="'+ domain_one +'">'+ domain_one +'</span>]');
                             }else{
                                 for(var i = domainList.length-1;i >= 0;i--){
                                     if(domainList[i] === domain) domainList.splice(i,1);
@@ -2560,8 +2524,8 @@ var site = {
                         block:true,
                         block_class: 'redirect_tourl',
                         label_tips:['No',
-                        'Redirect the main domain name [<span title=""></span>] to [<span title=""></span>] domain name',
-                        'Redirect the [<span title=""></span>] domain name to the main domain [<span title=""></span>]'],
+                        '重定向主域名 [<span title=""></span>] 到 [<span title=""></span>] 域名',
+                        '重定向 [<span title=""></span>] 将域名添加到主域 [<span title=""></span>]'],
                     }]
                 },{
                     label:lan.site.add_site.description,
@@ -2610,7 +2574,7 @@ var site = {
                         if(bt.config['pure-ftpd']['setup']) return {};
                         return {
                             type:'link',
-                            title:'FTP is not installed, click Install',
+                            title:'未安装FTP，点击安装',
                             event:function(ev){
                                 bt.soft.install('pureftpd');
                             }
@@ -2654,7 +2618,7 @@ var site = {
                         if(bt.config.mysql.setup) return {};
                         return {
                             type:'link',
-                            title:'Database not installed, click Install',
+                            title:'未安装数据库，点击安装',
                             event:function(ev){
                                 bt.soft.install('pureftpd');
                             }
@@ -2727,19 +2691,19 @@ var site = {
                     class:'ssl_checkbox',
                     help:{
                         style:'color: red;line-height: 17px;',
-                        list:['If you need to apply for SSL, please make sure that the domain name has added A record resolution for the domain name'],
+                        list:['如果您需要申请SSL，请确保该域名已添加该域名的记录解析'],
                     },
                     group:[{
                         type:'checkbox',
                         name:'set_ssl',
-                        title:'Apply for SSL',
+                        title:'申请SSL',
                         class:'site_ssl_check',
                         style:{'margin-right': '10px'}
                     },{
                         type:'checkbox',
                         name:'force_ssl',
                         class:'site_ssl_check',
-                        title:'HTTP redirect to HTTPS',
+                        title:'HTTP重定向到HTTPS',
                         event:function(value,form,that,config,ev){
                             var force_ssl = $(this).is(':checked');
                             if(force_ssl){
@@ -3076,7 +3040,7 @@ var site = {
         var num1 = bt.get_random_num(1, 9),
             num2 = bt.get_random_num(1, 9),
             title = '';
-        title = typeof wname === "function" ? 'Deleting sites in batches' : lan.site.site_del_title + ' [ '+ wname +' ]';
+        title = typeof wname === "function" ? '批量删除站点' : lan.site.site_del_title + ' [ '+ wname +' ]';
         layer.open({
             type: 1,
             title: title,
@@ -3116,9 +3080,9 @@ var site = {
                 $(layers).find('.check_type_group label').hover(function(){
                     var name = $(this).find('input').attr('name');
                     if (name === 'data' && !recycle_bin_db_open) {
-                        layer.tips('Risky operation: the current database recycle bin is not open, delete the database will disappear forever!', this, {tips: [1, 'red'], time: 0});
+                        layer.tips('风险操作：当前数据库回收站未开启，删除数据库将永久消失!', this, {tips: [1, 'red'], time: 0});
                     } else if (name === 'path' && !recycle_bin_open) {
-                        layer.tips('Risky operation: The current file recycle bin is not open, delete the site directory will disappear forever!', this, {tips: [1, 'red'], time: 0 });
+                        layer.tips('风险操作：当前文件回收站未开启，删除站点目录将永久消失!', this, {tips: [1, 'red'], time: 0 });
                     }
                 }, function() {
                     layer.closeAll('tips');
@@ -3130,11 +3094,11 @@ var site = {
                     if($(item).is(':checked')) data[$(item).attr('name')] = 1
                 })
                 if(vcodeResult.val() === ''){
-                    layer.tips('The result cannot be null', vcodeResult, {tips: [1, 'red'],time:3000})
+                    layer.tips('计算结果不能为空', vcodeResult, {tips: [1, 'red'],time:3000})
                     vcodeResult.focus()
                     return false;
                 }else if(parseInt(vcodeResult.val()) !== (num1 + num2)){
-                    layer.tips('The calculation is incorrect', vcodeResult, {tips: [1, 'red'],time:3000})
+                    layer.tips('计算结果不正确', vcodeResult, {tips: [1, 'red'],time:3000})
                     vcodeResult.focus()
                     return false;
                 }
@@ -3157,8 +3121,8 @@ var site = {
                 }
                 layer.close(indexs)
                 var ids = JSON.stringify(wid instanceof Array ? wid : [ wid ]),countDown = typeof wname === 'string'?4:9;
-                title = typeof wname === "function" ?'Verify the information twice and delete sites in batches':'Verify information twice, delete site [ ' + wname + ' ]';
-                var loadT = bt.load('Checking site data information, please wait...')
+                title = typeof wname === "function" ?'二次验证信息，批量删除站点':'二次验证信息，删除站点 [ ' + wname + ' ]';
+                var loadT = bt.load('在检测站点数据信息，请稍后...')
                 bt.send('check_del_data', 'site/check_del_data', {ids: ids}, function (res) {
                     loadT.close()
                     layer.open({
@@ -3169,18 +3133,18 @@ var site = {
                         area: '740px',
                         content: '<div class="check_delete_site_main pd30">' +
                             '<i class="layui-layer-ico layui-layer-ico0"></i>' +
-                            '<div class="check_layer_title">Please calm down for a few seconds and confirm the following data to be deleted.</div>' +
+                            '<div class="check_layer_title">堡塔温馨提示您，请冷静几秒钟，确认以下要删除的数据.</div>' +
                             '<div class="check_layer_content">' +
                             '<div class="check_layer_item">' +
                             '<div class="check_layer_site"></div>' +
                             '<div class="check_layer_database"></div>' +
                             '</div>' +
                             '</div>' +
-                            '<div class="check_layer_error ' + (data.database && recycle_bin_db_open? 'hide' : '') + '"><span class="glyphicon glyphicon-info-sign"></span>Risks: The database recycle bin function is not enabled at present. After the database is deleted, the database will disappear forever!</div>' +
-                            '<div class="check_layer_error ' + (data.path && recycle_bin_open ? 'hide' : '') + '"><span class="glyphicon glyphicon-info-sign"></span>Risk: The file recycle bin function is disabled at present. After a site directory is deleted, the site directory will disappear forever!</div>' +
-                            '<div class="check_layer_message">Please read the above information to be deleted carefully to prevent site data from being deleted by mistake. Confirm that there are still <span style="color:red;font-weight: bold;">' + countDown + '</span> seconds left to delete.</div>' +
+                            '<div class="check_layer_error ' + (data.database && recycle_bin_db_open? 'hide' : '') + '"><span class="glyphicon glyphicon-info-sign"></span>风险事项：当前未开启数据库回收站功能，删除数据库后，数据库将永久消失!</div>' +
+                            '<div class="check_layer_error ' + (data.path && recycle_bin_open ? 'hide' : '') + '"><span class="glyphicon glyphicon-info-sign"></span>风险事项：当前未开启文件回收站功能，删除站点目录后，站点目录将永久消失!</div>' +
+                            '<div class="check_layer_message">请仔细阅读以上要删除信息，防止网站数据被误删，确认删除还有 <span style="color:red;font-weight: bold;">' + countDown + '</span> 秒可以操作。</div>' +
                             '</div>',
-                        btn: ['Confirm deletion (continue operation after ' + countDown + 'seconds)', 'Cancel'],
+                        btn: ['确认删除 (秒 ' + countDown + '后继续操作)', '取消删除'],
                         success: function (layers) {
                             var html = '', rdata = res.data;
                             for (var i = 0; i < rdata.length; i++) {
@@ -3194,13 +3158,13 @@ var site = {
                                         dir_time = bt.format_data(item.st_time, 'yyyy-MM-dd'),
                                         dir_size = bt.format_size(item.total);
 
-                                    var f_html = '<i ' + (is_path_rule ? 'class="warning"' : '') + ' style = "vertical-align: middle;" > ' +(item.limit ? 'More than 50 MB' : dir_size) + '</i> ' + (is_path_rule ? t_icon : '');
-                                    var f_title = (is_path_rule ?'Note: This directory may contain important data. Exercise caution when performing this operation.\n':'') + 'directory：' + item.path + '(' + (item.limit ? 'greater than ' : '') + dir_size + ')';
+                                    var f_html = '<i ' + (is_path_rule ? 'class="warning"' : '') + ' style = "vertical-align: middle;" > ' +(item.limit ? '大于50MB' : dir_size) + '</i> ' + (is_path_rule ? t_icon : '');
+                                    var f_title = (is_path_rule ?'注意：此目录较大，可能为重要数据，请谨慎操作.\n':'') + '目录：' + item.path + '(' + (item.limit ? '大于' : '') + dir_size + ')';
 
                                     return '<div class="check_layer_site">' +
-                                        '<span title="site：' + item.name + '">Site: ' + item.name + '</span>' +
-                                        '<span title="' + f_title + '" >Path: <span style="vertical-align: middle;max-width: 160px;width: auto;">' + item.path + '</span> (' + f_html + ')</span>' +
-                                        '<span title="' + (is_time_rule ? 'Note: This site is created earlier and may contain important data. Exercise caution when performing this operation.\n' : '') + 'time：' + dir_time +'">Create: <i ' + (is_time_rule ? 'class="warning"' : '') + '>' + dir_time + '</i></span>' +
+                                        '<span title="站点：' + item.name + '">站点名: ' + item.name + '</span>' +
+                                        '<span title="' + f_title + '" >目录: <span style="vertical-align: middle;max-width: 160px;width: auto;">' + item.path + '</span> (' + f_html + ')</span>' +
+                                        '<span title="' + (is_time_rule ? '注意：此站点创建时间较早，可能为重要数据，请谨慎操作.\n' : '') + 'time：' + dir_time +'">创建时间: <i ' + (is_time_rule ? 'class="warning"' : '') + '>' + dir_time + '</i></span>' +
                                         '</div>'
                                 }(item)),
                                     database_html = (function(item){
@@ -3211,33 +3175,33 @@ var site = {
                                             database_size = bt.format_size(item.database.total);
 
                                         var f_size = '<i ' + (is_database_rule ? 'class="warning"' : '') + ' style = "vertical-align: middle;" > ' + database_size + '</i> ' + (is_database_rule ? t_icon : '');
-                                        var t_size = 'Note: This database is large and may contain important data. Exercise caution when performing this operation.\ndatabase：' + database_size;
+                                        var t_size = '注意：此数据库较大，可能为重要数据，请谨慎操作.\n数据库：' + database_size;
 
                                         return '<div class="check_layer_database">' +
-                                            '<span title="database：' + item.database.name + '">DB: ' + item.database.name + '</span>' +
+                                            '<span title="数据库：' + item.database.name + '">数据库: ' + item.database.name + '</span>' +
                                             '<span title="' + t_size+'">Size: ' + f_size +'</span>' +
-                                            '<span title="' + (is_time_rule && item.database.total != 0 ? 'important：This database is created earlier and may contain important data. Exercise caution when performing this operation.' : '') + 'time：' + database_time+'">Create: <i ' + (is_time_rule && item.database.total != 0 ? 'class="warning"' : '') + '>' + database_time + '</i></span>' +
+                                            '<span title="' + (is_time_rule && item.database.total != 0 ? '重要：此数据库创建时间较早，可能为重要数据，请谨慎操作.' : '') + '时间：' + database_time+'">创建时间: <i ' + (is_time_rule && item.database.total != 0 ? 'class="warning"' : '') + '>' + database_time + '</i></span>' +
                                             '</div>'
                                     }(item))
                                 if((site_html + database_html) !== '') html += '<div class="check_layer_item">' + site_html + database_html +'</div>';
                             }
-                            if(html === '') html = '<div style="text-align: center;width: 100%;height: 100%;line-height: 300px;font-size: 15px;">No data</div>'
+                            if(html === '') html = '<div style="text-align: center;width: 100%;height: 100%;line-height: 300px;font-size: 15px;">无数据</div>'
                             $('.check_layer_content').html(html)
                             var interVal = setInterval(function () {
                                 countDown--;
-                                $(layers).find('.layui-layer-btn0').text('Confirm deletion (continue operation after ' + countDown + ' seconds)')
+                                $(layers).find('.layui-layer-btn0').text('秒 ' + countDown + ' 后继续操作)')
                                 $(layers).find('.check_layer_message span').text(countDown)
                             }, 1000);
                             setTimeout(function () {
-                                $(layers).find('.layui-layer-btn0').text('Confirm the deletion');
-                                $(layers).find('.check_layer_message').html('<span style="color:red">Note: please read the above information carefully to prevent site data from being deleted by mistake</span>')
+                                $(layers).find('.layui-layer-btn0').text('确认删除');
+                                $(layers).find('.check_layer_message').html('<span style="color:red">注意：请仔细阅读以上要删除信息，防止网站数据被误删</span>')
                                 $(layers).removeClass('active');
                                 clearInterval(interVal)
                             }, countDown * 1000)
                         },
                         yes:function(indes,layers){
                             if($(layers).hasClass('active')){
-                                layer.tips('Please confirm the information and try again later. ' + countDown + ' seconds left', $(layers).find('.layui-layer-btn0') , {tips: [1, 'red'],time:3000})
+                                layer.tips('请确认信息，稍后在尝试，还剩. ' + countDown + ' 秒', $(layers).find('.layui-layer-btn0') , {tips: [1, 'red'],time:3000})
                                 return;
                             }
                             if(typeof wname === "function"){
@@ -3433,12 +3397,12 @@ var site = {
             } else {
                 acme.get_cert_init(index, siteName, function(cert_init) {
                     acme.domains = cert_init.dns;
-                    var options = '<option value="http">File verification - HTTP</option>';
+                    var options = '<option value="http">文件验证 - HTTP</option>';
                     for (var i = 0; i < cert_init.dnsapi.length; i++) {
-                        options += '<option value="' + cert_init.dnsapi[i].name + '">DNS verification - ' + cert_init.dnsapi[i].title + '</option>';
+                        options += '<option value="' + cert_init.dnsapi[i].name + '">DNS验证 - ' + cert_init.dnsapi[i].title + '</option>';
                     }
                     acme.select_loadT = layer.open({
-                        title: 'Renew Let\'s Encrypt Certificate',
+                        title: '续签Let\'s Encrypt证书',
                         type: 1,
                         closeBtn: 2,
                         shade: 0.3,
@@ -3446,19 +3410,19 @@ var site = {
                         offset: "30%",
                         content: '<div style="margin: 10px;">\
                                     <div class="line">\
-                                        <div style="font-size: 13px;">Please select a verification method：</div>\
+                                        <div style="font-size: 13px;">请选择验证方式：</div>\
                                         <div class="label-input-group ptb10">\
                                             <select class="bt-input-text" name="auth_to">' + options + '</select>\
                                             <span class="dnsapi-btn"></span>\
-                                            <span class="renew-onkey"><button class="btn btn-success btn-sm mr5" style="margin-left: 10px;" onclick="site.ssl.renew_ssl_other()">One-click renewal</button></span>\
+                                            <span class="renew-onkey"><button class="btn btn-success btn-sm mr5" style="margin-left: 10px;" onclick="site.ssl.renew_ssl_other()">一键续签</button></span>\
                                         </div>\
                                     </div>\
                                     <ul class="help-info-text c7">\
-                                        <li>Wildcard certificate cannot use [File Authentication], please select DNS authentication</li>\
-                                        <li>Use [File Authentication], please make sure that [Enable HTTPS / 301 Redirect / Reverse Proxy] and other functions are not enabled.</li>\
-                                        <li>Use [Alibaba Cloud DNS] [DnsPod] and other authentication methods to set the correct key</li>\
-                                        <li>After the renewal is successful, the certificate will try to renew automatically 30 days before the next expiration</li>\
-                                        <li>Using [DNS Authentication-Manual Resolution] Renewed certificate cannot be automatically renewed 30 days before the next expiration</li>\
+                                        <li>通配符证书不能使用【文件验证】，请选择DNS验证</li>\
+                                        <li>使用【文件验证】，请确保没有开[启强制HTTPS/301重定向/反向代理]等功能</li>\
+                                        <li>使用【阿里云DNS】【DnsPod】等验证方式需要设置正确的密钥</li>\
+                                        <li>续签成功后，证书将在下次到期前30天尝试自动续签</li>\
+                                        <li>使用【DNS验证 - 手动解析】续签的证书无法实现下次到期前30天自动续签</li>\
                                     </ul>\
                                   </div>',
                         success: function(layers) {
@@ -3469,7 +3433,7 @@ var site = {
                                     if (cert_init.dnsapi[i].name !== dnsapi) continue;
                                     acme.dnsapi = cert_init.dnsapi[i]
                                     if (!cert_init.dnsapi[i].data) continue;
-                                    $(".dnsapi-btn").html('<button class="btn btn-default btn-sm mr5 set_dns_config" onclick="site.ssl.show_dnsapi_setup()">Set</button>');
+                                    $(".dnsapi-btn").html('<button class="btn btn-default btn-sm mr5 set_dns_config" onclick="site.ssl.show_dnsapi_setup()">设置</button>');
                                     if (cert_init.dnsapi[i].data[0].value || cert_init.dnsapi[i].data[1].value) break;
                                     site.ssl.show_dnsapi_setup();
                                 }
@@ -3485,7 +3449,7 @@ var site = {
             var auth_type = 'http'
             if (auth_to === 'http') {
                 if (JSON.stringify(acme.domains).indexOf('*.') !== -1) {
-                    layer.msg("Domain names containing wildcards cannot use File Authentication (HTTP)!", { icon: 2 });
+                    layer.msg("包含通配符的域名不能使用文件验证(HTTP)!", { icon: 2 });
                     return;
                 }
                 auth_to = acme.id
@@ -3495,7 +3459,7 @@ var site = {
                         acme.dnsapi.data = [{ value: "None" }, { value: "None" }];
                     }
                     if (!acme.dnsapi.data[0].value || !acme.dnsapi.data[1].value) {
-                        layer.msg("Please set [" + acme.dnsapi.title + "] interface information first!", { icon: 2 });
+                        layer.msg("请先设置 [" + acme.dnsapi.title + "] 接口信息!", { icon: 2 });
                         return;
                     }
                     auth_to = auth_to + '|' + acme.dnsapi.data[0].value + '|' + acme.dnsapi.data[1].value;
@@ -3510,7 +3474,7 @@ var site = {
         show_dnsapi_setup: function() {
             var dnsapi = acme.dnsapi;
             acme.dnsapi_loadT = layer.open({
-                title: 'Set [' + dnsapi.title + '] interface',
+                title: '设置 [' + dnsapi.title + '] 接口',
                 type: 1,
                 closeBtn: 0,
                 shade: 0.3,
@@ -3530,8 +3494,8 @@ var site = {
                                 </div>\
                             </div>\
                             <div class="bt-form-submit-btn">\
-                                <button type="button" class="btn btn-sm btn-danger" onclick="layer.close(acme.dnsapi_loadT);">Close</button>\
-                                <button type="button" class="btn btn-sm btn-success dnsapi-save">Save</button>\
+                                <button type="button" class="btn btn-sm btn-danger" onclick="layer.close(acme.dnsapi_loadT);">关闭</button>\
+                                <button type="button" class="btn btn-sm btn-success dnsapi-save">保存</button>\
                             </div>\
                             <ul class="help-info-text c7">\
                                 <li>' + dnsapi.help + '</li>\
@@ -3572,9 +3536,9 @@ var site = {
             var area_size = '500px';
             var err_info = "";
             if (res.msg[1].challenges === undefined) {
-                err_info += "<p><span>Response status:</span>" + res.msg[1].status + "</p>"
-                err_info += "<p><span>Error type:</span>" + res.msg[1].type + "</p>"
-                err_info += "<p><span>Error code:</span>" + res.msg[1].detail + "</p>"
+                err_info += "<p><span>响应状态:</span>" + res.msg[1].status + "</p>"
+                err_info += "<p><span>错误类型:</span>" + res.msg[1].type + "</p>"
+                err_info += "<p><span>错误来源:</span>" + res.msg[1].detail + "</p>"
             } else {
                 if (!res.msg[1].challenges[1]) {
                     if (res.msg[1].challenges[0]) {
@@ -3595,19 +3559,19 @@ var site = {
                         }
                     }
 
-                    err_info += "<p><span>Verify domain name:</span>" + res.msg[1].identifier.value + "</p>"
+                    err_info += "<p><span>验证域名:</span>" + res.msg[1].identifier.value + "</p>"
                     if (auth_type === 'dns') {
                         var check_url = "_acme-challenge." + res.msg[1].identifier.value
-                        err_info += "<p><span>Verify record:</span>" + check_url + "</p>"
-                        err_info += "<p><span>Verify content:</span>" + dns_value + "</p>"
-                        err_info += "<p><span>Error code:</span>" + site.html_encode(res.msg[1].challenges[1].error.detail) + "</p>"
+                        err_info += "<p><span>验证解析:</span>" + check_url + "</p>"
+                        err_info += "<p><span>验证内容:</span>" + dns_value + "</p>"
+                        err_info += "<p><span>错误代码:</span>" + site.html_encode(res.msg[1].challenges[1].error.detail) + "</p>"
                     } else {
                         var check_url = "http://" + res.msg[1].identifier.value + '/.well-known/acme-challenge/' + res.msg[1].challenges[0].token
-                        err_info += "<p><span>Verify URL:</span><a class='btlink' href='" + check_url + "' target='_blank'>Click to view</a></p>"
-                        err_info += "<p><span>Verify content:</span>" + res.msg[1].challenges[0].token + "</p>"
-                        err_info += "<p><span>Error code:</span>" + site.html_encode(res.msg[1].challenges[0].error.detail) + "</p>"
+                        err_info += "<p><span>验证URL:</span><a class='btlink' href='" + check_url + "' target='_blank'>点击查看</a></p>"
+                        err_info += "<p><span>验证内容:</span>" + res.msg[1].challenges[0].token + "</p>"
+                        err_info += "<p><span>错误代码:</span>" + site.html_encode(res.msg[1].challenges[0].error.detail) + "</p>"
                     }
-                    err_info += "<p><span>Verify results:</span> <a style='color:red;'>Verify failed</a></p>"
+                    err_info += "<p><span>验证结果:</span> <a style='color:red;'>验证失败</a></p>"
                 }
             }
 
@@ -3630,15 +3594,15 @@ var site = {
                     var b_load = bt.open({
                         type: 1,
                         area: '700px',
-                        title: 'Manually parse TXT records',
+                        title: '手动解析TXT记录',
                         closeBtn: 2,
                         shift: 5,
                         shadeClose: false,
                         content: "<div class='divtable pd15 div_txt_jx'>\
-                                    <p class='mb15' >Please do TXT analysis according to the following list:</p>\
+                                    <p class='mb15' >请按以下列表做TXT解析:</p>\
                                     <table id='dns_txt_jx' class='table table-hover'></table>\
                                     <div class='text-right mt10'>\
-                                        <button class='btn btn-success btn-sm btn_check_txt' >verification</button>\
+                                        <button class='btn btn-success btn-sm btn_check_txt' >验证</button>\
                                     </div>\
                                     </div>"
                     });
@@ -3666,29 +3630,29 @@ var site = {
                                 name: acme_txt + res.auths[j].domain.replace('*.', ''),
                                 type: "TXT",
                                 txt: res.auths[j].auth_value,
-                                force: "Yes"
+                                force: "是"
                             });
                             data.push({
                                 name: res.auths[j].domain.replace('*.', ''),
                                 type: "CAA",
                                 txt: '0 issue "letsencrypt.org"',
-                                force: "No"
+                                force: "否"
                             });
                         }
                         bt.render({
                             table: '#dns_txt_jx',
                             columns: [
-                                { field: 'name', width: '220px', title: 'Resolving domain names' },
-                                { field: 'txt', title: 'Record value' },
-                                { field: 'type', title: 'Types of' },
-                                { field: 'force', title: 'essential' }
+                                { field: 'name', width: '220px', title: '解析域名' },
+                                { field: 'txt', title: '记录值' },
+                                { field: 'type', title: '类型' },
+                                { field: 'force', title: '必需' }
                             ],
                             data: data
                         })
                         $('.div_txt_jx').append(bt.render_help([
-                            'It takes some time to resolve the domain name to take effect. After completing all the resolution operations, please wait 1 minute before clicking the verification button.',
-                            'You can manually verify whether the domain name resolution is effective through CMD commands: nslookup -q=txt ' + acme_txt + res.auths[0].domain.replace('*.', ''),
-                            'If you are using Pagoda Cloud Resolution Plugin, Alibaba Cloud DNS, DnsPod as DNS, you can use the DNS interface to automatically resolve'
+                            '解析域名需要一定时间来生效,完成所以上所有解析操作后,请等待1分钟后再点击验证按钮.',
+                            '可通过CMD命令来手动验证域名解析是否生效: nslookup -q=txt ' + acme_txt + res.auths[0].domain.replace('*.', ''),
+                            '若您使用的是宝塔云解析插件,阿里云DNS,DnsPod作为DNS,可使用DNS接口自动解析'
                         ]));
                     });
                     return;
@@ -3759,7 +3723,7 @@ var site = {
                     if (vdata.data.stateCode == 'COMPLETED') {
                         site.ssl.onekey_ssl(partnerOrderId, siteName)
                     } else {
-                        layer.msg('Waiting for CA verification, if it fails to verify successfully for a long time, please log in to the official website and use DNS to re-apply...');
+                        layer.msg('等待CA验证中，若长时间未能成功验证，请登录官网使用DNS方式重新申请...');
                     }
 
                 }
@@ -3794,7 +3758,7 @@ var site = {
             div.scrollTop = div.scrollHeight;
             if (v_body.msg.indexOf('BT-Exec-Completed') != -1) {
               //layer.close(site.edit.comp_showlog);
-              layer.msg('Execution complete', {
+              layer.msg('执行完成', {
                 icon: 1
               });
               return;
@@ -3808,8 +3772,8 @@ var site = {
         comp_confirm: 0,
         comp_showlog: 0,
         exec_composer: function () {
-          site.edit.comp_confirm = layer.confirm('The impact of Composer execution depends on the composer.json configuration file in this directory. Continue?', {
-            title: 'Execute composer',
+          site.edit.comp_confirm = layer.confirm('执行Composer的影响范围取决于该目录下的composer.json配置文件，继续吗?', {
+            title: '确认执行Composer',
             closeBtn: 2,
             icon: 3
           }, function (index) {
@@ -3835,7 +3799,7 @@ var site = {
                   type: 1,
                   shift: 5,
                   closeBtn: 2,
-                  title: 'Execute Composer in the ['+ pdata['path'] +'] directory. After execution, please close this window after confirming that there is no problem',
+                  title: '在 ['+ pdata['path'] +']目录执行Composer，执行完后，确认无问题后请关闭此窗口',
                   content: "<pre id='composer-log' style='height: 300px;background-color: #333;color: #fff;margin: 0 0 0;'></pre>"
                 });
                 setTimeout(function () {
@@ -3878,49 +3842,49 @@ var site = {
             }
 
             var com_body = '<from class="bt-form" style="padding:10px 0px 0px 0px;;display:inline-block;width:580px">' +
-              '<div class="line"><span style="width: 105px;" class="tname">Version</span><div class="info-r"><input readonly="readonly" style="background-color: #eee;width:180px;" name="composer_version" class="bt-input-text" value="' + v_data.msg + '" /><button onclick="site.edit.update_composer();" style="margin-left: 5px;" class="btn btn-default btn-sm">Update</button></div></div>' +
+              '<div class="line"><span style="width: 105px;" class="tname">Composer版本</span><div class="info-r"><input readonly="readonly" style="background-color: #eee;width:180px;" name="composer_version" class="bt-input-text" value="' + v_data.msg + '" /><button onclick="site.edit.update_composer();" style="margin-left: 5px;" class="btn btn-default btn-sm">升级Composer</button></div></div>' +
               '<div class="line"><span style="width: 105px;" class="tname">PHP</span><div class="info-r">' +
               '<select class="bt-input-text" name="php_version" style="width:180px;">' +
-              '<option value="auto">Auto</option>' +
+              '<option value="auto">自动选择</option>' +
               php_versions +
               '</select>' +
               '</div></div>' +
-              '<div class="line"><span style="width: 105px;" class="tname">Parameters</span><div class="info-r">' +
+              '<div class="line"><span style="width: 105px;" class="tname">执行参数</span><div class="info-r">' +
               '<select class="bt-input-text" name="composer_args" style="width:180px;">' +
-              '<option value="install">Install</option>' +
-              '<option value="update">Update</option>' +
+              '<option value="install">安装</option>' +
+              '<option value="update">更新</option>' +
               '</select>' +
               '</div></div>' +
 
-              '<div class="line"><span style="width: 105px;" class="tname">Extra commands</span><div class="info-r">' +
-              '<input style="width:275px;" class="bt-input-text" id="composer_cmd" name="composer_cmd"  placeholder="App name or full Composer command" type="text" value="" />' +
+              '<div class="line"><span style="width: 105px;" class="tname">补充命令</span><div class="info-r">' +
+              '<input style="width:275px;" class="bt-input-text" id="composer_cmd" name="composer_cmd"  placeholder="输入要操作的应用名称或完整Composer命令" type="text" value="" />' +
               '</div></div>' +
 
-              '<div class="line"><span style="width: 105px;" class="tname">Source</span><div class="info-r">' +
+              '<div class="line"><span style="width: 105px;" class="tname">镜像源</span><div class="info-r">' +
               '<select class="bt-input-text" name="repo" style="width:180px;">' +
               '<option value="repos.packagist">Official(packagist.org)</option>' +
               '</select>' +
               '</div></div>' +
-              '<div class="line"><span style="width: 105px;" class="tname">User</span><div class="info-r">' +
+              '<div class="line"><span style="width: 105px;" class="tname">执行用户</span><div class="info-r">' +
               '<select class="bt-input-text" name="composer_user" style="width:180px;">' +
-              '<option value="www">www(recommend)</option>' +
-              '<option value="root">root(not suggested)</option>' +
+              '<option value="www">www(推荐)</option>' +
+              '<option value="root">root(不建议)</option>' +
               '</select>' +
               '</div></div>' +
-              '<div class="line"><span style="width: 105px;" class="tname">Dir</span><div class="info-r">' +
+              '<div class="line"><span style="width: 105px;" class="tname">执行目录</span><div class="info-r">' +
               '<input style="width:275px;" class="bt-input-text" id="composer_path" name="composer_path" type="text" value="' + web.path + '" /><span class="glyphicon glyphicon-folder-open cursor ml5" onclick="bt.select_path(\'composer_path\')"></span>' +
               '</div></div>' +
               '<div class="line"><span style="width: 105px;height: 25px;" class="tname"> </span><span class="composer-msg" style="color:red;">' + msg + '</span></div>' +
-              '<div class="line" style="clear:both"><span style="width: 105px;" class="tname"> </span><div class="info-r"><button class="btn btn-success btn-sm" onclick="site.edit.exec_composer()">Execute</button></div></div>' +
+              '<div class="line" style="clear:both"><span style="width: 105px;" class="tname"> </span><div class="info-r"><button class="btn btn-success btn-sm" onclick="site.edit.exec_composer()">执行</button></div></div>' +
               '</from>' +
               '<ul class="help-info-text c7">' +
-              '<li>Directory：Website root dir by default, please make sure that the dir contains composer.json</li>' +
-              '<li>User：The default user www, unless your website is run with root privileges, it is not recommended to use the root user to execute composer</li>' +
-              '<li>Source：source of composer</li>' +
-              '<li>Parameters：Install (install dependent package), Update (upgrade dependent package), please select as needed</li>' +
-              '<li>Extra commands: If this is empty, it will be executed according to the conf in composer.json, Supported fill in the complete composer command</li>' +
-              '<li>PHP version：The PHP version used to execute composer, it is recommended to try the default, if the installation fails, try to choose another PHP version</li>' +
-              '<li>Composer version：Composer version, you can click [Upgrade Composer] on the right to upgrade Composer to the latest stable version</li>' +
+              '<li>目录：网站根目录默认情况下，请确保目录中包含composer。json</li>' +
+              '<li>执行用户：默认为www用户，除非您的网站以root权限运行，否则不建议使用root用户执行composer</li>' +
+              '<li>镜像源</li>' +
+              '<li>参数：安装（安装相关软件包）、更新（升级相关软件包），请根据需要选择</li>' +
+              '<li>补充命令：若此处为空，则按composer.json中的配置执行，此处支持填写完整composer命令</li>' +
+              '<li>PHP版本：用于执行composer的PHP版本，无特殊要求，默认即可，如安装出错，可尝试选择其它PHP版本</li>' +
+              '<li>Composer版本：当前安装的Composer版本，可点击右侧的【升级Composer】将Composer升级到最新稳定版</li>' +
               '</ul>'
             $("#webedit-con").html(com_body);
           });
@@ -3976,17 +3940,17 @@ var site = {
                             return '<a href="http://' + row.name + ':' + row.port + '" target="_blank" class="btlink">'+ row.name +'</a>';
                         }},
                         {fid:'port',title: lan.site.port,width:50,type:'text'},
-                        {title:'OPT',width:80,type:'group',align:'right',group:[{
-                            title:'Del',
+                        {title:'操作',width:80,type:'group',align:'right',group:[{
+                            title:'删除',
                             template:function(row,that){
-                                return that.data.length === 1?'<span>Inoperable</span>':'Del';
+                                return that.data.length === 1?'<span>不可操作</span>':'Del';
                             },
                             event:function(row,index,ev,key,that){
                                 if(that.data.length === 1){
-                                    bt.msg({status:false,msg:'The last domain name cannot be deleted!'});
+                                    bt.msg({status:false,msg:'最后一个域名不能删除!'});
                                     return false;
                                 }
-                                bt.confirm({title:'Delete domain【'+ row.name +'】', msg: lan.site.domain_del_confirm }, function () {
+                                bt.confirm({title:'删除域名【'+ row.name +'】', msg: lan.site.domain_del_confirm }, function () {
                                     bt.site.del_domain(web.id,web.name,row.name,row.port,function(res){
                                         if(res.status) that.$delete_table_row(index);
                                         bt.msg(res);
@@ -3999,12 +3963,12 @@ var site = {
                         type:'batch',
                         positon:['left','bottom'],
                         config:{
-                            title:' delete',
+                            title:' 删除',
                             url:'/site?action=delete_domain_multiple',
                             param:{id:web.id},
                             paramId:'id',
                             paramName:'domains_id',
-                            theadName:'Domain',
+                            theadName:'域名',
                             confirmVerify:false, //是否提示验证方式
                             refresh: true
                         }
@@ -4051,8 +4015,8 @@ var site = {
                     {fid:'domain',title:lan.site.domain,type:'text'},
                     {fid:'port',title:lan.site.port,width:70,type:'text'},
                     {fid:'path',title:lan.site.subdirectories,width:70,type:'text'},
-                    {title:'Opt',width:130,type:'group',align:'right',group:[{
-                        title:'URL rewrite',
+                    {title:'操作',width:130,type:'group',align:'right',group:[{
+                        title:'伪静态',
                         event:function(row,index,ev,key,that){
                             bt.site.get_dir_rewrite({ id: row.id }, function (ret) {
                                 if (!ret.status) {
@@ -4103,7 +4067,7 @@ var site = {
                                             { items: [{ name: 'dir_config', type: 'textarea', value: ret.data, width: '470px', height: '260px' }] },
                                             {
                                                 items: [{
-                                                    name: 'btn_save', text: 'Save', type: 'button', callback: function (ldata) {
+                                                    name: 'btn_save', text: '保存', type: 'button', callback: function (ldata) {
                                                         console.log(ret)
                                                         bt.files.set_file_body(ret.filename, ldata.dir_config, 'utf-8', function (sdata) {
                                                             if (sdata.status) load_form.close();
@@ -4116,11 +4080,11 @@ var site = {
                                             for (var i = 0; i < datas.length; i++) {
                                                 var _form_data = bt.render_form_line(datas[i]);
                                                 _html.append(_form_data.html);
-                                                var _other = (bt.os == 'Linux' && i == 0) ? '<span>Rewrite rule converter：<a href="https://www.bt.cn/Tools" target="_blank" style="color:#20a53a">Apache to Nginx</a></span>' : '';
+                                                var _other = (bt.os == 'Linux' && i == 0) ? '<span>规则转换工具：<a href="https://www.bt.cn/Tools" target="_blank" style="color:#20a53a">Apache to Nginx</a></span>' : '';
                                                 _html.find('.info-r').append(_other)
                                                 clicks = clicks.concat(_form_data.clicks);
                                             }
-                                            _html.append(bt.render_help(['Please select your application.', 'If the site cannot be accessed after the rewrite rules set, please try to reset to default.','You are able to modify rewrite rules, just save it after modification.']));
+                                            _html.append(bt.render_help(['请选择您的应用，若设置伪静态后，网站无法正常访问，请尝试设置回default', '您可以对伪静态规则进行修改，修改完后保存即可。']));
                                             bt.render_clicks(clicks);
                                             get_rewrite_file($('.dir_rewrite option:eq(0)').val());
                                         }
@@ -4129,9 +4093,9 @@ var site = {
                             })
                         }
                     },{
-                        title:'Del',
+                        title:'删除',
                         event:function(row,index,ev,key,that){
-                            bt.confirm({title:'Are you sure to delete this【'+ row.path +'】 subdirectory binding?', msg: lan.site.s_bin_del }, function () {
+                            bt.confirm({title:'你确定要删除这个吗【'+ row.path +'】 子目录绑定?', msg: lan.site.s_bin_del }, function () {
                                 bt.site.del_dirbind(row.id, function (res) {
                                     if(res.status) that.$delete_table_row(index);
                                     bt.msg(res);
@@ -4144,12 +4108,12 @@ var site = {
                     type:'batch',
                     positon:['left','bottom'],
                     config:{
-                        title:' execute',
+                        title:' 删除',
                         url:'/site?action=delete_dir_bind_multiple',
                         param:{id:web.id},
                         paramId:'id',
                         paramName:'bind_ids',
-                        theadName:'Domain',
+                        theadName:'域名',
                         confirmVerify:false //是否提示验证方式
                     }
                 }]
@@ -4289,7 +4253,7 @@ var site = {
         set_dirguard: function(web) {
             $('#webedit-con').html('<div id="set_dirguard"></div>');
             var tab = '<div class="tab-nav mb15">\
-                    <span class="on">Limit access</span><span class="">Deny access</span>\
+                    <span class="on">加密访问/span><span class="">禁止访问</span>\
                     </div>\
                     <div id="dir_dirguard"></div>\
                     <div id="php_dirguard" style="display:none;"></div>';
@@ -4304,7 +4268,7 @@ var site = {
                 column:[
                     {type:'checkbox',width:20},
                     {fid:'name',title:lan.site.name,type:'text'},
-                    {fid:'site_dir',title:'Path',type:'text'},
+                    {fid:'site_dir',title:'加密访问',type:'text'},
                     {title:lan.site.operate,width:110,type:'group',align:'right',group:[{
                         title:lan.site.edit,
                         event:function(row,index,ev,key,that){
@@ -4323,14 +4287,14 @@ var site = {
                 tootls:[{ // 按钮组
                     type:'group',
                     positon:['left','top'],
-                    list:[{title:'Add limit access',active:true, event:function(ev){
+                    list:[{title:'添加加密访问',active:true, event:function(ev){
                         site.edit.template_Dir(web.id,true);
                     }}]
                 },{ // 批量操作
                     type: 'batch',
                     positon: ['left', 'bottom'],
                     config: {
-                	title: " delete",
+                	title: " 删除",
     			      url: '/site?action=delete_dir_auth',
     			      param: function (row) {
     			      	console.log(row)
@@ -4341,7 +4305,7 @@ var site = {
     			      },
     			      load: true,
     			      callback: function (that) { // 手动执行,data参数包含所有选中的站点
-    			    	bt.show_confirm('Delete limit access','Do you want to delete limit access ?',function(){
+    			    	bt.show_confirm('删除访问限制','是否要删除限制访问权限 ?',function(){
     			    		that.start_batch({}, function (list) {
     				            var html = '';
     				            for (var i = 0; i < list.length; i++) {
@@ -4349,8 +4313,8 @@ var site = {
     				              html += '<tr><td>' + item.name + '</td><td><div style="float:right;"><span style="color:' + (item.request.status ? '#20a53a' : 'red') + '">' + item.request.msg + '</span></div></td></tr>';
     				            }
     				            dir_dirguard.$batch_success_table({
-    				              title: 'Limit access',
-    				              th: 'Limit access name',
+    				              title: '限制访问',
+    				              th: '限制访问名称',
     				              html: html
     				            });
     				            dir_dirguard.$refresh_table_list(true);
@@ -4380,7 +4344,7 @@ var site = {
                 },
                 {
                   fid: 'dir',
-                  title: 'Path',
+                  title: '保护的目录',
                   type: 'text',
                   template: function (row) {
                     return '<span title="' + row.dir + '" style="max-width: 250px;" class="limit-text-length">' + row.dir + '</span>';
@@ -4388,7 +4352,7 @@ var site = {
                 },
                 {
                   fid: 'suffix',
-                  title: 'Suffix',
+                  title: '规则',
                   template: function (row) {
                     return '<span title="' + row.suffix + '" style="max-width: 85px;" class="limit-text-length">' + row.suffix + '</span>';
                   }
@@ -4418,7 +4382,7 @@ var site = {
                   type: 'group',
                   positon: ['left', 'top'],
                   list: [{
-                    title: 'Add deny access',
+                    title: '添加禁止访问',
                     active: true,
                     event: function (ev) {
                       site.edit.template_php(web.name);
@@ -4428,7 +4392,7 @@ var site = {
                 type: 'batch',
                 positon: ['left', 'bottom'],
                 config: {
-                  title: " delete",
+                  title: " 删除",
                   url: '/site?action=del_file_deny',
                   param: function (row) {
                     return {
@@ -4438,7 +4402,7 @@ var site = {
                   },
                   load: true,
                   callback: function (that) { // 手动执行,data参数包含所有选中的站点
-                    bt.show_confirm('Delete deny access', 'Do you want to delete deny access?', function () {
+                    bt.show_confirm('删除拒绝访问', '是否要删除拒绝访问?', function () {
                       that.start_batch({}, function (list) {
                         var html = '';
                         for (var i = 0; i < list.length; i++) {
@@ -4446,8 +4410,8 @@ var site = {
                           html += '<tr><td>' + item.name + '</td><td><div style="float:right;"><span style="color:' + (item.request.status ? '#20a53a' : 'red') + '">' + item.request.msg + '</span></div></td></tr>';
                         }
                         php_dirguard.$batch_success_table({
-                          title: 'Deny access',
-                          th: 'Deny access name',
+                          title: '拒绝访问',
+                          th: '拒绝访问名称',
                           html: html
                         });
                         php_dirguard.$refresh_table_list(true);
@@ -4459,14 +4423,14 @@ var site = {
             });
             $('#dir_dirguard>.divtable,#php_dirguard>.divtable').css('max-height','340px');
             $('#dir_dirguard').append("<ul class='help-info-text c7'>\
-                <li>After the path is protected, you need to enter the account password to access it.</li>\
-                <li>For example, if I set the limit path /test/ , then I need to enter the account password to access http://aaa.com/test/</li>\
+                <li>目录设置加密访问后，访问时需要输入账号密码才能访问.</li>\
+                <li>例如我设置了加密访问 /test/ ,那我访问 http://aaa.com/test/ 是就要输入账号密码才能访问</li>\
             </ul>");
             $('#php_dirguard').append("<ul class='help-info-text c7'>\
-                <li>Suffix: Indicates the suffix that is not allowed to access, if there are more than one, separate with'|'.</li>\
-                <li>Path: Quote rules in this directory. e.g: /a/ </li>\
-                <li>For Example, if you want to deny http://test.com/a/index.php</li>\
-                <li>Please fill in [ /a/ ]</li>\
+                <li>后缀：表示不允许访问的后缀，如果有多个，用分隔'|'.</li>\
+                <li>目录：规则会在这个目录内生效。 例如：/a/ </li>\
+                <li>例如，如果您想拒绝 http://test.com/a/index.php</li>\
+                <li>请填写 [ /a/ ]</li>\
             </ul>");
             $("#set_dirguard").on('click', '.tab-nav span',function () {
                 var index = $(this).index();
@@ -4514,8 +4478,8 @@ var site = {
                             }
                         },
                         { title: 'test', name: 'test', width: '30%', value: '11' },
-                        { title: 'maxage', name: 'maxage', width: '30%', value: '43200' },
-                        { title: 'exclude file', name: 'exclude_file', width: '35%', value: 'fdas.php', },
+                        { title: '缓存时间', name: 'maxage', width: '30%', value: '43200' },
+                        { title: '排除文件', name: 'exclude_file', width: '35%', value: 'fdas.php', },
                         {
                             name: 'private_save',
                             text: lan.site.save,
@@ -4543,11 +4507,11 @@ var site = {
                 };
                 $('#webedit-con').append(_html);
                 $("input[name='exclude_file']").parent().removeAttr('class').html('<textarea name="exclude_file" class="bt-input-text mr5 exclude_file" style="width:35%;height: 130px;"></textarea>');
-                $("input[name='test']").parent().parent().html('<div style="padding-left: 29px;border-top: #ccc 1px dashed;margin-top: -7px;"><em style="float: left;color: #555;font-style: normal;line-height: 32px;padding-right: 2px;">private cache</em><div style="margin-left: 95px;padding-top: 5px;"><input class="btswitch btswitch-ios" id="ols" type="checkbox"><label class="btswitch-btn" for="ols"></label></div></div>');
+                $("input[name='test']").parent().parent().html('<div style="padding-left: 29px;border-top: #ccc 1px dashed;margin-top: -7px;"><em style="float: left;color: #555;font-style: normal;line-height: 32px;padding-right: 2px;">私有缓存</em><div style="margin-left: 95px;padding-top: 5px;"><input class="btswitch btswitch-ios" id="ols" type="checkbox"><label class="btswitch-btn" for="ols"></label></div></div>');
                 var private = $("input[name='maxage'],textarea[name='exclude_file'],button[name='private_save']").parent().parent();
-                $("input.bt-input-text").parent().append('<span>sec</span>');
-                $("button[name='static_save']").parent().append(bt.render_help(['The default static file cache time is 604800 seconds', 'If you want to shut down, please change it to 0 seconds']));
-                $(".ols").append(bt.render_help(['Private cache only supports page caching for PHP and cache time is 120 seconds by default', 'Exclude files only support files with PHP as the suffix']));
+                $("input.bt-input-text").parent().append('<span>秒</span>');
+                $("button[name='static_save']").parent().append(bt.render_help([' 默认的静态文件缓存时间是604800秒', '如果要关闭，请将其更改为0秒']));
+                $(".ols").append(bt.render_help(['私有缓存只支持PHP页面缓存，默认缓存时间为120秒', '排除文件仅支持以PHP为后缀的文件']));
                 private.hide();
                 bt.send('get_ols_private_cache_status', 'config/get_ols_private_cache_status', { id: web.id }, function(kdata) {
                     checked = kdata;
@@ -4794,11 +4758,11 @@ var site = {
             })
         },
         set_config: function(web) {
-            var con = '<p style="color: #666; margin-bottom: 7px">Tips：Ctrl+F Search keywords，Ctrl+S Save，Ctrl+H Search and replace</p><div class="bt-input-text ace_config_editor_scroll" style="height: 400px; line-height:18px;" id="siteConfigBody"></div>\
-				<button id="OnlineEditFileBtn" class="btn btn-success btn-sm" style="margin-top:10px;">Save</button>\
+            var con = '<p style="color: #666; margin-bottom: 7px">提示：Ctrl+F 搜索关键字，Ctrl+S 保存，Ctrl+H 查找替换</p><div class="bt-input-text ace_config_editor_scroll" style="height: 400px; line-height:18px;" id="siteConfigBody"></div>\
+				<button id="OnlineEditFileBtn" class="btn btn-success btn-sm" style="margin-top:10px;">保存</button>\
 				<ul class="help-info-text c7">\
-                    <li>This is primary configuration file of the site.</li>\
-                    <li>Do not modify it at will if you do not know configuration rules.</li>\
+                    <li>此处为站点主配置文件.</li>\
+                    <li>若您不了解配置规则,请勿随意修改.</li>\
 				</ul>';
             $("#webedit-con").html(con);
             var webserve = bt.get_cookie('serverType'),
@@ -4888,21 +4852,21 @@ var site = {
                     var data = {
                         items: [
                             {
-                                title: 'PHP version',
+                                title: 'PHP版本',
                                 name: 'versions',
                                 value: sdata.phpversion,
                                 type: 'select',
                                 items: versions ,
-                                ps:'<input class="bt-input-text other-version" style="margin-right: 10px;width:300px;color: #000;" type="text" value="'+sdata.php_other+'" placeholder="e.g:1.1.1.1:9001 or unix:/tmp/php.sock" />'
+                                ps:'<input class="bt-input-text other-version" style="margin-right: 10px;width:300px;color: #000;" type="text" value="'+sdata.php_other+'" placeholder="连接配置，如：1.1.1.1:9001或unix:/tmp/php.sock" />'
                             },
                             {
-                                text: 'Switch',
+                                text: '切换',
                                 name: 'btn_change_phpversion',
                                 type: 'button',
                                 callback: function(pdata) {
                                     var other = $('.other-version').val();
                                     if(pdata.versions == 'other' && other == ''){
-                                        layer.msg('When customizing the PHP version, the PHP connection configuration cannot be empty');
+                                        layer.msg('自定义PHP版本时，PHP连接配置不能为空');
                                         $('.other-version').focus();
                                         return;
                                     }
@@ -4910,7 +4874,7 @@ var site = {
                                         if (ret.status) {
                                             var versions = $('[name="versions"]').val();
                                             versions = versions.slice(0, versions.length - 1) + '.' + versions.slice(-1);
-                                            if (versions == '0.0') versions = 'Static';
+                                            if (versions == '0.0') versions = '静态';
                                             site.php_table_view();
                                             site.reload();
                                             setTimeout(function() {
@@ -4926,12 +4890,12 @@ var site = {
                     }
                     var _form_data = bt.render_form_line(data);
                     var _html = $(_form_data.html);
-                    _html.append(bt.render_help(['Select the version according to your program requirements', 'Try not to use PHP5.2 unless you have to, as this can reduce your server security', 'PHP7 does not support the MySQL extension. The default installation is mysqli and mysql-pdo',"[Customize] You can customize the PHP connection information by selecting the available PHP connection configuration","[Customize] Currently only support NGINX","Support TCP or UNIX configuration. Example: 192.168.1.25:9001 or unix:/tmp/php8.sock"]));
+                    _html.append(bt.render_help(['请根据您的程序需求选择版本', '若非必要,请尽量不要使用PHP5.2,这会降低您的服务器安全性；', 'PHP7不支持mysql扩展，默认安装mysqli以及mysql-pdo。', "【自定义】可自定义PHP连接信息，选择此项需填写可用的PHP连接配置", "【自定义】当前仅支持nginx，可配合[宝塔负载均衡 - 重构版]插件的TCP负载功能实现PHP负载集群", "【PHP连接配置】支持TCP或Unix配置，示例：192.168.1.25:9001 或 unix:/tmp/php8.sock"]));
                     $('#webedit-con').append(_html);
                     bt.render_clicks(_form_data.clicks);
                     if(sdata.phpversion != 'other'){
                         $('#webedit-con').append('<div class="user_pw_tit" style="margin-top: 2px;padding-top: 11px;border-top: #ccc 1px dashed;"><span class="tit">' + lan.site.session_off + '</span><span class="btswitch-p"style="display: inline-flex;"><input class="btswitch btswitch-ios" id="session_switch" type="checkbox"><label class="btswitch-btn session-btn" for="session_switch" ></label></span></div><div class="user_pw" style="margin-top: 10px; display: block;"></div>' +
-                        bt.render_help(['When enabled, session files will be stored in a separate folder, not in a common storage location with other sites', 'Do not enable this option if you are saving sessions to caches such as memcache/redis in your PHP configuration']));
+                        bt.render_help(['开启后将会把session文件存放到独立文件夹，不与其他站点公用存储位置', '若您在PHP配置中将session保存到memcache/redis等缓存器时，请不要开启此选项']));
                     }
                     if(sdata.phpversion != 'other'){
                         $('.other-version').hide();
@@ -4949,7 +4913,7 @@ var site = {
                     },500);
 
                     function get_session_status() {
-                        var loading = bt.load('Please wait while getting session status');
+                        var loading = bt.load('正在获取session状态请稍候');
                         bt.send('get_php_session_path', 'config/get_php_session_path', { id: web.id }, function(tdata) {
                             loading.close();
                             $('#session_switch').prop("checked", tdata);
@@ -5129,7 +5093,7 @@ var site = {
                 type: 1,
                 skin: 'demo-class',
                 area: '475px',
-                title: type ? 'Add limit access' : 'Edit limit access',
+                title: type ? '添加加密访问' : '修改加密访问',
                 closeBtn: 2,
                 shift: 5,
                 shadeClose: false,
@@ -5139,8 +5103,8 @@ var site = {
                     "<div class='info-r ml0'><input name='dir_name' class='bt-input-text mr10' type='text' style='width:270px' value='" + obj.name + "'>" +
                     "</div></div>" +
                     "<div class='line'>" +
-                    "<span class='tname'>Path</span>" +
-                    "<div class='info-r ml0'><input name='dir_sitedir' placeholder='Enter the path: /text/，/test/api' class='bt-input-text mr10' type='text' style='width:270px' value='" + obj.sitedir + "'>" +
+                    "<span class='tname'>加密访问</span>" +
+                    "<div class='info-r ml0'><input name='dir_sitedir' placeholder='入需要加密访问的目录，如：/text/，/test/api' class='bt-input-text mr10' type='text' style='width:270px' value='" + obj.sitedir + "'>" +
                     "</div></div>" +
                     "<div class='line'>" +
                     "<span class='tname'>" + lan.bt.panel_user + "</span>" +
@@ -5151,8 +5115,8 @@ var site = {
                     "<div class='info-r ml0'><input name='dir_password' AUTOCOMPLETE='off' class='bt-input-text mr10' type='text' style='width:270px' value='" + obj.password + "'>" +
                     "</div></div>" +
                     "<ul class='help-info-text c7 plr20'>" +
-                    "<li>After the path is protected, you need to enter the account password to access it.</li>" +
-                    "<li>For example, if I set the protection directory /test/ , then I need to enter the account password to access http://aaa.com/test/</li>" +
+                    "<li>目录设置加密访问后，访问时需要输入账号密码才能访问.</li>" +
+                    "<li>例如我设置了加密访问 /test/ ,那我访问 http://aaa.com/test/ 是就要输入账号密码才能访问</li>" +
                     "</ul>" +
                     "<div class='bt-form-submit-btn'><button type='button' class='btn btn-sm btn-danger btn-colse-guard'>" + lan.site.turn_off + "</button><button type='button' class='btn btn-sm btn-success btn-submit-guard'>" + (type ? " " + lan.site.submit : lan.site.save) + "</button></div></form>"
             });
@@ -5205,28 +5169,28 @@ var site = {
             var form_directory = bt.open({
                 type: 1,
                 area: '440px',
-                title: 'Deny access',
+                title: '添加禁止访问',
                 closeBtn: 2,
                 btn: ['Save','Cancel'],
                 content: "<form class='mt10 php_deny'>" +
                     "<div class='line'>" +
-                    "<span class='tname' style='width: 100px;'>Name</span>" +
-                    "<div class='info-r ml0' style='margin-left: 100px;'><input name='deny_name' placeholder='The rule name' "+_name+" class='bt-input-text mr10' type='text' style='width:270px;" + _bggrey + "' value='" + obj.name + "'>" +
+                    "<span class='tname' style='width: 100px;'>名称</span>" +
+                    "<div class='info-r ml0' style='margin-left: 100px;'><input name='deny_name' placeholder='规则名称' "+_name+" class='bt-input-text mr10' type='text' style='width:270px;" + _bggrey + "' value='" + obj.name + "'>" +
                     "</div></div>" +
                     "<div class='line'>" +
-                    "<span class='tname' style='width: 100px;'>Suffix</span>" +
-                    "<div class='info-r ml0' style='margin-left: 100px;'><input name='suffix' placeholder='Suffixes that are not allowed' class='bt-input-text mr10' type='text' style='width:270px' value='" + obj.suffix + "'>" +
+                    "<span class='tname' style='width: 100px;'>后缀</span>" +
+                    "<div class='info-r ml0' style='margin-left: 100px;'><input name='suffix' placeholder='禁止访问的后缀' class='bt-input-text mr10' type='text' style='width:270px' value='" + obj.suffix + "'>" +
                     "</div></div>" +
                     "<div class='line'>" +
-                    "<span class='tname' style='width: 100px;'>Path</span>" +
-                    "<div class='info-r ml0' style='margin-left: 100px;'><input name='dir' placeholder='Quote rules in this directory. e.g: /a/' class='bt-input-text mr10' type='text' style='width:270px' value='" + obj.dir + "'>" +
+                    "<span class='tname' style='width: 100px;'>目录</span>" +
+                    "<div class='info-r ml0' style='margin-left: 100px;'><input name='dir' placeholder='禁止访问的目录' class='bt-input-text mr10' type='text' style='width:270px' value='" + obj.dir + "'>" +
                     "</div></div></form>" +
                     "<ul class='help-info-text c7 plr20'>" +
                     "<li>Name:The rule name.</li>" +
-                    "<li>Suffix: Indicates the suffix that is not allowed to access, if there are more than one, separate with'|'</li>" +
-                    "<li>Path: Quote rules in this directory. e.g: /a/ </li>" +
-                    "<li>For Example, if you want to deny http://test.com/a/index.php</li>" +
-                    "<li>Please fill in [ /a/ ]" +
+                    "<li>后缀：禁止访问的文件后缀'|'</li>" +
+                    "<li>路径：此目录中的引用规则。 例如：/a/</li>" +
+                    "<li>例如，如果你想拒绝 http://test.com/a/index.php</li>" +
+                    "<li>请填写 [ /a/ ]" +
                     "</ul>",
                 yes: function () {
                     var dent_data = $('.php_deny').serializeObject();
@@ -5244,10 +5208,10 @@ var site = {
             });
         },
         del_php_deny: function(website,deny_name) {
-            layer.confirm('Are you sure to delete [ '+deny_name+' ] this deny?', {
+            layer.confirm('你确定要 [ '+deny_name+' ] 删除吗?', {
                 icon: 0,
                 closeBtn: 2,
-                title: 'Delete deny',
+                title: '删除拒绝',
             }, function (index) {
                 bt.site.del_php_deny({website:website,deny_name:deny_name}, function(rdata) {
                     if (rdata.status) {
@@ -5335,7 +5299,7 @@ var site = {
                             });
                         }
                     },{title:lan.site.operate,width:129,type:'group',align:'right',group:[{
-                        title:'Conf',
+                        title:'配置文件',
                         event:function(row,index,ev,key,that){
                             bt.site.get_redirect_config({
                                 sitename: web.name,
@@ -5364,7 +5328,7 @@ var site = {
                                 redirect_config = bt.open({
                                     type: 1,
                                     area: ['550px', '550px'],
-                                    title: 'Edit profile [' + row.redirectname + ']',
+                                    title: '编辑配置文件 [' + row.redirectname + ']',
                                     closeBtn: 2,
                                     shift: 0,
                                     content: "<div class='bt-form'><div id='redirect_config_con' class='pd15'></div></div>"
@@ -5375,7 +5339,7 @@ var site = {
                                     robj.append(_form_data.html);
                                     bt.render_clicks(_form_data.clicks);
                                 }
-                                robj.append(bt.render_help(['This is the configuration file of the load balancing. Not modify if you do not understand the configuration rules.']));
+                                robj.append(bt.render_help(['此处为该负载均衡的配置文件，若您不了解配置规则,请勿随意修改.']));
                                 $('textarea.redirect_configs').attr('id', 'configBody');
                                 var editor = CodeMirror.fromTextArea(document.getElementById("configBody"), {
                                     extraKeys: { "Ctrl-Space": "autocomplete" },
@@ -5405,19 +5369,19 @@ var site = {
                 tootls:[{ //按钮组
                     type:'group',
                     positon:['left','top'],
-                    list:[{title:'Add redirection',active:true, event:function(ev){
+                    list:[{title:'添加重定向',active:true, event:function(ev){
                         site.edit.templet_301(web.name,web.id,true);
                     }}]
                 },{ //批量操作
                     type:'batch',
                     positon:['left','bottom'],
                     config:{
-                        title:' delete',
+                        title:' 删除',
                         url:'/site?action=del_redirect_multiple',
                         param:{site_id:web.id},
                         paramId:'redirectname',
                         paramName:'redirectnames',
-                        theadName:'Name',
+                        theadName:'重定向名称',
                         confirmVerify:false // 是否提示验证方式
                     }
                 }]
@@ -5635,7 +5599,7 @@ var site = {
                         });
                     }},
                     {title:lan.site.operate,width:115,type:'group',align:'right',group:[{
-                        title:'Conf',
+                        title:'操作',
                         event:function(row,index,ev,key,that){
                             bt.site.get_proxy_config({
                                 sitename: web.name,
@@ -5650,7 +5614,7 @@ var site = {
                                 var datas = [
                                     { items: [{ name: 'proxy_configs', type: 'textarea', value: rdata[0].data, widht: '340px', height: '200px' }] },
                                     {
-                                        name: 'btn_config_submit', text: 'Save', type: 'button', callback: function (ddata) {
+                                        name: 'btn_config_submit', text: '保存', type: 'button', callback: function (ddata) {
                                             bt.site.save_proxy_config({ path: rdata[1], data: editor.getValue(), encoding: rdata[0].encoding }, function (ret) {
                                                 if (ret.status) {
                                                     site.reload(12);
@@ -5664,7 +5628,7 @@ var site = {
                                 proxy_config = bt.open({
                                     type: 1,
                                     area: ['550px', '550px'],
-                                    title: 'Edit profile [' + row.proxyname + ']',
+                                    title: '编辑配置文件 [' + row.proxyname + ']',
                                     closeBtn: 2,
                                     shift: 0,
                                     content: "<div class='bt-form'><div id='proxy_config_con' class='pd15'></div></div>"
@@ -5675,7 +5639,7 @@ var site = {
                                     robj.append(_form_data.html);
                                     bt.render_clicks(_form_data.clicks);
                                 }
-                                robj.append(bt.render_help(['This is the configuration file of the load balancing. Not modify if you do not understand the configuration rules.']));
+                                robj.append(bt.render_help(['此处为该负载均衡的配置文件，若您不了解配置规则,请勿随意修改.']));
                                 $('textarea.proxy_configs').attr('id', 'configBody');
                                 var editor = CodeMirror.fromTextArea(document.getElementById("configBody"), {
                                     extraKeys: { "Ctrl-Space": "autocomplete" },
@@ -5689,12 +5653,12 @@ var site = {
                             });
                         }
                     },{
-                        title:'Edit',
+                        title:'编辑',
                         event:function(row,index,ev,key,that){
                             site.edit.templet_proxy(web.name,false,row);
                         }
                     },{
-                        title:'Del',
+                        title:'删除',
                         event:function(row,index,ev,key,that){
                             bt.site.remove_proxy(web.name,row.proxyname,function(rdata){
                                 if(rdata.status) that.$delete_table_row(index);
@@ -5705,19 +5669,19 @@ var site = {
                 tootls:[{ //按钮组
                     type:'group',
                     positon:['left','top'],
-                    list:[{title:'Add reverse proxy',active:true, event:function(ev){
+                    list:[{title:'添加反向代理',active:true, event:function(ev){
                         site.edit.templet_proxy(web.name, true)
                     }}]
                 },{ //批量操作
                     type:'batch',
                     positon:['left','bottom'],
                     config:{
-                        title:' delete',
+                        title:' 删除',
                         url:'/site?action=del_proxy_multiple',
                         param:{site_id:web.id},
                         paramId:'proxyname',
                         paramName:'proxynames',
-                        theadName:'Name',
+                        theadName:'反向代理名称',
                         confirmVerify:false // 是否提示验证方式
                     }
                 }]
@@ -5740,7 +5704,7 @@ var site = {
                                 type: 'textarea'
                         }]
                     },
-                    { title: 'Response', name: 'return_rule', value: rdata.return_rule, disabled: rdata.status, width: '300px' },
+                    { title: '响应资源', name: 'return_rule', value: rdata.return_rule, disabled: rdata.status, width: '300px' },
                     {
                         title: ' ',
                         class: 'label-input-group',
@@ -5757,7 +5721,7 @@ var site = {
                                 }
                             },
                             {
-                                text: 'Allow empty HTTP_REFERER requests',
+                                text: '允许空HTTP_REFERER请求',
                                 name: 'none',
                                 value: rdata.none,
                                 type: 'checkbox',
@@ -5817,159 +5781,17 @@ var site = {
           $('#webedit-con').append('<div id="tabLogs" class="tab-nav"></div><div class="tab-con" style="padding:10px 0 0;"></div>')
             var serverType = bt.get_cookie('serverType'),shell = 'tail -n 100 -f /www/wwwlogs/'+ web.name;
             var _tab = [{
-            title: "Access log",
+            title: "响应日志",
             on: true,
             callback:function(robj){
               var shellCopy = shell + (serverType === 'nginx'?'.':serverType === 'apache'?'-access_':'_ols.access_') + 'log';
               bt_tools.command_line_output({ el:'#webedit-con .tab-con', shell:shellCopy,area:['100%','580px']})
             }
           },{
-            title: "Error log",
+            title: "错误日志",
             callback:function(robj){
                 var shellCopy = shell + (serverType === 'nginx'?'.error.':serverType === 'apache'?'-error_':'_ols.error_') + 'log';
                 bt_tools.command_line_output({ el:'#webedit-con .tab-con', shell:shellCopy,area:['100%','580px']})
-            }
-          },{
-            title:"Log Security Analysis",
-            callback: function(robj){
-              var _serverType = bt.get_cookie('serverType'),
-                  pathFile = '',
-                  progress = '',  //扫描进度
-                  loadT = bt.load('Getting log analytics data, please wait...');
-                  
-              switch(_serverType){
-                  case 'nginx':
-                      pathFile = web.name+'.log'
-                      break;
-                  case 'apache':
-                      pathFile = web.name+'-access_log'
-                      break;
-                  default:
-                      pathFile = web.name+'_ols.access_log'
-                      break;
-              }
-              $.post('/ajax?action=get_result&path=/www/wwwlogs/' + pathFile, function (rdata) {
-                loadT.close();
-                //1.扫描按钮
-                var analyes_log_btn = '<button type="button" title="log scan" class="btn btn-success analyes_log btn-sm mr5"><span>log scan</span></button>'
-    
-                //2.功能介绍
-                var analyse_help = '<ul class="help-info-text c7">\
-                  <li>Log analysis: Scan the logs(/www/wwwroot/.log) for requests with attack (types include:<em style="color:red">xss,sql,san,php</em>)</li>\
-                  <li>Analyzed log data contains intercepted requests</li>\
-                  <li>By default, the last scan data is displayed (if not, please click log scan)</li>\
-                  <li>If the log file is too large, scanning may take a long time, please be patient</li>\
-                  <li><a class="btlink" href="https://forum.aapanel.com/d/3351-nginx-waf-instructions" target="_blank">aaPanel WAF</a> can effectively block such attacks</li>\
-                  </ul>'
-    
-                robj.append(analyes_log_btn+'<div class="analyse_log_table"></div>'+analyse_help)
-                render_analyse_list(rdata);
-    
-                //事件
-                $(robj).find('.analyes_log').click(function(){
-                  bt.confirm({
-                    title:'Scan website logs',
-                    msg:'It is recommended to perform security analysis when the server load is low. This time, the ['+web.name+'.log] file will be scanned. It may take a long time. Do you want to continue?'
-                  }, function(index){
-                    layer.close(index)
-                    progress = layer.open({
-                      type: 1,
-                      closeBtn: 2,
-                      title: false,
-                      shade: 0,
-                      area: '400px',
-                      content: '<div class="pro_style" style="padding: 20px;"><div class="progress-head" style="padding-bottom: 10px;">Scanning, scanning progress...</div>\
-                          <div class="progress">\
-                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>\
-                          </div>\
-                        </div>',
-                      success:function(){
-                        // 开启扫描并且持续获取进度
-                        $.post('/ajax?action=log_analysis&path=/www/wwwlogs/' + pathFile, function (rdata) {
-                          if(rdata.status){
-                            detect_progress();
-                          }else{
-                            layer.close(progress);
-                            layer.msg(rdata.msg, { icon: 2, time: 0, shade: 0.3, shadeClose: true });
-                          }
-                        })
-                      }
-                    })
-                  })
-                })
-              })
-              // 渲染分析日志列表
-              function render_analyse_list(rdata){
-                var analyse_list = '<div class="divtable" style="margin-top: 10px;"><table class="table table-hover">\
-                  <thead><tr><th width="90">Date</th><th>Time</th><th>XSS</th><th>SQL</th><th>Sacn</th><th>PHP</th><th>IP(top100)</th><th>URL(top100)</th></tr></thead>\
-                  <tbody class="analyse_body">'
-                if(rdata.is_status){   //检测是否有扫描数据
-                  analyse_list +='<tr>\
-                      <td>'+rdata.start_time+'</td>\
-                      <td>'+rdata.time.substring(0,4)+' Sec</td>\
-                      <td class="onChangeLogDatail" '+(rdata.xss>0?'style="color:red"':'')+' name="xss">'+rdata.xss+'</td>\
-                      <td class="onChangeLogDatail" '+(rdata.sql>0?'style="color:red"':'')+' name="sql">'+rdata.sql+'</td>\
-                      <td class="onChangeLogDatail" '+(rdata.san>0?'style="color:red"':'')+' name="san">'+rdata.san+'</td>\
-                      <td class="onChangeLogDatail" '+(rdata.php>0?'style="color:red"':'')+' name="php">'+rdata.php+'</td>\
-                      <td class="onChangeLogDatail" style="color:#20a53a" name="ip">'+rdata.ip+'</td>\
-                      <td class="onChangeLogDatail" style="color:#20a53a" name="url">'+rdata.url+'</td>\
-                    </tr>'
-                }else{
-                  analyse_list+='<tr><td colspan="9" style="text-align: center;">no scan data</td></tr>'
-                }
-                analyse_list += '</tbody></table></div>'
-                $('.analyse_log_table').html(analyse_list)
-                $('.onChangeLogDatail').css('cursor','pointer').attr('title','Details')
-                //查看详情
-                $('.onChangeLogDatail').on('click',function(){
-                  get_analysis_data_datail($(this).attr('name'))
-                })
-              }
-              // 扫描进度
-              function detect_progress(){
-                $.post('/ajax?action=speed_log&path=/www/wwwlogs/' + pathFile, function (res) {
-                  var pro = res.msg
-                  if(pro !== 100){
-                    if (pro > 100) pro = 100;
-                    if (pro !== NaN) {
-                      $('.pro_style .progress-bar').css('width', pro + '%').html(pro + '%');
-                    }
-                    setTimeout(function () {
-                      detect_progress();
-                    }, 1000);
-                  }else{
-                    layer.msg('Scan complete',{icon:1,timeout:4000})
-                    layer.close(progress);
-                    get_analysis_data();
-                  }
-                })
-              }
-              // 获取扫描结果
-              function get_analysis_data(){
-                var loadTGA = bt.load('Getting log analytics data, please wait...');
-                $.post('/ajax?action=get_result&path=/www/wwwlogs/' + pathFile, function (rdata) {
-                  loadTGA.close();
-                  render_analyse_list(rdata,true)
-                })
-              }
-              // 获取扫描结果详情日志
-              function get_analysis_data_datail(name){
-                layer.open({
-                  type: 1,
-                  closeBtn: 2,
-                  shadeClose: false,
-                  title: '[ '+name+' ] log details',
-                  area: '650px',
-                  content:'<pre id="analysis_pre" style="background-color: #333;color: #fff;height: 545px;margin: 0;white-space: pre-wrap;border-radius: 0;"></pre>',
-                  success(){
-                    var loadTGD = bt.load('Getting log details data, please wait...');
-                    $.post('/ajax?action=get_detailed&path=/www/wwwlogs/' + pathFile+'&type='+name+'', function (logs) {
-                      loadTGD.close();
-                      $('#analysis_pre').html((name == 'ip' || name == 'url'?'&nbsp;&nbsp;[Access Times]&nbsp;&nbsp;['+name+']</br>':'')+logs)
-                    })
-                  }
-                })
-              }
             }
           }]
           bt.render_tab('tabLogs',_tab);
@@ -6354,7 +6176,7 @@ var site = {
                                                             var helps = [];
                                                             if (_val_obj.data !== false) {
                                                                 _form.title = lan.site.set + '【' + _val_obj.title + '】' + lan.site.interface;
-                                                                if(_val_obj.help == "How to get API Token"){
+                                                                if(_val_obj.help == "如何获取API令牌"){
                                                                     _val_obj.help = '<a class="btlink"  target="_blank" href="https://forum.aapanel.com/d/3375-3375-set-the-clouldflare-apt-token-for-dns-editing-permissions">'+_val_obj.help+"</a>"
                                                                 }
                                                                 helps.push(_val_obj.help);
@@ -6364,7 +6186,7 @@ var site = {
                                                                     if (!_val_obj.data[i].value) is_hide = false;
                                                                 }
                                                                 if(_val_obj.title == 'CloudFlare'){
-                                                                  _form.list.push({html : '<div class="line"><span class="tname">API-Limit</span><div class="info-r c4"><div class="index-item" style="padding-top:7px"><input class="btswitch btswitch-ios" name="API_Limit" id="API_Limit" type="checkbox" '+(_val_obj.API_Limit?"checked":null)+'><label class="btswitch-btn" for="API_Limit"></label></div></div></div>'});
+                                                                  _form.list.push({html : '<div class="line"><span class="tname">API 限制</span><div class="info-r c4"><div class="index-item" style="padding-top:7px"><input class="btswitch btswitch-ios" name="API_Limit" id="API_Limit" type="checkbox" '+(_val_obj.API_Limit?"checked":null)+'><label class="btswitch-btn" for="API_Limit"></label></div></div></div>'});
                                                                 }
                                                                 _form.btns.push({
                                                                     title: lan.site.save,
@@ -6398,7 +6220,7 @@ var site = {
                                                     title: ' ',
                                                     class: 'checks_line label-input-group',
                                                     items: [
-                                                        { css: 'label-input-group ptb10', text: 'Automatically combine pan-domain names', name: 'app_root', type: 'checkbox' }
+                                                        { css: 'label-input-group ptb10', text: '自动组合泛域名', name: 'app_root', type: 'checkbox' }
                                                     ]
                                                 }]
                                                 for (var i = 0; i < data.length; i++) {
@@ -6417,7 +6239,7 @@ var site = {
                                 robj.append(_form_data.html);
                                 bt.render_clicks(_form_data.clicks);
                             }
-                            var _ul = $('<ul id="ymlist" class="domain-ul-list"><div style="line-height: 25px;"><label style="margin-bottom: 0;height: 25px;line-height: 25px;"><input class="checkbox-text" type="checkbox" style="margin: 0 5px 0 0;vertical-align: middle;"><span style="font-weight: 500;cursor: pointer;">Select All</span></label></div></ul>');
+                            var _ul = $('<ul id="ymlist" class="domain-ul-list"><div style="line-height: 25px;"><label style="margin-bottom: 0;height: 25px;line-height: 25px;"><input class="checkbox-text" type="checkbox" style="margin: 0 5px 0 0;vertical-align: middle;"><span style="font-weight: 500;cursor: pointer;">全选</span></label></div></ul>');
                             for (var i = 0; i < ddata.domains.length; i++) {
                                 if (ddata.domains[i].binding === true) continue
                                 _ul.append('<li style="cursor: pointer;"><input class="checkbox-text" type="checkbox" value="' + ddata.domains[i].name + '">' + ddata.domains[i].name + '</li>');
@@ -6485,7 +6307,7 @@ var site = {
                                         auto_wildcard = ldata.app_root ? '1' : '0'
                                         if (ldata.dns_select !== auth_to) {
                                             if (!site.dnsapi[ldata.dns_select].s_key) {
-                                                layer.msg("No key information is set for the specified dns interface");
+                                                layer.msg("指定dns接口没有设置密钥信息");
                                                 return;
                                             }
                                             auth_to = ldata.dns_select + "|" + site.dnsapi[ldata.dns_select].s_key + "|" + site.dnsapi[ldata.dns_select].s_token;
@@ -6630,7 +6452,7 @@ var site = {
             $('#toHttps').click(function(sdata) {
                 var isHttps = $("#toHttps").attr('checked');
                 if (isHttps) {
-                    layer.confirm('After closing HTTPS, you need to clear your browser cache to see the effect. Continue?', { icon: 3, title: "Turn off forced HTTPS\"" }, function() {
+                    layer.confirm('关闭强制HTTPS后需要清空浏览器缓存才能看到效果,继续吗?', { icon: 3, title: "关闭强制HTTPS\"" }, function() {
                         bt.site.close_http_to_https(web.name, function(rdata) {
                             if (rdata.status) {
                                 setTimeout(function() {

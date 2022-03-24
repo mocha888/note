@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
-    <title>Extracting files - {{data.filename}}</title>
+    <title>提取文件 - {{data.filename}}</title>
 </head>
 <style>
 *{
@@ -1017,17 +1017,17 @@ td {
     <!--<ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>-->
     <div class="div-center">
         <div class="file-down-header">
-            <div class="file-name">Share file【 <span style="font-size:14px;">{{data.filename}} </span> 】</div>
-            <div class="file-validity-time">Term of validity：{{data.expire}}</div>
+            <div class="file-name">分享文件【 <span style="font-size:14px;">{{data.filename}} </span> 】</div>
+            <div class="file-validity-time">有效期：{{data.expire}}</div>
         </div>
         {% if not data['PATH'] %}
         <script src="/static/layer/layer.js"></script>
         <div class="file_content_two">
             <div class="content_box">
-                <span>Enter the extraction password:</span>
+                <span>请输入提取密码:</span>
                 <form action="" data-url="/down/{{data.token}}" method="POST">
                     <input class="input-text" name="file_password" id="file_password" type="text"/>
-                    <button class="btn-success " type="button" onclick="return submit_pass();">Extract file</button>
+                    <button class="btn-success " type="button" onclick="return submit_pass();">提取文件</button>
                 </form>
             </div>
         </div>
@@ -1037,15 +1037,15 @@ td {
             <script src="/static/layer/layer.js"></script>
             <div class="file_content_one">
                 <ul class="file_dir_menu" style="display:none">
-                    <li><span>All files</span></li>
+                    <li><span>全部文件</span></li>
                 </ul>
                 <div class="list-list" style="overflow:auto;width:100%">
                     <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>File name</th>
-                            <th width="120px">Site</th>
-                            <th width="90px">opt</th>
+                            <th>文件名称</th>
+                            <th width="120px">大小</th>
+                            <th width="90px">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1064,11 +1064,11 @@ td {
                             <td><span>{{to_size(d[1])}}</span></td>
                             <td>
                                 {% if d[0].split('.')[-1].lower() in ['avi','mp4','mkv','mpeg','webm','3gp'] %}
-                                    <a class="btlink" onclick="get_play('{{d[0]}}')">Play</a> | 
+                                    <a class="btlink" onclick="get_play('{{d[0]}}')">播放</a> | 
                                 {% elif d[0].split('.')[-1].lower() in ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'tiff', 'ico'] %}
-                                    <a class="btlink" onclick="get_image('{{data['to_path']}}/{{d[0]}}')">Preview</a> | 
+                                    <a class="btlink" onclick="get_image('{{data['to_path']}}/{{d[0]}}')">预览</a> | 
                                 {% endif %}
-                                    <a class="btlink" href="/down/{{data.token}}?fname={{data['to_path']}}/{{d[0]}}">Download</a>
+                                    <a class="btlink" href="/down/{{data.token}}?fname={{data['to_path']}}/{{d[0]}}">下载</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -1080,7 +1080,7 @@ td {
         {% endif %}
     </div>
     <script type="text/html" id="down_template">
-        <div class="bg_update_images"><svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="164px" height="151px" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(1 0 0 1 -596 -401 )"><path d="M 124.28125 136.548828125  C 125.529647435897 135.303602430556  126.153846153846 133.828993055556  126.153846153846 132.125  C 126.153846153846 130.421006944444  125.529647435897 128.946397569444  124.28125 127.701171875  C 123.032852564103 126.455946180556  121.554487179487 125.833333333333  119.846153846154 125.833333333333  C 118.137820512821 125.833333333333  116.659455128205 126.455946180556  115.411057692308 127.701171875  C 114.16266025641 128.946397569444  113.538461538462 130.421006944444  113.538461538462 132.125  C 113.538461538462 133.828993055556  114.16266025641 135.303602430556  115.411057692308 136.548828125  C 116.659455128205 137.794053819444  118.137820512821 138.416666666667  119.846153846154 138.416666666667  C 121.554487179487 138.416666666667  123.032852564103 137.794053819444  124.28125 136.548828125  Z M 149.512019230769 136.548828125  C 150.760416666667 135.303602430556  151.384615384615 133.828993055556  151.384615384615 132.125  C 151.384615384615 130.421006944444  150.760416666667 128.946397569444  149.512019230769 127.701171875  C 148.263621794872 126.455946180556  146.785256410256 125.833333333333  145.076923076923 125.833333333333  C 143.36858974359 125.833333333333  141.890224358974 126.455946180556  140.641826923077 127.701171875  C 139.39342948718 128.946397569444  138.769230769231 130.421006944444  138.769230769231 132.125  C 138.769230769231 133.828993055556  139.39342948718 135.303602430556  140.641826923077 136.548828125  C 141.890224358974 137.794053819444  143.36858974359 138.416666666667  145.076923076923 138.416666666667  C 146.785256410256 138.416666666667  148.263621794872 137.794053819444  149.512019230769 136.548828125  Z M 161.240384615385 103.419270833333  C 163.080128205128 105.254340277778  164 107.482638888889  164 110.104166666667  L 164 141.5625  C 164 144.184027777778  163.080128205128 146.412326388889  161.240384615385 148.247395833333  C 159.400641025641 150.082465277778  157.166666666667 151  154.538461538462 151  L 9.46153846153846 151  C 6.83333333333333 151  4.59935897435898 150.082465277778  2.75961538461538 148.247395833333  C 0.919871794871795 146.412326388889  0 144.184027777778  0 141.5625  L 0 110.104166666667  C 0 107.482638888889  0.919871794871795 105.254340277778  2.75961538461538 103.419270833333  C 4.59935897435898 101.584201388889  6.83333333333333 100.666666666667  9.46153846153846 100  L 55.2908653846154 100  L 68.5961538461539 114.036458333333  C 72.4070512820513 117.706597222222  76.875 119.541666666667  82 119.541666666667  C 87.125 119.541666666667  91.5929487179487 117.706597222222  95.4038461538462 114.036458333333  L 108.807692307692 100  L 154.538461538462 100  C 157.166666666667 100.666666666667  159.400641025641 101.584201388889  161.240384615385 103.419270833333  Z M 126.153846153846 51  C 128.913461538462 50.3333333333333  130.851762820513 51.611328125  131.96875 54.1673177083333  C 133.085737179487 56.8543836805556  132.625801282051 59.1482204861111  130.588942307692 61.048828125  L 86.4350961538462 105.090494791667  C 85.2524038461538 106.335720486111  83.7740384615385 106.958333333333  82 106.958333333333  C 80.2259615384615 106.958333333333  78.7475961538461 106.335720486111  77.5649038461539 105.090494791667  L 33.4110576923077 61.048828125  C 31.3741987179487 59.1482204861111  30.9142628205128 56.8543836805556  32.03125 54.1673177083333  C 33.1482371794872 51.611328125  35.0865384615385 50.3333333333333  37.8461538461538 51  L 63 51  L 63 6.29166666666666  C 63.0769230769231 4.58767361111109  63.7011217948718 3.11306423611109  64.9495192307692 1.86783854166666  C 66.1979166666667 0.622612847222232  67.6762820512821 0  69.3846153846154 0  L 94.6153846153846 0  C 96.323717948718 0  97.8020833333333 0.622612847222232  99.0504807692308 1.86783854166666  C 100.298878205128 3.11306423611109  100.923076923077 4.58767361111109  101 6.29166666666666  L 101 51  L 126.153846153846 51  Z " fill-rule="nonzero" fill="#4ac365" stroke="none" transform="matrix(1 0 0 1 596 401 )" /></g></svg></div><div class="again_down_file">File downloaded, if no response, pleaase<a href="javascript:;" class="btlink" onclick="$('.file_content_two button').click()">Re-Download</div></div>
+        <div class="bg_update_images"><svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="164px" height="151px" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(1 0 0 1 -596 -401 )"><path d="M 124.28125 136.548828125  C 125.529647435897 135.303602430556  126.153846153846 133.828993055556  126.153846153846 132.125  C 126.153846153846 130.421006944444  125.529647435897 128.946397569444  124.28125 127.701171875  C 123.032852564103 126.455946180556  121.554487179487 125.833333333333  119.846153846154 125.833333333333  C 118.137820512821 125.833333333333  116.659455128205 126.455946180556  115.411057692308 127.701171875  C 114.16266025641 128.946397569444  113.538461538462 130.421006944444  113.538461538462 132.125  C 113.538461538462 133.828993055556  114.16266025641 135.303602430556  115.411057692308 136.548828125  C 116.659455128205 137.794053819444  118.137820512821 138.416666666667  119.846153846154 138.416666666667  C 121.554487179487 138.416666666667  123.032852564103 137.794053819444  124.28125 136.548828125  Z M 149.512019230769 136.548828125  C 150.760416666667 135.303602430556  151.384615384615 133.828993055556  151.384615384615 132.125  C 151.384615384615 130.421006944444  150.760416666667 128.946397569444  149.512019230769 127.701171875  C 148.263621794872 126.455946180556  146.785256410256 125.833333333333  145.076923076923 125.833333333333  C 143.36858974359 125.833333333333  141.890224358974 126.455946180556  140.641826923077 127.701171875  C 139.39342948718 128.946397569444  138.769230769231 130.421006944444  138.769230769231 132.125  C 138.769230769231 133.828993055556  139.39342948718 135.303602430556  140.641826923077 136.548828125  C 141.890224358974 137.794053819444  143.36858974359 138.416666666667  145.076923076923 138.416666666667  C 146.785256410256 138.416666666667  148.263621794872 137.794053819444  149.512019230769 136.548828125  Z M 161.240384615385 103.419270833333  C 163.080128205128 105.254340277778  164 107.482638888889  164 110.104166666667  L 164 141.5625  C 164 144.184027777778  163.080128205128 146.412326388889  161.240384615385 148.247395833333  C 159.400641025641 150.082465277778  157.166666666667 151  154.538461538462 151  L 9.46153846153846 151  C 6.83333333333333 151  4.59935897435898 150.082465277778  2.75961538461538 148.247395833333  C 0.919871794871795 146.412326388889  0 144.184027777778  0 141.5625  L 0 110.104166666667  C 0 107.482638888889  0.919871794871795 105.254340277778  2.75961538461538 103.419270833333  C 4.59935897435898 101.584201388889  6.83333333333333 100.666666666667  9.46153846153846 100  L 55.2908653846154 100  L 68.5961538461539 114.036458333333  C 72.4070512820513 117.706597222222  76.875 119.541666666667  82 119.541666666667  C 87.125 119.541666666667  91.5929487179487 117.706597222222  95.4038461538462 114.036458333333  L 108.807692307692 100  L 154.538461538462 100  C 157.166666666667 100.666666666667  159.400641025641 101.584201388889  161.240384615385 103.419270833333  Z M 126.153846153846 51  C 128.913461538462 50.3333333333333  130.851762820513 51.611328125  131.96875 54.1673177083333  C 133.085737179487 56.8543836805556  132.625801282051 59.1482204861111  130.588942307692 61.048828125  L 86.4350961538462 105.090494791667  C 85.2524038461538 106.335720486111  83.7740384615385 106.958333333333  82 106.958333333333  C 80.2259615384615 106.958333333333  78.7475961538461 106.335720486111  77.5649038461539 105.090494791667  L 33.4110576923077 61.048828125  C 31.3741987179487 59.1482204861111  30.9142628205128 56.8543836805556  32.03125 54.1673177083333  C 33.1482371794872 51.611328125  35.0865384615385 50.3333333333333  37.8461538461538 51  L 63 51  L 63 6.29166666666666  C 63.0769230769231 4.58767361111109  63.7011217948718 3.11306423611109  64.9495192307692 1.86783854166666  C 66.1979166666667 0.622612847222232  67.6762820512821 0  69.3846153846154 0  L 94.6153846153846 0  C 96.323717948718 0  97.8020833333333 0.622612847222232  99.0504807692308 1.86783854166666  C 100.298878205128 3.11306423611109  100.923076923077 4.58767361111109  101 6.29166666666666  L 101 51  L 126.153846153846 51  Z " fill-rule="nonzero" fill="#4ac365" stroke="none" transform="matrix(1 0 0 1 596 401 )" /></g></svg></div><div class="again_down_file">文件已下载，如果没有响应，请<a href="javascript:;" class="btlink" onclick="$('.file_content_two button').click()">重新下载</div></div>
     </script>
 </body>
 <script type="text/javascript">
@@ -1104,7 +1104,7 @@ td {
             
             for(var i = 0;i<arry.length;i++){
                 if(i == ''){
-                    html+='<li><a href="'+ new_href + ('?fname=/') +'">All files</a><i>></i></li>'+'';
+                    html+='<li><a href="'+ new_href + ('?fname=/') +'">全部文件</a><i>></i></li>'+'';
                 }else if(arry.length-1 == i){
                     html+='<li><span>'+ arry[i] +'</span></li>';
                 }else{
@@ -1185,7 +1185,7 @@ td {
         console.log(video.attr('width'),video.attr('height'))
         var v = $('<video  controls="controls" playsinlin webkit-playsinline poster="" preload="auto" x5-playsinline=true  x5-video-player-type="h5" x5-video-player-fullscreen=true autoplay="autoplay" width="'+ video.width() +'" height="'+ video.height() +'">\
                         <source src="' + imgUrl +'"  type="video/mp4">\
-                            Your browser does not support Video Tags.\
+                            您的浏览器不支持 video 标签。\
                         </video>').css({'width':video.width(),'height':video.height()})
         $("#btvideo").empty().append(v);
         var p_tmp = filename.split('/')
@@ -1208,11 +1208,11 @@ td {
             type: 1,
             maxmin:true,
             closeBtn: 1,
-            title: 'Playing [<span class="btvideo-title">' + p_tmp[p_tmp.length-1] + '</span>]',
+            title: '正在播放 [<span class="btvideo-title">' + p_tmp[p_tmp.length-1] + '</span>]',
             area: area,
             skin:'movie_pay'+ (isMobile?' mobile-view':''),
             shadeClose: false, 
-            content: '<div id="btvideo"><video type="" src="' + imgUrl + '&play=true" playsinlin webkit-playsinline poster="" preload="auto" x5-playsinline=true  x5-video-player-type="h5" x5-video-player-fullscreen=true controls="controls" autoplay="autoplay" width="'+(isMobile?'100%':'640') +'" height="'+(isMobile?'50%':'410') +'">Your browser does not support Video Tags.</video></div><div class="video-list" style="right:0"></div>',
+            content: '<div id="btvideo"><video type="" src="' + imgUrl + '&play=true" playsinlin webkit-playsinline poster="" preload="auto" x5-playsinline=true  x5-video-player-type="h5" x5-video-player-fullscreen=true controls="controls" autoplay="autoplay" width="'+(isMobile?'100%':'640') +'" height="'+(isMobile?'50%':'410') +'">您的浏览器不支持 video 标签。</video></div><div class="video-list" style="right:0"></div>',
             success: function (layers,index) {
                 if(!isMobile){
                     $('.video-list').on('click','.shrink_play_list',function(e){
@@ -1220,12 +1220,12 @@ td {
                             $(this).attr('data-shrink',0)
                             $('.video-list').css('right','-250px');
                             $('#btvideo video').width($(layers).find('.layui-layer-content').width());
-                            $('.shrink_play_list').html('List down <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>');
+                            $('.shrink_play_list').html('展开列表<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>');
                         }else{
                             $(this).attr('data-shrink',1)
                             $('.video-list').css('right','0');
                             $('#btvideo video').width($(layers).find('.layui-layer-content').width()-250);
-                             $('.shrink_play_list').html('List up <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>');
+                             $('.shrink_play_list').html('收起列表<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>');
                         }
                     }); 
                     $('.movie_pay .layui-layer-content').hover(function(e){
@@ -1240,11 +1240,11 @@ td {
                     
                 }
                 $.get('/down/{{data.token}}', { fname: "{{data['to_path']}}", play:"true"}, function (rdata) {
-                    var video_list = '<div class="shrink_play_list" data-shrink="1" style="display:block">List up <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></div><div class="play_content" >';
+                    var video_list = '<div class="shrink_play_list" data-shrink="1" style="display:block">收起列表<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></div><div class="play_content" >';
                     for (var i = 0; i < rdata.length; i++) {
                         var filename = path + '/' + rdata[i].name;
                         video_list += '<div class="play_item ' + ((filename=== '/'+old_filename) ? 'active' :'')+'" onclick="play_file(this,\'' + filename + '\')">\
-                            <span class="play_item_filename" title="file: ' + filename + '\ntype: ' + rdata[i].type + '" >'+ rdata[i].name +'</span>\
+                            <span class="play_item_filename" title="文件: ' + filename + '\n类型: ' + rdata[i].type + '" >'+ rdata[i].name +'</span>\
                             <span class="play_item_size">' + ToSize(rdata[i].size) + '</span>\
                         </div>'
                     }
@@ -1282,7 +1282,7 @@ td {
             layer.open({
                 type: 1,
                 closeBtn: 1,
-                title: 'Preview pictures【'+fileName+'】',
+                title: '预览图片【'+fileName+'】',
                 area: area,
                 shadeClose: true,
                 content: '<div class="showpicdiv"><img width="100%" src="' + imgUrl + '"></div>'

@@ -142,7 +142,7 @@ class panelWarning:
             os.remove(ignore_file)
         else:
             public.writeFile(ignore_file,'1')
-        return public.returnMsg(True,'Setup Successfully!')
+        return public.returnMsg(True,'设置成功!')
     
     def check_find(self,args):
         '''
@@ -174,6 +174,6 @@ class panelWarning:
             m_info['taking'] = round(time.time() - s_time,4)
             m_info['check_time'] = int(time.time())
             public.writeFile(result_file,json.dumps([m_info['status'],m_info['msg'],m_info['check_time'],m_info['taking']]))
-            return public.returnMsg(True,'Retested')
+            return public.returnMsg(True,'已重新检测')
         except:
-            return public.returnMsg(False,'Bad module name')
+            return public.returnMsg(False,'错误的模块名称')

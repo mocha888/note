@@ -40,7 +40,7 @@ var soft = {
           //   $("#updata_pro_info").html('<div class="alert alert-info" style="margin-bottom:15px"><strong>' + lan.soft.comingsoon + '</strong></div>')
           // }
           var tBody = '';
-          rdata.type.unshift({icon: 'icon',id: 0,ps: lan.soft.all,sort: 1,title: lan.soft.all}, {icon: 'icon',id: -1,ps: 'Installed',sort: 1,title: 'Installed'})
+          rdata.type.unshift({icon: 'icon',id: 0,ps: lan.soft.all,sort: 1,title: lan.soft.all}, {icon: 'icon',id: -1,ps: 'Installed',sort: 1,title: '已安装'})
           for (var i = 0; i < rdata.type.length; i++) {
               var c = '';
               if (istype == rdata.type[i].id) {
@@ -186,10 +186,10 @@ var soft = {
                 },
                 {
                     field: 'price',
-                    title: 'Developer',
+                    title: '开发商',
                     width: 110,
                     templet: function(item) {
-                        if (!item.author) return 'official'
+                        if (!item.author) return '官方'
                         return item.author;
                     }
                 },
@@ -229,7 +229,7 @@ var soft = {
                 (type == 10 ? {
                     field: 'sort',
                     width: 80,
-                    title: 'Rated',
+                    title: '评分',
                     templet: function(item) {
                         return item.sort !== undefined ? ('<a href="javascript:;" onclick="score.open_score_view(' + item.pid + ',\'' + item.title + '\',' + item.count + ')" class="btlink open_sort_view">' + (item.sort <= 0 || item.sort > 5 ? lan.soft.not_rated : item.sort.toFixed(1)) + '</a>') : '--';
                     }
@@ -435,7 +435,7 @@ var soft = {
                                     option = '<a class="btlink" onclick="messagebox()"  >' + lan.soft.wait_install + '</a>';
                                     soft.is_install = true;
                                 } else if (item.task == '-2') {
-                                    option = '<a class="btlink" onclick="messagebox()"  >Updating</a>';
+                                    option = '<a class="btlink" onclick="messagebox()"  >更新</a>';
                                     soft.is_install = true;
                                 } else {
                                     if (pay_opt) {
@@ -493,32 +493,32 @@ var soft = {
                     for(var i=0;i<find_data.length;i++){
                         var item = find_data[i],thtml = '';
                         if(!item.setup){
-                            thtml = '<button type="button" class="btn btn-success btn-xs" onclick="bt.soft.install(\''+ item.name +'\',this)">Install</button>';
+                            thtml = '<button type="button" class="btn btn-success btn-xs" onclick="bt.soft.install(\''+ item.name +'\',this)">立即安装</button>';
                         }else{
                             if(item.pid != 0){
                                 if(item.endtime == 0){ //永久
-                                    thtml = '<button type="button" class="btn btn-success btn-xs" onclick="bt.soft.set_lib_config(\''+ item.name +'\',\''+ item.title +'\')">Setting</button>';
+                                    thtml = '<button type="button" class="btn btn-success btn-xs" onclick="bt.soft.set_lib_config(\''+ item.name +'\',\''+ item.title +'\')">打开软件</button>';
                                 }else if(item.endtime > 0){ //已购买
-                                    thtml = '<button type="button" class="btn btn-success btn-xs" onclick="bt.soft.set_lib_config(\''+ item.name +'\',\''+ item.title +'\')">Setting</button>';
+                                    thtml = '<button type="button" class="btn btn-success btn-xs" onclick="bt.soft.set_lib_config(\''+ item.name +'\',\''+ item.title +'\')">打开软件</button>';
                                 }else if(item.endtime == -1){  //未购买
 
-                                  thtml = '<button type="button" class="btn btn-success btn-xs" onclick=\'bt.soft.product_pay_view('+ JSON.stringify({name:item.title,pid:item.pid,type:item.type,pulgin:true,renew:item.endtime}) +');\'>Upgrade now</button>';
+                                  thtml = '<button type="button" class="btn btn-success btn-xs" onclick=\'bt.soft.product_pay_view('+ JSON.stringify({name:item.title,pid:item.pid,type:item.type,pulgin:true,renew:item.endtime}) +');\'>立即购买</button>';
                                 }else if(item.endtime == -2){ //已过期
                                   thtml = '<button type="button" class="btn btn-success btn-xs" onclick=\'bt.soft.product_pay_view('+ JSON.stringify({name:item.title,pid:item.pid,type:item.type,pulgin:true,renew:item.endtime}) +');\'>立即续费</button>';
                                 }
                             }else{
-                                thtml = '<button type="button" class="btn btn-success btn-xs" onclick="bt.soft.set_lib_config(\''+ item.name +'\',\''+ item.title +'\')">Setting</button>';
+                                thtml = '<button type="button" class="btn btn-success btn-xs" onclick="bt.soft.set_lib_config(\''+ item.name +'\',\''+ item.title +'\')">打开软件</button>';
                             }
                         }
                         html += '<div class="recom_item_box">' +
                             '<div class="recom_item_left">' +
                                 '<div class="recom_item_images"><img src="/static/img/'+(find.type == 'onekey'?'dep_ico':'soft_ico')+'/ico-'+ item.name +'.png" /></div>' +
-                                '<div class="recom_item_pay"><a href="javascript:;" class="btlink" style="color:'+(item.setup?'#20a53a':'#666')+'">'+ (item.setup?'Installed':'Not installed') +'</a></div>'+
+                                '<div class="recom_item_pay"><a href="javascript:;" class="btlink" style="color:'+(item.setup?'#20a53a':'#666')+'">'+ (item.setup?'已安装':'未安装') +'</a></div>'+
                             '</div>' +
                             '<div class="recom_item_right">' +
                                 '<div class="recom_item_title">' +
                                     '<div class="recom_item_text">'+ item.title + '&nbsp;v'+ item.version +'</div>' +
-                                    '<div class="recom_item_price">$<span>'+ item.price +'</span>/month</div>' +
+                                    '<div class="recom_item_price">$<span>'+ item.price +'</span>/月</div>' +
                                 '</div>' +
                                 '<div class="recom_item_info" title="'+ item.ps +'">'+ item.ps +'</div>'+
                                 '<div class="recom_item_btn">'+ thtml +'</div>'+
@@ -537,11 +537,11 @@ var soft = {
         if(type != 11) $(el).next('.onekey-menu-sub').remove();
         if(type == 10){
             $(el).css('display','block')
-            explain.text('Security Reminder: aaPanel officially conducted a security audit before the third-party plug-in was put on the shelves, but there may be security risks. Please check it out before using it in the production environment.');
+            explain.text('安全提醒：第三方插件上架前，宝塔官方进行了安全审计，但可能还存在安全风险，在生产环境使用前请自行甄别');
             btn_ground = soft.render_tips_btn(btn_ground,[
                 //{title:'免费入驻',href:'https://www.bt.cn/developer/',rel:'noreferrer noopener',target:'_blank',btn:'免费入驻',class:'btn btn-success btn-xs va0',style:"margin-left:10px;"},
-                {title:'Get third-party apps',rel:'noreferrer noopener',href:'https://www.bt.cn/bbs/forum-40-1.html',target:'_blank',btn:'Get third-party apps',class:'btn btn-success btn-xs va0 ml15',style:"margin-left:10px;"},
-                {title:'Import plugins',href:'javascript:;',btn:'Import plugins','class':'btn btn-success btn-xs va0 ml15','style':"margin-left:10px;",click:function(e){
+                {title:'点击获取第三方应用',rel:'noreferrer noopener',href:'https://www.bt.cn/bbs/forum-40-1.html',target:'_blank',btn:'获取第三方应用',class:'btn btn-success btn-xs va0 ml15',style:"margin-left:10px;"},
+                {title:'导入插件',href:'javascript:;',btn:'导入插件','class':'btn btn-success btn-xs va0 ml15','style':"margin-left:10px;",click:function(e){
                     var input = $('<input type="file" style="display:none;" accept=".zip,.tar.gz" id="update_zip" multiple="multiple">').change(function (e) {
                         var files =$(this)[0].files;
                         if (files.length == 0) return;
@@ -551,7 +551,7 @@ var soft = {
             ]);
             $(el).append(tips_info.addClass('alert-danger'));
         }else if(type == 11){
-            explain.text('BT one click宝塔一键部署已上线，诚邀全球优秀项目入驻(限项目官方) ');
+            explain.text('宝塔一键部署已上线，诚邀全球优秀项目入驻(限项目官方) ');
             btn_ground = soft.render_tips_btn(btn_ground,[
                 {title:'免费入驻',href:'https://www.bt.cn/bbs/thread-33063-1-1.html',rel:'noreferrer noopener',target:'_blank',btn:'免费入驻',class:'btn btn-success btn-xs va0',style:"margin-left:10px;"},
                 {title:'导入项目',href:'javascript:;',rel:'noreferrer noopener',btn:'导入项目',class:'btn btn-success btn-xs va0',style:"margin-left:10px;",click:soft.input_package}
@@ -561,12 +561,12 @@ var soft = {
             var ltd = parseInt(bt.get_cookie('ltd_end') || -1),pro = parseInt(bt.get_cookie('pro_end')  || -1),todayDate = parseInt(new Date().getTime()/1000),_ltd = null;
             if((ltd > 0 && (ltd == pro || pro < 0)) || (ltd < 0 && pro >= 0) || (ltd > 0 && pro >= 0)){
                 _ltd = ((ltd > 0 && (ltd == pro || pro < 0)) || (ltd > 0 && pro >= 0))?1:0;
-                explain.html('The '+ (_ltd?'Pro':'Pro') +' edition can use the '+ (_ltd?'专业版及企业版插件':'professional plug-in for free,') + (!(pro == 0 && ltd < 0)?('expiration time: '+ (bt.format_data((_ltd?ltd:pro),'yyyy/MM/dd') ) +''+((((_ltd?ltd:pro) - todayDate) <= 15*24*60*60)?('，<span style="color:red">Only '+ Math.round(((_ltd?ltd:pro) - todayDate) / (24*60*60)) +' days until expiration</span>'):'')):'，过期时间：<span style="color: #fc6d26;font-weight: bold;">永久授权</span>'));
+                explain.html('这个 '+ (_ltd?'Pro':'Pro') +' 版本可以使用 '+ (_ltd?'专业版及企业版插件':'免费专业插件,') + (!(pro == 0 && ltd < 0)?('expiration time: '+ (bt.format_data((_ltd?ltd:pro),'yyyy/MM/dd') ) +''+((((_ltd?ltd:pro) - todayDate) <= 15*24*60*60)?('，<span style="color:red">Only '+ Math.round(((_ltd?ltd:pro) - todayDate) / (24*60*60)) +' days until expiration</span>'):'')):'，过期时间：<span style="color: #fc6d26;font-weight: bold;">永久授权</span>'));
             }else if(ltd == -1 && pro == -1){
-                explain.html('Upgrade to Pro edition, all plugins, free to use!');
+                explain.html('升级到专业版，所有插件，免费使用!');
             }else if(pro == 0 && ltd < 0){
                 _ltd = 2;
-                explain.html('The Pro edition can use the professional plug-in for free, expiration time: 永久授权。'+(type == 12?'&nbsp;&nbsp;<span style="color:#af8e48">升级企业版，企业可以免费试用企业版插件及专业版插件。</span>':''));
+                explain.html('Pro版可以免费使用专业插件，过期时间: 永久授权。'+(type == 12?'&nbsp;&nbsp;<span style="color:#af8e48">升级企业版，企业可以免费试用企业版插件及专业版插件。</span>':''));
                 if(type == 12){
                     btn_ground  = soft.render_tips_btn(btn_ground,{title:'立即升级',href:'javascript:;',btn:'立即升级','class':'btn btn-success btn-xs va0 ml15','style':"margin-left:10px;",click:bt.soft.updata_ltd});
                 }
@@ -582,7 +582,7 @@ var soft = {
                     window.location.reload();
                   });
                 }
-                $.extend(btn_config,{title:'Login',btn:'Login',click:fun});
+                $.extend(btn_config,{title:'登录',btn:'登录',click:fun});
               }else{
                 if(type == 12 && (ltd < 0 && pro >=0)){
                   explain.html('企业版可以免费使用专业版及企业版插件，了解专业版和企业版的区别，请点击<a href="https://www.bt.cn/download/linux.html" target="_blank" class="btlink ml5">查看详情</a>。<a href="https://www.bt.cn/bbs/forum.php?mod=viewthread&tid=50342&page=1&extra=#pid179211" target="_blank" class="btlink ml5">《专业版升级企业版教程》</a>');
@@ -594,7 +594,7 @@ var soft = {
                   }else{
                     fun = bt.soft.renew_pro
                   }
-                  $.extend(btn_config,{title:_ltd == null?'Upgrade now':'Renew Now',btn:_ltd == null?'Upgrade now':'Renew Now',click:fun})
+                  $.extend(btn_config,{title:_ltd == null?'现在升级':'现在续约',btn:_ltd == null?'现在升级':'现在续约',click:fun})
                 }
               }
               if(_ltd != 2){
@@ -605,13 +605,13 @@ var soft = {
               $(el).append(tips_info.addClass(_ltd == 1?'alert-ltd-success':'alert-success'));
               if(_this.trail){
                 setTimeout(function (){
-                  $('.btn-ground').after('<span class="pro_trail" style="font-weight: 700;margin-left:25px;">Try the Pro edition for free for 15 days</span>')
-                  var trail = $('<a href="javascript:;" class="btn btn-success btn-xs va0 ml15" style="margin-left:10px;">Click to try</a>');
+                  $('.btn-ground').after('<span class="pro_trail" style="font-weight: 700;margin-left:25px;">免费试用专业版 15 天</span>')
+                  var trail = $('<a href="javascript:;" class="btn btn-success btn-xs va0 ml15" style="margin-left:10px;">点击试用</a>');
                   trail.click((!res.status || !res)?fun:function(){
                     var loadT = bt.load()
                     bt.confirm({
-                      title:"Pro Edition",
-                      msg:"Get 15-day Pro edition free, get it now?"
+                      title:"专业版",
+                      msg:"免费获取15天专业版，立即获取?"
                     },function (){
                       bt.send('free_trial','auth/free_trial',{},function(res){
                         loadT.close()
@@ -649,7 +649,7 @@ var soft = {
           var html = '';
           for (var i = 0; i < res.length; i++) {
             var item = res[i];
-            html += '<div class="item" title="open' + item.title + '" onclick="bt.soft.set_lib_config(\'' + item.name + '\',\'' + item.title + '\',\'' + item.version + '\')"><img src="/static/img/soft_ico/ico-' + item.name + '.png"><span>' + item.title + '</span></div>'
+            html += '<div class="item" title="点击打开' + item.title + '" onclick="bt.soft.set_lib_config(\'' + item.name + '\',\'' + item.title + '\',\'' + item.version + '\')"><img src="/static/img/soft_ico/ico-' + item.name + '.png"><span>' + item.title + '</span></div>'
           }
           $('#commonly_software .commonly_software_list').html(html)
         })
@@ -668,7 +668,7 @@ var soft = {
         return node
     },
     get_dep_list: function(p) {
-        var loadT = layer.msg('Getting list <img src="/static/img/ing.gif">', {
+        var loadT = layer.msg('正在获取列表 <img src="/static/img/ing.gif">', {
             icon: 16,
             time: 0,
             shade: [0.3, '#000']
@@ -696,15 +696,15 @@ var soft = {
             rdata.type.unshift({
                 icon: 'icon',
                 id: 0,
-                ps: 'All',
+                ps: '全部',
                 sort: 1,
-                title: 'All'
+                title: '全部'
             }, {
                 icon: 'icon',
                 id: -1,
-                ps: 'Installed',
+                ps: '已安装',
                 sort: 1,
-                title: 'Installed'
+                title: '已安装'
             });
             for (var i = 0; i < rdata.type.length; i++) {
                 var c = '';
@@ -729,9 +729,9 @@ var soft = {
             if ($(".onekey-type").attr("class") === undefined) {
 
                 tbody = '<div class="alert alert-info" style="margin-bottom: 10px;">\
-                        <strong class="mr5">aaPanel one-click deployment has been launched, and we invite global outstanding projects to settle in (limited to project officials)</strong>\
-                        <a class="btn btn-success btn-xs mr5" href="https://www.bt.cn/bbs/thread-33063-1-1.html" target="_blank">Free entry</a>\
-                        <a class="btn btn-success btn-xs" onclick="soft.input_package()">Import project</a>\
+                        <strong class="mr5">aaPanel一键部署已上线，诚邀全球优秀项目入驻（仅限项目负责人）</strong>\
+                        <a class="btn btn-success btn-xs mr5" href="https://www.bt.cn/bbs/thread-33063-1-1.html" target="_blank">获取第三方应用</a>\
+                        <a class="btn btn-success btn-xs" onclick="soft.input_package()">导入项目</a>\
                         </div><div class="onekey-menu-sub onekey-type" style="margin-bottom:15px">';
 
                 rdata.dep_type.unshift({
@@ -1047,7 +1047,7 @@ var soft = {
                         },
                         {
                             type: 'apache_format_log',
-                            title: 'Logs format'
+                            title: '日志参数'
                         },
                         {
                             type: 'log',
@@ -1064,7 +1064,7 @@ var soft = {
                         },
                         {
                             type: 'nginx_format_log',
-                            title: 'Logs format'
+                            title: '日志参数'
                         },
                         {
                             type: 'log',
@@ -1462,7 +1462,7 @@ var soft = {
                         };
                         bt.render_form_line(form_data, '', $(".soft-man-con").empty());
                         var downssl = "/www/server/data/ssl.zip";
-                        $(".soft-man-con").append(bt.render_help(["After setting, manually restart the database to take effect","Download Mysql SSL self-signed certificate<a class='btlink downssl' href='javascript:;'>【SSL.zip】</a>"]));
+                        $(".soft-man-con").append(bt.render_help(["设置好后手动重启数据库生效","下载 Mysql SSL 自签名证书<a class='btlink downssl' href='javascript:;'>【SSL.zip】</a>"]));
                         $("a.downssl").click(function() {
                             window.open('/download?filename=' + encodeURIComponent(downssl));
                         });
@@ -1941,7 +1941,7 @@ var soft = {
                 case 'nginx_format_log':
                     var loadT = bt.load();
                     bt.send('get_nginx_access_log_format', 'config/get_nginx_access_log_format', {}, function(rdata) {
-                        $(".soft-man-con").html("<button class='btn btn-success btn-sm mb15 table-add-format'>Add format</button><div class='divtable' style='max-height: 570px;overflow: auto;'><table id='tab-nginx-logs-format' class='table table-hover'><thead><tr><th width='15%'>Name</th><th>Format</th><th width='120' style='text-align:right;'>Opt</th></tr></thead><tbody></tbody></table></div>");
+                        $(".soft-man-con").html("<button class='btn btn-success btn-sm mb15 table-add-format'>添加参数</button><div class='divtable' style='max-height: 570px;overflow: auto;'><table id='tab-nginx-logs-format' class='table table-hover'><thead><tr><th width='15%'>名称</th><th>参数</th><th width='120' style='text-align:right;'>操作</th></tr></thead><tbody></tbody></table></div>");
                         bt.send('get_nginx_access_log_format_parameter', 'config/get_nginx_access_log_format_parameter', {}, function(res) {
                             loadT.close();
                             var _format_ul = '<ul class="bt-select-list">';
@@ -1958,7 +1958,7 @@ var soft = {
                                     var element = '<span class="nginx-one-format">' + _format.join('</span><span class="nginx-one-format">') + '</span>',
                                     _td = '<tr><td>'+j+'</td>\
                                     <td>'+element+'</td>\
-                                    <td align="right"  data-name="'+j+'"><a class="btlink table-apply-format">Apply</a> | <a class="btlink table-set-format">Set</a> | <a class="btlink table-del-format">Del</a></td></tr>';
+                                    <td align="right"  data-name="'+j+'"><a class="btlink table-apply-format">应用</a> | <a class="btlink table-set-format">设置</a> | <a class="btlink table-del-format">删除</a></td></tr>';
                                     $("#tab-nginx-logs-format tbody").append(_td);
                                     //表格头固定
                                     $('#tab-nginx-logs-format').parent().on('scroll', function () {
@@ -1969,7 +1969,7 @@ var soft = {
                             }
                             $('.table-add-format, .table-set-format').click(function() {                               
                                 if($(this).hasClass('table-set-format')) {
-                                    var format_title = 'Set format',
+                                    var format_title = '设置参数',
                                     first_format = '',
                                     add_type = 'edit',
                                     td_format = $(this).parent().prev().find('.nginx-one-format');
@@ -1982,11 +1982,11 @@ var soft = {
                                                     <span class="bt-down-icon"></span>\
                                                 </div>\
                                             </div>\
-                                            <a href="javascript:;" class="del-format">Del</a>\
+                                            <a href="javascript:;" class="del-format">删除</a>\
                                         </div>';
                                     }
                                 }else{
-                                    var format_title = 'Add format',
+                                    var format_title = '添加参数',
                                     format_name = '',
                                     add_type = 'add',
                                     first_format = '',
@@ -1999,7 +1999,7 @@ var soft = {
                                                     <span class="bt-down-icon"></span>\
                                                 </div>\
                                             </div>\
-                                            <a href="javascript:;" class="del-format">Del</a>\
+                                            <a href="javascript:;" class="del-format">删除</a>\
                                         </div>';
                                     }
 
@@ -2009,19 +2009,19 @@ var soft = {
                                     title: format_title,
                                     closeBtn: 2,
                                     area: '375px',
-                                    btn: ['Confirm', 'Cancel'],
+                                    btn: ['确定', '取消'],
                                     content: '<div class="bt-form pd20 nginx-add-format" style="position: relative;">\
                                         <div class="line" style="font-size: 13px;">\
-                                            <span style="text-align: right;display: inline-block;margin-right: 7px;width: 50px;">Name: </span>\
-                                            <input name="log_format_name" class="bt-input-text" type="text" style="width:274px" placeholder = "Please enter the format name.">\
+                                            <span style="text-align: right;display: inline-block;margin-right: 7px;width: 50px;">名称: </span>\
+                                            <input name="log_format_name" class="bt-input-text" type="text" style="width:274px" placeholder = "请输入参数名称.">\
                                         </div>\
-                                        <span style="position: absolute;top: 70px;left: 25px;">Format:</span>\
+                                        <span style="position: absolute;top: 70px;left: 25px;">参数:</span>\
                                         <div style="position: relative;margin-left: 60px;">\
                                             <div class="format-table">'+first_format+'</div>\
                                             '+_format_ul+'\
                                         </div>\
-                                        <button class="btn btn-success btn-sm btn-title btn-add-format" type="button" style="margin-top: 10px;margin-left: 60px;"><span class="glyphicon cursor glyphicon-plus mr5"></span>Add parameter</button>\
-                                        <ul class="help-info-text c7"><li>The format are executed in the order of parameters.</li></ul>\
+                                        <button class="btn btn-success btn-sm btn-title btn-add-format" type="button" style="margin-top: 10px;margin-left: 60px;"><span class="glyphicon cursor glyphicon-plus mr5"></span>添加参数</button>\
+                                        <ul class="help-info-text c7"><li>参数按照参数的顺序执行.</li></ul>\
                                     </div>',
                                     success: function(index, layero) {
                                         $('.nginx-add-format [name=log_format_name]').val(format_name);
@@ -2059,7 +2059,7 @@ var soft = {
                                                         <span class="bt-down-icon" ></span>\
                                                     </div>\
                                                 </div>\
-                                                <a href="javascript:;" class="del-format">Del</a>\
+                                                <a href="javascript:;" class="del-format">删除</a>\
                                             </div>';
                                             $('.format-table').append(_new_line);
                                             $('.format-table').scrollTop(10000000)
@@ -2088,7 +2088,7 @@ var soft = {
                                         }
                                         bt.send('add_nginx_access_log_format', 'config/add_nginx_access_log_format', format_data, function(res) {
                                             layer.close(index);
-                                            $('.bt-soft-menu p:contains("Logs format")').click();
+                                            $('.bt-soft-menu p:contains("日志参数")').click();
                                             layer.msg(res.msg, {icon: res.status ? 1 : 2});
                                         })
                                     }
@@ -2102,7 +2102,7 @@ var soft = {
                                 }, function() {
                                     layer.close(loadP);
                                     bt.send('del_nginx_access_log_format', 'config/del_nginx_access_log_format', {'log_format_name': log_format_name}, function(res) {
-                                        if(res.status) $('.bt-soft-menu p:contains("Logs format")').click();
+                                        if(res.status) $('.bt-soft-menu p:contains("日志参数")').click();
                                         layer.msg(res.msg, {icon: res.status ? 1 : 2});
                                     });
                                 });
@@ -2111,7 +2111,7 @@ var soft = {
                                 var log_format_name = $(this).parent().attr('data-name');
                                 bt.send('get_nginx_access_log_format_parameter', 'config/get_nginx_access_log_format_parameter', {'log_format_name':log_format_name}, function(res) {
                                     if (Object.keys(res.site_list).length == 0) {
-                                        layer.msg('There is no site can apply!', {icon: 2});
+                                        layer.msg('没有网站可以应用!', {icon: 2});
                                         return false;
                                     }
                                     var _site_ul = '<ul class="format-site-list">';
@@ -2123,7 +2123,7 @@ var soft = {
                                         type: 1,
                                         title: 'Website apply format',
                                         closeBtn: 2,
-                                        btn: ['Confirm', 'Cancel'],
+                                        btn: ['确定', '取消'],
                                         content: '<div class="bt-form pd20 nginx-add-site" style="font-size: 13px;">\
                                             <div class="line">\
                                                 <span style="text-align: right;display: inline-block;position: absolute;">Site: </span>\
@@ -2151,7 +2151,7 @@ var soft = {
                                             }
                                             bt.send('set_format_log_to_website', 'config/set_format_log_to_website', format_data, function(res) {
                                                 layer.close(index);
-                                                if(res.status) $('.bt-soft-menu p:contains("Logs format")').click();
+                                                if(res.status) $('.bt-soft-menu p:contains("日志参数")').click();
                                                 layer.msg(res.msg, {icon: res.status ? 1 : 2});
                                             })
                                         }
@@ -2164,7 +2164,7 @@ var soft = {
                 case 'apache_format_log':
                     var loadT = bt.load();
                     bt.send('get_httpd_access_log_format', 'config/get_httpd_access_log_format', {}, function(rdata) {
-                        $(".soft-man-con").html("<button class='btn btn-success btn-sm mb15 table-add-format'>Add format</button><div class='divtable' style='max-height: 570px;overflow: auto;'><table id='tab-nginx-logs-format' class='table table-hover'><thead><tr><th width='15%'>Name</th><th>Format</th><th width='120' style='text-align:right;'>Opt</th></tr></thead><tbody></tbody></table></div>");
+                        $(".soft-man-con").html("<button class='btn btn-success btn-sm mb15 table-add-format'>添加参数</button><div class='divtable' style='max-height: 570px;overflow: auto;'><table id='tab-nginx-logs-format' class='table table-hover'><thead><tr><th width='15%'>名称</th><th>参数</th><th width='120' style='text-align:right;'>操作</th></tr></thead><tbody></tbody></table></div>");
                         bt.send('get_httpd_access_log_format_parameter', 'config/get_httpd_access_log_format_parameter', {}, function(res) {
                             loadT.close();
                             var _format_ul = '<ul class="bt-select-list">';
@@ -2181,7 +2181,7 @@ var soft = {
                                     var element = '<span class="nginx-one-format">' + _format.join('</span><span class="nginx-one-format">') + '</span>',
                                     _td = '<tr><td>'+j+'</td>\
                                     <td>'+element+'</td>\
-                                    <td align="right"  data-name="'+j+'"><a class="btlink table-apply-format">Apply</a> | <a class="btlink table-set-format">Set</a> | <a class="btlink table-del-format">Del</a></td></tr>';
+                                    <td align="right"  data-name="'+j+'"><a class="btlink table-apply-format">应用</a> | <a class="btlink table-set-format">设置</a> | <a class="btlink table-del-format">删除</a></td></tr>';
                                     $("#tab-nginx-logs-format tbody").append(_td);
                                     //表格头固定
                                     $('#tab-nginx-logs-format').parent().on('scroll', function () {
@@ -2192,7 +2192,7 @@ var soft = {
                             }
                             $('.table-add-format, .table-set-format').click(function() {                               
                                 if($(this).hasClass('table-set-format')) {
-                                    var format_title = 'Set format',
+                                    var format_title = '设置参数',
                                     first_format = '',
                                     add_type = 'edit',
                                     td_format = $(this).parent().prev().find('.nginx-one-format');
@@ -2205,11 +2205,11 @@ var soft = {
                                                     <span class="bt-down-icon"></span>\
                                                 </div>\
                                             </div>\
-                                            <a href="javascript:;" class="del-format">Del</a>\
+                                            <a href="javascript:;" class="del-format">删除</a>\
                                         </div>';
                                     }
                                 }else{
-                                    var format_title = 'Add format',
+                                    var format_title = '添加参数',
                                     format_name = '',
                                     add_type = 'add',
                                     first_format = '',
@@ -2222,7 +2222,7 @@ var soft = {
                                                     <span class="bt-down-icon"></span>\
                                                 </div>\
                                             </div>\
-                                            <a href="javascript:;" class="del-format">Del</a>\
+                                            <a href="javascript:;" class="del-format">删除</a>\
                                         </div>';
                                     }
                                 }
@@ -2231,19 +2231,19 @@ var soft = {
                                     title: format_title,
                                     closeBtn: 2,
                                     area: '375px',
-                                    btn: ['Confirm', 'Cancel'],
+                                    btn: ['确定', '取消'],
                                     content: '<div class="bt-form pd20 nginx-add-format" style="position: relative;">\
                                         <div class="line" style="font-size: 13px;">\
-                                            <span style="text-align: right;display: inline-block;margin-right: 7px;width: 50px;">Name: </span>\
-                                            <input name="log_format_name" class="bt-input-text" type="text" style="width:274px" placeholder = "Please enter the format name.">\
+                                            <span style="text-align: right;display: inline-block;margin-right: 7px;width: 50px;">名称: </span>\
+                                            <input name="log_format_name" class="bt-input-text" type="text" style="width:274px" placeholder = "请输入参数名称.">\
                                         </div>\
-                                        <span style="position: absolute;top: 70px;left: 25px;">Format:</span>\
+                                        <span style="position: absolute;top: 70px;left: 25px;">参数:</span>\
                                         <div style="position: relative;margin-left: 60px;">\
                                             <div class="format-table">'+first_format+'</div>\
                                             '+_format_ul+'\
                                         </div>\
-                                        <button class="btn btn-success btn-sm btn-title btn-add-format" type="button" style="margin-top: 10px;margin-left: 60px;"><span class="glyphicon cursor glyphicon-plus mr5"></span>Add parameter</button>\
-                                        <ul class="help-info-text c7"><li>The format are executed in the order of parameters.</li></ul>\
+                                        <button class="btn btn-success btn-sm btn-title btn-add-format" type="button" style="margin-top: 10px;margin-left: 60px;"><span class="glyphicon cursor glyphicon-plus mr5"></span>添加参数</button>\
+                                        <ul class="help-info-text c7"><li>参数按照参数的顺序执行.</li></ul>\
                                     </div>',
                                     success: function(index, layero) {
                                         $('.nginx-add-format [name=log_format_name]').val(format_name);
@@ -2281,7 +2281,7 @@ var soft = {
                                                         <span class="bt-down-icon" ></span>\
                                                     </div>\
                                                 </div>\
-                                                <a href="javascript:;" class="del-format">Del</a>\
+                                                <a href="javascript:;" class="del-format">删除</a>\
                                             </div>';
                                             $('.format-table').append(_new_line);
                                             $('.format-table').scrollTop(10000000)
@@ -2310,7 +2310,7 @@ var soft = {
                                         }
                                         bt.send('add_httpd_access_log_format', 'config/add_httpd_access_log_format', format_data, function(res) {
                                             layer.close(index);
-                                            if(res.status) $('.bt-soft-menu p:contains("Logs format")').click();
+                                            if(res.status) $('.bt-soft-menu p:contains("日志参数")').click();
                                             layer.msg(res.msg, {icon: res.status ? 1 : 2});
                                         })
                                     }
@@ -2324,7 +2324,7 @@ var soft = {
                                 }, function() {
                                     layer.close(loadP);
                                     bt.send('del_httpd_access_log_format', 'config/del_httpd_access_log_format', {'log_format_name': log_format_name}, function(res) {
-                                        if(res.status) $('.bt-soft-menu p:contains("Logs format")').click();
+                                        if(res.status) $('.bt-soft-menu p:contains("日志参数")').click();
                                         layer.msg(res.msg, {icon: res.status ? 1 : 2});
                                     });
                                 });
@@ -2333,7 +2333,7 @@ var soft = {
                                 var log_format_name = $(this).parent().attr('data-name');
                                 bt.send('get_httpd_access_log_format_parameter', 'config/get_httpd_access_log_format_parameter', {'log_format_name':log_format_name}, function(res) {
                                     if (Object.keys(res.site_list).length == 0) {
-                                        layer.msg('There is no site can apply!', {icon: 2});
+                                        layer.msg('没有网站可以应用!', {icon: 2});
                                         return false;
                                     }
                                     var _site_ul = '<ul class="format-site-list">';
@@ -2345,7 +2345,7 @@ var soft = {
                                         type: 1,
                                         title: 'Website apply format',
                                         closeBtn: 2,
-                                        btn: ['Confirm', 'Cancel'],
+                                        btn: ['确定', '取消'],
                                         content: '<div class="bt-form pd20 nginx-add-site" style="font-size: 13px;">\
                                             <div class="line">\
                                                 <span style="text-align: right;display: inline-block;position: absolute;">Site: </span>\
@@ -2373,7 +2373,7 @@ var soft = {
                                             }
                                             bt.send('set_httpd_format_log_to_website', 'config/set_httpd_format_log_to_website', format_data, function(res) {
                                                 layer.close(index);
-                                                if(res.status) $('.bt-soft-menu p:contains("Logs format")').click();
+                                                if(res.status) $('.bt-soft-menu p:contains("日志参数")').click();
                                                 layer.msg(res.msg, {icon: res.status ? 1 : 2});
                                             })
                                         }
@@ -2799,9 +2799,6 @@ var soft = {
                         }, function(rdata) {
                             loading.close();
                             bt.msg(rdata);
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
                         })
                     }
                     break;
@@ -4390,7 +4387,7 @@ var score = {
                         area: ['400px', '350px'],
                         closeBtn: 2,
                         shadeClose: false,
-                        btn: ['Confirm', 'Cancel'],
+                        btn: ['确定', '取消'],
                         content: '<div class="add_score_view">\
                             <div class="score_icon_group" data-icon="0">\
                                 <span class="glyphicon glyphicon-star" aria-hidden="true" title="very bad：1 star"></span>\

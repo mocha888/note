@@ -11,6 +11,7 @@
 # SSL接口
 #------------------------------
 import public,os,sys,binascii,urllib,json,time,datetime,re
+from Crypto import Random
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
 import base64
@@ -66,7 +67,7 @@ class panelSSL:
                 session['focre_cloud'] = True
                 return public.returnMsg(True,'Bind successfully')
             else:
-                return public.returnMsg(False,'Invalid username or email or password! please check and try again!')
+                return public.returnMsg(False,'无效的用户名、电子邮件或密码！请检查并重试!')
         except Exception as ex:
             bind = 'data/bind.pl'
             if os.path.exists(bind): os.remove(bind)
@@ -407,7 +408,7 @@ class panelSSL:
         #当申请二级域名为www时，检测主域名是否绑定到同一网站
         if get.domain[:4] == 'www.':
             if not public.M('domain').where('name=? AND pid=?',(get.domain[4:],get.id)).count():
-                return public.returnMsg(False,"Apply for [%s] certificate to verify [%s] Please bind [%s] and resolve to the site!" % (get.domain,get.domain[4:],get.domain[4:]))
+                return public.returnMsg(False,"申请[%s]证书需要验证[%s]请将[%s]绑定并解析到站点!" % (get.domain,get.domain[4:],get.domain[4:]))
 
         #检测是否开启强制HTTPS
         if not self.CheckForceHTTPS(get.siteName):
@@ -536,7 +537,7 @@ class panelSSL:
             if 'data' in result:
                 result['data'] = self.En_Code(result['data'])
         except:
-            result = public.returnMsg(True,'CHECKING')
+            result = public.returnMsg(True,'检测中..')
         n = 0;
         my_ok = False
         while True:

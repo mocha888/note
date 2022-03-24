@@ -101,7 +101,7 @@
 
 <body>
     <div class="bt-warp bge6">
-        <div class="top-tips">The current version of IE browser is too low, some functions cannot be displayed, please change to other browsers!</div>
+        <div class="top-tips">IE浏览器当前版本过低，部分功能无法显示，请切换到其他浏览器!</div>
         <a style="display:none;" id="panel_debug" data="{{g['debug']}}" data-pyversion="{{g['pyversion']}}"></a>
         <a style="display:none;" id="request_token_head" token="{{session['request_token_head']}}"></a>
         <div id="container" class="container-fluid">
@@ -127,7 +127,7 @@
             <div class="footer bgw">{{session['brand']}}{{session['product']}} &copy;2014-{{session['yaer']}} {{session['brand']}} (bt.cn)
             	<!--<a style="margin-left:20px;color:#20a53a;" href="http://www.bt.cn/bbs" target="_blank">求助|建议请上宝塔论坛</a>-->
             	<a style="margin-left:20px;color:#20a53a;" href="http://forum.aapanel.com" target="_blank">{{session['bt_help']}}</a>
-                <a style="margin-left:20px;color:#20a53a;" href="https://doc.aapanel.com/web/#/3?page_id=117" target="_blank">Documentation</a>
+                <a style="margin-left:20px;color:#20a53a;" href="https://doc.aapanel.com/web/#/3?page_id=117" target="_blank">求助|建议请上aapanel论坛</a>
             </div>
         </div>
         <script src="{{g.cdn_url}}/js/jquery-1.10.2.min.js"></script>
@@ -194,14 +194,14 @@
                                 msg_body += '<div class="mw-con">\
 		                                <ul class="waiting-down-list">\
 			                                <li>\
-				                                <div class="down-filse-name"><span class="fname" style="width:80%;" title="Downloading: ' + task_list[i].shell + '">Downloading: ' + task_list[i].shell + '</span><span style="position: absolute;left: 84%;top: 25px;color: #999;">' + task_list[i].log.pre + '%</span><span class="btlink" onclick="remove_task(' + task_list[i].id + ')" style="position: absolute;top: 25px;right: 20px;">Cancel</span></div>\
+				                                <div class="down-filse-name"><span class="fname" style="width:80%;" title="正在下载: ' + task_list[i].shell + '">正在下载: ' + task_list[i].shell + '</span><span style="position: absolute;left: 84%;top: 25px;color: #999;">' + task_list[i].log.pre + '%</span><span class="btlink" onclick="remove_task(' + task_list[i].id + ')" style="position: absolute;top: 25px;right: 20px;">取消</span></div>\
 				                                <div class="down-progress"><div class="done-progress" style="width:' + task_list[i].log.pre + '%"></div></div>\
-				                                <div class="down-info"><span class="total-size"> ' + task_list[i].log.used + '/' + ToSize(task_list[i].log.total) + '</span><span class="speed-size">' + (task_list[i].log.speed == 0 ? 'On connection..' : task_list[i].log.speed) + '/s</span><span style="margin-left: 20px;">Estimate: ' + task_list[i].log.time + '</span></div>\
+				                                <div class="down-info"><span class="total-size"> ' + task_list[i].log.used + '/' + ToSize(task_list[i].log.total) + '</span><span class="speed-size">' + (task_list[i].log.speed == 0 ? '正在连接..' : task_list[i].log.speed) + '/s</span><span style="margin-left: 20px;">预计还要: ' + task_list[i].log.time + '</span></div>\
 			                                </li>\
 	                                        </ul>\
 	                                    </div>'
                             } else {
-                                msg_body += '<div class="mw-title"><span style="max-width: 88%;display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">' + task_list[i].name + ': ' + task_list[i].shell + '</span><span class="btlink" onclick="remove_task(' + task_list[i].id + ')"  style="position: absolute;top: 10px;right: 15px;">Cancel</span></div>\
+                                msg_body += '<div class="mw-title"><span style="max-width: 88%;display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">' + task_list[i].name + ': ' + task_list[i].shell + '</span><span class="btlink" onclick="remove_task(' + task_list[i].id + ')"  style="position: absolute;top: 10px;right: 15px;">取消</span></div>\
 	                                    <div class="mw-con codebg">\
 		                                    <code>' + task_list[i].log + '</code>\
 	                                    </div>'
@@ -210,7 +210,7 @@
 
                         } else {
                             if (!is_add) {
-                                msg_body += '<div class="mw-title">Waiting to execute task</div><div class="mw-con"><ul class="waiting-list">';
+                                msg_body += '<div class="mw-title">等待执行任务</div><div class="mw-con"><ul class="waiting-list">';
                                 is_add = true;
                             }
                             msg_body += '<li><span class="wt-list-name" style="width: 90%;">' + task_list[i].name + ': ' + task_list[i].shell + '</span><span class="mw-cancel" onclick="remove_task(' + task_list[i].id + ')">X</span></li>';
@@ -238,7 +238,7 @@
             function show_task() {
                 task_open = layer.open({
                     type: 1,
-                    title: "Real time task queue",
+                    title: "实时任务队列",
                     area: '500px',
                     closeBtn: 2,
                     shadeClose: false,
@@ -252,7 +252,7 @@
             }
 
             function remove_task(id) {
-                loadT = layer.msg('Canceling task...', {
+                loadT = layer.msg('正在取消任务...', {
                     time: 0,
                     icon: 16,
                     shade: [0.3, '#000']

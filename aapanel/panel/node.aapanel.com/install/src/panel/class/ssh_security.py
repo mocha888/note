@@ -18,23 +18,23 @@ class ssh_security:
     __pyenv = 'python'
     __REPAIR={"1":{"id":1,
                    "type":"file",
-                   "harm":"High",
+                   "harm":"高",
                    "repaired":"1",
                    "level":"3",
-                   "name":"Make sure SSH MaxAuthTries is set between 3-6",
+                   "name":"确保SSH MaxAuthTries 设置为3-6之间",
                    "file":"/etc/ssh/sshd_config",
-                   "Suggestions":"Remove the MaxAuthTries comment symbol # in /etc/ssh/sshd_config, set the maximum number of failed password attempts 3-6 recommended 4",
+                   "Suggestions":"加固建议   在/etc/ssh/sshd_config 中取消MaxAuthTries注释符号#, 设置最大密码尝试失败次数3-6 建议为4",
                    "repair":"MaxAuthTries 4",
                    "rule":[{"re":"\nMaxAuthTries\\s*(\\d+)","check":{"type":"number","max":7,"min":3}}],
                    "repair_loophole":[{"re":"\n?#?MaxAuthTries\\s*(\\d+)","check":"\nMaxAuthTries 4"}]},
               "2":{"id":2,
                    "repaired":"1",
                    "type":"file",
-                   "harm":"High",
+                   "harm":"高",
                    "level":"3",
-                   "name":"SSHD Mandatory use of V2 security protocol",
+                   "name":"SSHD 强制使用V2安全协议",
                    "file":"/etc/ssh/sshd_config",
-                   "Suggestions":"Set parameters in the /etc/ssh/sshd_config file as follows",
+                   "Suggestions":"加固建议   在/etc/ssh/sshd_config 文件按如相下设置参数",
                    "repair":"Protocol 2",
                    "rule":[{"re":"\nProtocol\\s*(\\d+)",
                             "check":{"type":"number","max":3,"min":1}}],
@@ -42,44 +42,44 @@ class ssh_security:
               "3":{"id":3,
                    "repaired":"1",
                    "type":"file",
-                   "harm":"High",
+                   "harm":"高",
                    "level":"3",
-                   "name":"Set SSH idle exit time",
+                   "name":"设置SSH空闲超时退出时间",
                    "file":"/etc/ssh/sshd_config",
-                   "Suggestions":"Set ClientAliveInterval to 300 to 900 in /etc/ssh/sshd_config, which is 5-15 minutes, and set ClientAliveCountMax to 0-3",
+                   "Suggestions":"加固建议   在/etc/ssh/sshd_config 将ClientAliveInterval设置为300到900，即5-15分钟，将ClientAliveCountMax设置为0-3",
                    "repair":"ClientAliveInterval 600  ClientAliveCountMax 2",
                    "rule":[{"re":"\nClientAliveInterval\\s*(\\d+)","check":{"type":"number","max":900,"min":300}}],
                    "repair_loophole":[{"re":"\n?#?ClientAliveInterval\\s*(\\d+)","check":"\nClientAliveInterval 600"}]},
               "4":{"id":4,
                    "repaired":"1",
                    "type":"file",
-                   "harm":"High",
+                   "harm":"高",
                    "level":"3",
-                   "name":"Make sure SSH LogLevel is set to INFO",
+                   "name":"确保SSH LogLevel 设置为INFO",
                    "file":"/etc/ssh/sshd_config",
-                   "Suggestions":"Set parameters in the /etc/ssh/sshd_config file as follows (uncomment)",
+                   "Suggestions":"加固建议   在/etc/ssh/sshd_config 文件以按如下方式设置参数（取消注释）",
                    "repair":"LogLevel INFO",
                    "rule":[{"re":"\nLogLevel\\s*(\\w+)","check":{"type":"string","value":["INFO"]}}],
                    "repair_loophole":[{"re":"\n?#?LogLevel\\s*(\\w+)","check":"\nLogLevel INFO"}]},
               "5":{"id":5,
                    "repaired":"1",
                    "type":"file",
-                   "harm":"High",
+                   "harm":"高",
                    "level":"3",
-                   "name":"Disable SSH users with empty passwords from logging in",
+                   "name":"禁止SSH空密码用户登陆",
                    "file":"/etc/ssh/sshd_config",
-                   "Suggestions":"Configure PermitEmptyPasswords to no in /etc/ssh/sshd_config",
+                   "Suggestions":"加固建议  在/etc/ssh/sshd_config 将PermitEmptyPasswords配置为no",
                    "repair":"PermitEmptyPasswords no",
                    "rule":[{"re":"\nPermitEmptyPasswords\\s*(\\w+)","check":{"type":"string","value":["no"]}}],
                    "repair_loophole":[{"re":"\n?#?PermitEmptyPasswords\\s*(\\w+)","check":"\nPermitEmptyPasswords no"}]},
               "6":{"id":6,
                    "repaired":"1",
                    "type":"file",
-                   "name":"SSH uses the default port 22",
-                   "harm":"High",
+                   "name":"SSH使用默认端口22",
+                   "harm":"高",
                    "level":"3",
                    "file":"/etc/ssh/sshd_config",
-                   "Suggestions":"Set Port to 6000 to 65535 in / etc / ssh / sshd_config",
+                   "Suggestions":"加固建议 在 /etc/ssh/ 将Port 设置为6000到65535随意一个, 例如",
                    "repair":"Port 60151",
                    "rule":[{"re":"Port\\s*(\\d+)","check":{"type":"number","max":65535,"min":22}}],
                    "repair_loophole":[{"re":"\n?#?Port\\s*(\\d+)","check":"\nPort 65531"}]}}
@@ -201,7 +201,7 @@ class ssh_security:
         data=public.ExecShell('''cat /etc/passwd | awk -F: '($3 == 0) { print $1 }'|grep -v '^root$'  ''')
         data=data[0]
         if re.search("\w+",data):
-            self.send_mail_data(public.GetLocalIp()+'There are backdoor users on the server',public.GetLocalIp()+'There are backdoor users on the server'+data+'Check the /etc/passwd file')
+            self.send_mail_data(public.GetLocalIp()+'服务器存在后门用户',public.GetLocalIp()+'服务器存在后门用户'+data+'检查/etc/passwd文件')
             return True
         else:
             return False
@@ -217,20 +217,20 @@ class ssh_security:
     def add_return_ip(self, get):
         self.check_files()
         if get.ip.strip() in self.__ip_data:
-            return public.returnMsg(False, "Already exists")
+            return public.returnMsg(False, "已经存在")
         else:
             self.__ip_data.append(get.ip.strip())
             public.writeFile(self.__ClIENT_IP, json.dumps(self.__ip_data))
-            return public.returnMsg(True, "Added successfully")
+            return public.returnMsg(True, "添加成功")
 
     def del_return_ip(self, get):
         self.check_files()
         if get.ip.strip() in self.__ip_data:
             self.__ip_data.remove(get.ip.strip())
             public.writeFile(self.__ClIENT_IP, json.dumps(self.__ip_data))
-            return public.returnMsg(True, "Successfully deleted")
+            return public.returnMsg(True, "删除成功")
         else:
-            return public.returnMsg(False, "IP does not exist")
+            return public.returnMsg(False, "不存在")
 
     #取登陆的前50个条记录
     def login_last(self):
@@ -255,9 +255,9 @@ class ssh_security:
         if 'p' in args: p = int(args.p)
         rows = 10
         if 'rows' in args: rows = int(args.rows)
-        count = public.M('logs').where('type=?', ('SSH security',)).count()
+        count = public.M('logs').where('type=?', ('SSH安全',)).count()
         data = public.get_page(count, int(args.p), int(rows))
-        data['data'] = public.M('logs').where('type=?', ('SSH security',)).limit(data['shift'] + ',' + data['row']).order(
+        data['data'] = public.M('logs').where('type=?', ('SSH安全',)).limit(data['shift'] + ',' + data['row']).order(
             'addtime desc').select()
         return data
 
@@ -282,13 +282,13 @@ class ssh_security:
             import time
             mDate = time.strftime('%Y-%m-%d %X', time.localtime())
             if ip[0] in self.__ip_data:
-                if public.M('logs').where('type=? addtime', ('SSH security',mDate,)).count():return False
-                public.WriteLog('SSH security', 'The server {} login IP is {}, login user is root'.format(public.GetLocalIp(),ip[0]))
+                if public.M('logs').where('type=? addtime', ('SSH安全',mDate,)).count():return False
+                public.WriteLog('SSH安全', '服务器{}登录IP为{}，登录用户为root'.format(public.GetLocalIp(),ip[0]))
                 return False
             else:
-                if public.M('logs').where('type=? addtime', ('SSH security', mDate,)).count(): return False
-                self.send_mail_data('Server {} login alarm'.format(public.GetLocalIp()),'There is a login alarm on the server {}, the login IP is {}, the login user is root'.format(public.GetLocalIp(),ip[0]))
-                public.WriteLog('SSH security','There is a login alarm on the server {}, the login IP is {}, login user is root'.format(public.GetLocalIp(),ip [0]))
+                if public.M('logs').where('type=? addtime', ('SSH安全', mDate,)).count(): return False
+                self.send_mail_data('服务器{}异常登录'.format(public.GetLocalIp()),'服务器{}存在异常登陆，登录IP是{}，登录用户是root'.format(public.GetLocalIp(),ip[0]))
+                public.WriteLog('SSH安全','服务器{}在异常登陆登陆，登录IP为{}，登录用户为root'.format(public.GetLocalIp(),ip [0]))
                 return True
         except:
             pass
@@ -298,8 +298,8 @@ class ssh_security:
         data=public.ReadFile(self.return_bashrc())
         if not re.search('{}\/www\/server\/panel\/class\/ssh_security.py'.format(".*python\s+"),data):
             public.WriteFile(self.return_bashrc(),data.strip()+'\n'+self.return_python()+ ' /www/server/panel/class/ssh_security.py login\n')
-            return public.returnMsg(True, 'Open successfully')
-        return public.returnMsg(False, 'Open failed')
+            return public.returnMsg(True, '开启成功')
+        return public.returnMsg(False, '开启失败')
 
     #关闭监控
     def stop_jian(self,get):
@@ -309,9 +309,9 @@ class ssh_security:
             if os.path.exists('/etc/bashrc'):
                 if re.search('python /www/server/panel/class/ssh_security.py', data):
                     public.WriteFile(self.return_bashrc(),data.replace(self.return_python()+' /www/server/panel/class/ssh_security.py login',''))
-            return public.returnMsg(True, 'Closed successfully')
+            return public.returnMsg(True, '关闭成功')
         else:
-            return public.returnMsg(True, 'Closed successfully')
+            return public.returnMsg(True, '关闭成功')
 
     #监控状态
     def get_jian(self,get):
@@ -334,7 +334,7 @@ class ssh_security:
             file_result = re.sub(ssh_password, '\nPasswordAuthentication yes', file)
         self.wirte(self.__SSH_CONFIG, file_result)
         self.restart_ssh()
-        return public.returnMsg(True, 'Open successfully')
+        return public.returnMsg(True, '开启成功')
 
     def set_sshkey(self, get):
         '''
@@ -344,9 +344,9 @@ class ssh_security:
         type_list = ['rsa', 'dsa','ed25519']
         ssh_type = ['yes', 'no']
         ssh = get.ssh
-        if not ssh in ssh_type: return public.returnMsg(False, 'ssh option failed')
+        if not ssh in ssh_type: return public.returnMsg(False, 'ssh选项失败')
         type = get.type
-        if not type in type_list: return public.returnMsg(False, 'Wrong encryption method')
+        if not type in type_list: return public.returnMsg(False, '加密方式错误')
         file = ['/root/.ssh/id_rsa.pub', '/root/.ssh/id_rsa', '/root/.ssh/authorized_keys']
         for i in file:
             if os.path.exists(i):
@@ -369,9 +369,9 @@ class ssh_security:
                     file_result = re.sub(ssh_password, '\nPasswordAuthentication no', file_result)
             self.wirte(self.__SSH_CONFIG, file_result)
             self.restart_ssh()
-            return public.returnMsg(True, 'Open successfully')
+            return public.returnMsg(True, '开启成功')
         else:
-            return public.returnMsg(False, 'Open failed')
+            return public.returnMsg(False, '开启失败')
 
     def stop_key(self, get):
         '''
@@ -387,7 +387,7 @@ class ssh_security:
         self.wirte(self.__SSH_CONFIG, file_result)
         self.set_password(get)
         self.restart_ssh()
-        return public.returnMsg(True, 'Closed successfully')
+        return public.returnMsg(True, '关闭成功')
 
     def get_config(self, get):
         '''
@@ -451,7 +451,7 @@ class ssh_security:
             file_result = re.sub(ssh_password, '\nPermitRootLogin yes', file)
         self.wirte(self.__SSH_CONFIG, file_result)
         self.restart_ssh()
-        return public.returnMsg(True, 'Successfully opened')
+        return public.returnMsg(True, '开启成功')
 
     def stop_root(self, get):
         '''
@@ -466,7 +466,7 @@ class ssh_security:
             file_result = re.sub(ssh_password, '\nPermitRootLogin no', file)
         self.wirte(self.__SSH_CONFIG, file_result)
         self.restart_ssh()
-        return public.returnMsg(True, 'Closed successfully')
+        return public.returnMsg(True, '关闭成功')
 
     def stop_password(self, get):
         '''
@@ -478,7 +478,7 @@ class ssh_security:
         file_result = re.sub(ssh_password, '\nPasswordAuthentication no', file)
         self.wirte(self.__SSH_CONFIG, file_result)
         self.restart_ssh()
-        return public.returnMsg(True, 'Closed successfully')
+        return public.returnMsg(True, '关闭成功')
 
     def get_key(self, get):
         '''

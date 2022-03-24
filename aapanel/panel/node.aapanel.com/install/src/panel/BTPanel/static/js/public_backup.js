@@ -326,7 +326,7 @@ var bt = {
         var loadT = bt.open({
             type: 1,
             area: "680px",
-            title: type === 'all' ? 'Select directories or files' : lan.bt.dir,
+            title: type === 'all' ? '选择目录和文件' : lan.bt.dir,
             closeBtn: 2,
             shift: 5,
             content: "<div class='changepath'><div class='path-top'><button type='button' id='btn_back' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-share-alt'></span> " + lan.public.return+"</button><div class='place' id='PathPlace'>" + lan.bt.path + "：<span></span></div></div><div class='path-con'><div class='path-con-left'><dl><dt id='changecomlist' >" + lan.bt.comp + "</dt></dl></div><div class='path-con-right'><ul class='default' id='computerDefautl'></ul><div class='file-list divtable'><table class='table table-hover' style='border:0 none'><thead><tr class='file-list-head'><th width='5%'></th><th width='38%'>" + lan.bt.filename + "</th><th width='24%'>" + lan.bt.etime + "</th><th width='8%'>" + lan.bt.access + "</th><th width='15%'>" + lan.bt.own + "</th></tr></thead><tbody id='tbody' class='list-list'></tbody></table></div></div></div></div><div class='getfile-btn' style='margin-top:0'><button type='button' class='btn btn-default btn-sm pull-left' onclick='CreateFolder()'>" + lan.bt.adddir + "</button><button type='button' class='btn btn-danger btn-sm mr5' onclick=\"layer.close(getCookie('ChangePath'))\">" + lan.public.close + "</button> <button type='button' id='bt_select' class='btn btn-success btn-sm' >" + lan.bt.path_ok + "</button></div>",
@@ -341,7 +341,7 @@ var bt = {
                 $('#bt_select').on('click',function () {
                     var path = bt.format_path($("#PathPlace").find("span").text());
                     if(type === 'file' && !$('#tbody tr.active').length){
-                        layer.msg('Select the file first!',{icon:0})
+                        layer.msg('请选择文件后继续操作!',{icon:0})
                         return false;
                     }
                     if ($('#tbody tr').hasClass('active')) {
@@ -469,12 +469,12 @@ var bt = {
             title: title,
             area: "480px",
             closeBtn: 2,
-            btn: ['OK', 'Cancel'],
+            btn: ['确认', '取消'],
             content: "<div class='bt-form promptDelete pd20'>\
             	<p>" + msg + "</p>\
             	<div class='confirm-info-box'>\
             		<input onpaste='return false;' id='prompt_input_box' type='text' value=''>\
-            		<div class='placeholder c9 prompt_input_tips' >If you confirm the operation, enter it manually '<font style='color: red'>" + title + "</font>'</div>\
+            		<div class='placeholder c9 prompt_input_tips' >如果确认操作，请手动输入'<font style='color: red'>" + title + "</font>'</div>\
                     <div style='margin-top:5px;display: none;' class='prompt_input_ps'>The verification code is incorrect. Please enter it manually '<font style='color: red'>" + title + "</font>'</div></div>\
             	</div>",
             success: function () {
@@ -3744,8 +3744,8 @@ bt.soft = {
             } else {
               $('#libPay-content').empty()
               $('.libPay-mask').hide();
-              $('#libPay-pay').empty().append('<div style="font-size: 18px;position: relative;top: 25px;text-align: center;">Please apply for SSL before purchasing!</div>\
-              <div class="lib-price-box text-center"><button type="button" id="turn_on_ssl" style="margin-top:50px" class="btn btn-success ">Turn on SSL</button></div>');
+              $('#libPay-pay').empty().append('<div style="font-size: 18px;position: relative;top: 25px;text-align: center;">请在购买前申请SSL!</div>\
+              <div class="lib-price-box text-center"><button type="button" id="turn_on_ssl" style="margin-top:50px" class="btn btn-success ">打开SSL</button></div>');
               $('#turn_on_ssl').on('click', function (e) {
                 setPanelSSL()
               })
@@ -3886,7 +3886,7 @@ bt.soft = {
 				title = (!config.renew?'Buy ':'续费') + config.name;
 				ndTime = !config.renew?config.renew:null
 			}else if(config.pro == -1 && config.ltd == -1){  // 条件：专业版和企业版都没有购买过
-				title = 'Upgrade to Pro, all plugins are free to use';
+				title = '升级至Pro，所有插件均可免费使用';
 			}else if(config.ltd > 0){  // 条件：企业版续费
 				title = 'Renew ' +(config.name == ''?'宝塔专业版':config.name);
 				endTime = config.ltd;
@@ -3907,19 +3907,19 @@ bt.soft = {
 			shadeClose:false,
 			content:'<div class="libPay plr15" id="pay_product_view">\
 				<div class="libPay-item" style="margin-bottom:20px">\
-					<span class="bindUser">Account: <span></span></span>\
-					<span class="endTime">Expire date：<span></span></span>\
+					<span class="bindUser">账户: <span></span></span>\
+					<span class="endTime">到期日期：<span></span></span>\
 				</div>\
 				<div class="libPay-item" id="libPay-type">\
-					<div class="li-tit c3">Type</div>\
+					<div class="li-tit c3">类型</div>\
 					<div class="li-con c5"></div>\
 				</div>\
 				<div class="libPay-item" id="libPay-mode">\
-					<div class="li-tit c4">Payment method</div>\
+					<div class="li-tit c4">付款方式</div>\
 					<div class="li-con c5"></div>\
 				</div>\
 				<div class="libPay-item" id="libPay-content">\
-					<div class="li-tit c4">Choose your plan</div>\
+					<div class="li-tit c4">选择您的计划</div>\
 					<div class="li-con c5"></div>\
 				</div>\
 				<div class="libPay-item" id="libPay-pay"></div>\
@@ -3930,10 +3930,10 @@ bt.soft = {
         var bt_user_info = bt.get_cookie('bt_user_info');
         if(!bt_user_info){
           bt.pub.get_user_info(function(res){
-            $('.bindUser span').html(res.data.username +'<a href="javascript:;" class="btlink ml5">Change</a>');
+            $('.bindUser span').html(res.data.username +'<a href="javascript:;" class="btlink ml5">更改账号</a>');
           });
         }else{
-          $('.bindUser span').html(JSON.parse(bt_user_info).data.username +'<a href="javascript:;" class="btlink ml5">Change</a>');
+          $('.bindUser span').html(JSON.parse(bt_user_info).data.username +'<a href="javascript:;" class="btlink ml5">更改账号</a>');
         }
 				endTime != null?$('.endTime span').html(endTime > parseInt(new Date().getTime() /1000)?bt.format_data(endTime):'<i style="color:red;font-style:inherit">Expired</i>'):$('.endTime').hide();
 				$('.bindUser').on('click','a',function(){
@@ -3945,7 +3945,7 @@ bt.soft = {
                 //config.name = '堡塔企业级防篡改';
 				if(config.plugin) arry.push({title:config.name,name:config.name,ps:'Plug-in only',pid:config.pid,renew:config.renew || false,active:((config.pro < 0 && config.ltd < 0) || (config.type == 12 && config.ltd<0)?true:false)});
 				if((((config.pro > 0  || config.pro == -2 || config.ltd < 0) && ((config.ltd > 0 && config.ltd != config.pro) || config.ltd < 0) && config.type != 12) || config.limit == 'pro' || (config.ltd < 0 && config.pro == -1)) && config.type != 12 && ((config.ltd < 0 && config.pro > 0) || (config.ltd < 0 && config.pro < 0))){
-					arry.push({title:'<span class="pro-font-icon"></span>',name:'',pid:'100000058',ps:'Recommended',renew:config.renew || false,active:  (((config.type == 8 && !config.plugin) || config.limit == 'pro' || (config.pro > 0 || config.pro == -2)) && config.ltd < 0 && (config.ltd == -2?(config.pro == -2?false:true):true))});
+					arry.push({title:'<span class="pro-font-icon"></span>',name:'',pid:'100000058',ps:'推荐',renew:config.renew || false,active:  (((config.type == 8 && !config.plugin) || config.limit == 'pro' || (config.pro > 0 || config.pro == -2)) && config.ltd < 0 && (config.ltd == -2?(config.pro == -2?false:true):true))});
 				}
 
 				// if((((config.ltd > 0 || config.ltd == -2 || config.pro == -2) || (config.ltd == -1 && config.pro == -1) || config.limit == 'ltd') && (config.pro < 0 || (config.pro >= 0 && config.ltd >0))) || (config.is_alone && config.pid == 100000032)){
@@ -3994,7 +3994,7 @@ bt.soft = {
                 bt.send('get_product_auth', 'auth/get_product_auth', { page: 1,pageSize:15 }, function(res) {
                   bt.soft.pro.get_voucher(config.pid, function (rdata) {
                     loadT.close();
-                    var _arry = [{ title: '微信支付', condition: 2 },{ title: 'Stripe', condition: 3 }, { title: 'voucher', condition: 4 },{title: "Authorization", condition: 7,"_pid":config.pid}];
+                    var _arry = [{ title: '微信支付', condition: 2 },{ title: 'Stripe', condition: 3 }, { title: '抵扣卷', condition: 4 },{title: "授权", condition: 7,"_pid":config.pid}];
                     if(config.renew){
                       _arry.splice(_arry.length-1,1)
                       _arry[rdata.length > 0 ? '2' : '1'].active = true
@@ -4025,7 +4025,7 @@ bt.soft = {
               break;
             case 2:
             case 3:
-                $('#libPay-content .li-tit').text('Choose your plan');
+                $('#libPay-content .li-tit').text('选择您的计划');
                 config.pay = condition;
                 if (config.pid == '100000030') {
                     $('#libPay-tips').show();
@@ -4054,10 +4054,8 @@ bt.soft = {
                 });
                 break;
             case 4:
-                var loadP = bt.load("Getting deduction volume information!")
+                var loadP = bt.load("获取抵扣卷信息!")
                 clearInterval(bt.soft.pub.wxpayTimeId);
-                $('#libPay-content').empty().append('<div class="li-tit c4"></div><div class="li-con c5"></div>');
-                $('#libPay-pay').empty();
                 $('#libPay-content .li-tit').text('Vouchers');
                 $('#libPay-pay').removeAttr('data-qecode');
                 $('#libPay-tips').hide();
@@ -4103,7 +4101,7 @@ bt.soft = {
                     return false;
                   }
                 }else{
-                    $('#libPay-pay').html('<div class="cloading">Loading, please wait!</div>');
+                    $('#libPay-pay').html('<div class="cloading">正在加载，请等待!</div>');
                 }
                 var paream = {pid:config.pid,cycle:config.cycle},pay_source = bt.get_cookie('pay_source');
                 if(pay_source) paream.source = bt.get_cookie('pay_source');
@@ -4121,23 +4119,23 @@ bt.soft = {
                   $('#libPay-pay').empty().append(that.product_pay_swicth((config.pay == 2?'wechat':'alipay'),$.extend({ order_no:rdata.order_no,stripe_publishable_key:rdata.stripe_publishable_key}, config)));
                 });
                 $("#libPay-pay").on('click','#checkout-button',function(){
-                  var loadT = bt.load("Getting the session ID,Please waiting!")
+                  var loadT = bt.load("正在生成订单,请稍候!")
                   var stripe = Stripe($(this).data('keys'));
                   that.pro.get_check_out_info($(this).data('code'),function(res){
                     loadT.close()
                     if(res.id){
                         stripe.redirectToCheckout({ sessionId: res.id });
                     }else{
-                        layer.msg("Payment order failed, please contact administrator!", { icon: 2 });
+                        layer.msg("支付订单失败，请联系管理员!", { icon: 2 });
                     }
                   })
                 })
                 break;
             case 6:
-                var _html = $('<div class="paymethod-submit text-center"></div>'), _button = $('<button class="btn btn-success btn-sm f16 ' + (config.serial_no ? '' : 'disabled') + '" style="width: 200px; height: 40px;">' + (config.serial_no ? 'Pay' : 'No vouchers') + '</button>');
+                var _html = $('<div class="paymethod-submit text-center"></div>'), _button = $('<button class="btn btn-success btn-sm f16 ' + (config.serial_no ? '' : 'disabled') + '" style="width: 200px; height: 40px;">' + (config.serial_no ? 'Pay' : '没有抵扣券') + '</button>');
                 _button.click(function (ev) {
                     if (!config.serial_no){
-                        layer.msg('No vouchers');
+                        layer.msg('没有抵扣券');
                         return false;
                     }
                     bt.soft.pro.create_order_voucher(config.pid, config.code, config.id, config.cycle, config.cycle_unit , config.charge_type,function (rdata) {
@@ -4151,11 +4149,9 @@ bt.soft = {
                 break;
             case 7:
                 if(config.renew) return false
-                var loadA = bt.load("Obtaining authorization information!")
-                $('#libPay-content').empty().append('<div class="li-tit c4"></div><div class="li-con c5"></div>');
-                $('#libPay-pay').empty();
+                var loadA = bt.load("获取授权信息!")
                     var _pid = config.pid;
-                     $('#libPay-content .li-tit').text('Authorization information');
+                     $('#libPay-content .li-tit').text('授权信息');
                     bt.send('get_product_auth', 'auth/get_product_auth', { page: 1,pageSize:15 }, function(res) {
                     loadA.close();
                     if(res.status==false){
@@ -4164,7 +4160,7 @@ bt.soft = {
                     }
                     _html = $('<ul class="pay-btn-group"></ul>');
                     if(res.length == 0){
-                      _html.append($('<li class="pay-cycle-btn" id="no_authorization" style="width:180px;cursor: default;" disabled="disabled"><span> No authorization</span></li>'));
+                      _html.append($('<li class="pay-cycle-btn" id="no_authorization" style="width:180px;cursor: default;" disabled="disabled"><span> 没有授权</span></li>'));
                     }
                     var  authorization_flag = false;
                     $.each(res, function (index, item) {
@@ -4173,14 +4169,14 @@ bt.soft = {
                             authorization_flag = true;
                         }
                         if(authorization_flag == false && index == res.length - 1){
-                             _html.append($('<li class="pay-cycle-btn" id="no_authorization" style="width:180px;cursor: default;" disabled="disabled"><span> No authorization</span></li>'));
+                             _html.append($('<li class="pay-cycle-btn" id="no_authorization" style="width:180px;cursor: default;" disabled="disabled"><span> 没有授权</span></li>'));
                         }
                     });
                     $('#libPay-content .li-con').empty().append(_html);
                     $('#libPay-content ul li').click(function(){
                       $(this).addClass('active').siblings().removeClass('active')
                     });
-                    $('#libPay-pay').empty().append($('<div class="lib-price-box text-center"><button type="button" id="authorization" style="margin-top:30px" class="btn btn-success ">Authorization</button></div>'));
+                    $('#libPay-pay').empty().append($('<div class="lib-price-box text-center"><button type="button" id="authorization" style="margin-top:30px" class="btn btn-success ">授权</button></div>'));
                     //授权
                     $('#authorization').unbind();
                     if($('#libPay-content .li-con ul li  span').html().indexOf("No authorization")>0){
@@ -4249,7 +4245,7 @@ bt.soft = {
                 });
                 break;
             case 'voucher':// 产品抵扣卷（配置参数）
-                _html = $('<ul class="pay-btn-group voucher-group"></ul>');
+                _html = $('<ul class="pay-btn-group"></ul>');
                 this.each(config.data, function (index, item){
                     _html.append($('<li class="pay-cycle-btn ' + (item.active ? 'active' : '') + '"><span>' + (item.cycle_unit == 'month' && item.cycle == 999 ? '永久' : (item.cycle + that.pro.conver_unit(item.cycle_unit))) + '</span></li>').data($.extend({ pid: config.pid }, item)).click(function (ev) {
                         var data = $(this).data();
@@ -4265,7 +4261,7 @@ bt.soft = {
                     '<span class="price-txt"><b class="sale-price">$' + (config.price).toFixed(2) + '</b></span>' +
                     '<s class="cost-price" style="display: ' + (config.market_price > config.price ? 'inline-block' : 'none') + ';">$ ' + (config.market_price).toFixed(2) + '</s></div>' +
                     '<div class="lib-price-box text-center">' +
-                    '<button type="button" id="checkout-button" style="margin-top:30px" class="btn btn-success " data-code="'+config.order_no+'" data-keys="'+config.stripe_publishable_key+'">Pay Now</button>'
+                    '<button type="button" id="checkout-button" style="margin-top:30px" class="btn btn-success " data-code="'+config.order_no+'" data-keys="'+config.stripe_publishable_key+'">立即支付</button>'
                 );
                 // $(_html).find('#PayQcode').qrcode(config.data);
                 $('.libPay-mask').hide();
@@ -4548,7 +4544,7 @@ bt.soft = {
                     charge_type = _active.attr("data-charge-type");
 
                     var  _span = $("#couponlist .pay-btn-group .active span"),
-                    cycle = parseInt(_span.html()),cycle_unit = _span.html.indexOf("Month")?"month":"year";
+                    cycle = parseInt(_span.html()),cycle_unit = _span.html.indexOf("month")?"month":"year";
                     if (code == undefined) {
                         layer.msg(lan.public_backup.choose_cash_coupon);
                     } else {
@@ -4743,10 +4739,10 @@ bt.soft = {
             args: $("input[name='make_args']").val()
         }
         if (pdata.args_name.length < 1 || pdata.args.length < 1) {
-            layer.msg('Custom module name and parameter cannot be empty!');
+            layer.msg('自定义模块名称和参数不能为空!');
             return
         }
-        loadT = bt.load('Adding custom module...')
+        loadT = bt.load('正在添加自定义模块...')
         bt.send('add_make_args', 'plugin/add_make_args', pdata, function (rdata) {
             loadT.close();
             bt.soft.get_make_args(name);
@@ -4759,31 +4755,31 @@ bt.soft = {
         var _aceEditor = '';
         bt.soft.loadOpen = bt.open({
             type: 1,
-            title: 'Add custom module',
+            title: '添加自定义选装模块',
             area: '500px',
             btn: [lan.public.submit, lan.public.close],
             content: '<div class="bt-form c6">\
 				<from class="bt-form" id="outer_url_form" style="padding:30px 10px;display:inline-block;">\
 					<div class="line">\
-						<span class="tname">Name</span>\
+						<span class="tname">模块名称</span>\
 						<div class="info-r" style="margin-left: 100px;">\
-							<input name="make_name" class="bt-input-text mr5" type="text" placeholder="Enter module name e.g., test_1" style="width:350px" value="">\
+							<input name="make_name" class="bt-input-text mr5" type="text" placeholder="只能是字母、数字、下划线" style="width:350px" value="">\
 						</div>\
 					</div>\
 					<div class="line">\
-						<span class="tname">Details</span>\
+						<span class="tname">模块描述</span>\
 						<div class="info-r" style="margin-left: 100px;">\
-							<input name="make_ps" class="bt-input-text mr5" placeholder="Description within 30 words" type="text" style="width:350px" value="">\
+							<input name="make_ps" class="bt-input-text mr5" placeholder="30字以内的描述" type="text" style="width:350px" value="">\
 						</div>\
 					</div>\
 					<div class="line">\
-						<span class="tname">Parameter</span>\
+						<span class="tname">模块参数</span>\
 						<div class="info-r" style="margin-left: 100px;">\
-							<input name="make_args" class="bt-input-text mr5" type="text" placeholder="As：--add-module=/tmp/echo/echo-nginx-module-master" style="width:350px" value="">\
+							<input name="make_args" class="bt-input-text mr5" type="text" placeholder="如：--add-module=/tmp/echo/echo-nginx-module-master" style="width:350px" value="">\
 						</div>\
 					</div>\
 					<div class="line">\
-						<span class="tname">Prefix script</span>\
+						<span class="tname">前置脚本</span>\
 						<div class="info-r" style="margin-left: 100px;">\
 							<div id="preposition_shell" class="bt-input-text" style="height:300px;width:350px;font-size:11px;line-height:20px;"></div>\
 						</div>\
@@ -4803,7 +4799,7 @@ bt.soft = {
                     showPrintMargin: false,
                     readOnly: false
                 });
-                _aceEditor.setValue('# The shell script content executed before compilation is usually prepared for the dependent installation and source download of the third-party module');
+                _aceEditor.setValue('# 在编译前执行的shell脚本内容，通常为第三方模块的依赖安装和源码下载等前置准备');
             },
             yes: function () {
                 bt.soft.add_make_args(name, _aceEditor.getValue());
@@ -4815,31 +4811,31 @@ bt.soft = {
         var _aceEditor = '';
         bt.soft.loadOpen = bt.open({
             type: 1,
-            title: 'Edit custom option module[' + name + ':' + args_name + ']',
+            title: '编辑自定义选装模块[' + name + ':' + args_name + ']',
             area: '500px',
             btn: [lan.public.submit, lan.public.close],
             content: '<div class="bt-form c6">\
 				<from class="bt-form" id="outer_url_form" style="padding:30px 10px;display:inline-block;">\
 					<div class="line">\
-						<span class="tname" style="width: 125px;padding-right: 5px;">Module name</span>\
+						<span class="tname" style="width: 125px;padding-right: 5px;">模块名称</span>\
 						<div class="info-r">\
-							<input name="make_name" class="bt-input-text mr5" type="text" placeholder="Only letters, numbers, underscores" style="width:350px" value="'+ bt.soft.make_data[args_name].name + '">\
+							<input name="make_name" class="bt-input-text mr5" type="text" placeholder="只能是字母、数字、下划线" style="width:350px" value="'+ bt.soft.make_data[args_name].name + '">\
 						</div>\
 					</div>\
 					<div class="line">\
-						<span class="tname" style="width: 125px;padding-right: 5px;">Module details</span>\
+						<span class="tname" style="width: 125px;padding-right: 5px;">模块描述</span>\
 						<div class="info-r">\
-							<input name="make_ps" class="bt-input-text mr5" placeholder="Description within 30 words" type="text" style="width:350px" value="'+ bt.soft.make_data[args_name].ps + '">\
+							<input name="make_ps" class="bt-input-text mr5" placeholder="30字以内的描述" type="text" style="width:350px" value="'+ bt.soft.make_data[args_name].ps + '">\
 						</div>\
 					</div>\
 					<div class="line">\
-						<span class="tname" style="width: 125px;padding-right: 5px;">Module parameter</span>\
+						<span class="tname" style="width: 125px;padding-right: 5px;">模块参数</span>\
 						<div class="info-r">\
 							<input name="make_args" class="bt-input-text mr5" type="text" placeholder="As：--add-module=/tmp/echo/echo-nginx-module-master" style="width:350px" value="'+ bt.soft.make_data[args_name].args + '">\
 						</div>\
 					</div>\
 					<div class="line">\
-						<span class="tname" style="width: 125px;padding-right: 5px;">Prefix script</span>\
+						<span class="tname" style="width: 125px;padding-right: 5px;">前置脚本</span>\
 						<div class="info-r">\
 							<div id="preposition_shell" class="bt-input-text" style="height:300px;width:350px;font-size:11px;line-height:20px;"></div>\
 						</div>\
@@ -4901,8 +4897,8 @@ bt.soft = {
 	},
     del_make_args: function (name, args_name) {
         name = bt.soft.get_name(name);
-        bt.confirm({ msg: 'Confirm delete[' + name + ':' + args_name + ']module？', title: 'Delete[' + name + ':' + args_name + ']module!' }, function () {
-            loadT = bt.load('Removing module[' + args_name + ']...')
+        bt.confirm({ msg: '真的要删除[' + name + ':' + args_name + ']模块吗？', title: '删除[' + name + ':' + args_name + ']模块!' }, function () {
+            loadT = bt.load('正在删除模块[' + args_name + ']...')
             bt.send('del_make_args', 'plugin/del_make_args', { name: name, args_name: args_name }, function (rdata) {
                 bt.soft.get_make_args(name);
                 bt.msg(rdata);
@@ -4911,7 +4907,7 @@ bt.soft = {
     },
     get_make_args: function (name) {
         name = bt.soft.get_name(name);
-        loadT = bt.load('Getting optional modules...')
+        loadT = bt.load('正在获取可选模块...')
         bt.send('get_make_args', 'plugin/get_make_args', { name: name }, function (rdata) {
             loadT.close();
             var module_html = '';
@@ -4926,8 +4922,8 @@ bt.soft = {
 									</td>\
 									<td>'+ rdata.args[i].name + '</td><td>' + rdata.args[i].ps + '</td>\
 									<td>\
-										<a onclick="bt.soft.modify_make_args(\''+ name + '\',\'' + rdata.args[i].name + '\')" class="btlink">Edit</a>\
-										| <a onclick="bt.soft.del_make_args(\''+ name + '\',\'' + rdata.args[i].name + '\')" class="btlink">Del</a>\
+										<a onclick="bt.soft.modify_make_args(\''+ name + '\',\'' + rdata.args[i].name + '\')" class="btlink">编辑</a>\
+										| <a onclick="bt.soft.del_make_args(\''+ name + '\',\'' + rdata.args[i].name + '\')" class="btlink">删除</a>\
 									</td>\
 								</tr>';
             }
@@ -4953,7 +4949,7 @@ bt.soft = {
     install: function(name,that) {
         var _this = this;
         if(bt.soft.is_install){
-			layer.msg('Installing other software, please operate later!',{icon:0});
+			layer.msg('正在安装其他软件，请稍后操作!',{icon:0});
 			return false;
 		}
         _this.get_soft_find(name, function(rdata) {
@@ -4977,15 +4973,15 @@ bt.soft = {
 						<div class='version line' style='padding-left:15px'>" + lan.soft.install_version + "：" + shtml + "</div>\
                         <div class='fangshi line' style='padding-left:15px'>" + lan.bt.install_type + "：<label data-title='" + lan.bt.install_src_title + "'>" + lan.bt.install_src + "<input type='checkbox'></label><label data-title='" + lan.bt.install_rpm_title + "'>" + lan.bt.install_rpm + "<input type='checkbox' checked></label></div>\
                         <div class='install_modules' style='display: none;'>\
-							<div style='margin-bottom:15px;padding-top:15px;border-top:1px solid #ececec;'><button onclick=\"bt.soft.show_make_args(\'" + name + "\')\" class='btn btn-success btn-sm'>Add custom module</button></div>\
+							<div style='margin-bottom:15px;padding-top:15px;border-top:1px solid #ececec;'><button onclick=\"bt.soft.show_make_args(\'" + name + "\')\" class='btn btn-success btn-sm'>添加自定义模块</button></div>\
 							<div class='select_modules divtable' style='margin-bottom:20px'>\
 								<table class='table table-hover'>\
 									<thead>\
 										<tr>\
 											<th width='0px'></th>\
-											<th width='90px'>Module name</th>\
-											<th >Module details</th>\
-											<th width='70px'>Operation</th>\
+											<th width='90px'>模块名称</th>\
+											<th >模块描述</th>\
+											<th width='70px'>操作</th>\
 										</tr>\
 									</thead>\
 									<tbody class='modules_list'></tbody>\
@@ -5102,7 +5098,7 @@ bt.soft = {
 		}
 		layer.closeAll();
 		bt.soft.loadT = layer.open({
-			title: config.title || 'Executing setup script, please wait...',
+			title: config.title || '正在执行安装脚本，请稍后...',
 			type:1,
 			closeBtn:false,
 			maxmin:true,
@@ -5111,7 +5107,7 @@ bt.soft = {
 			area:["500px",'300px'],
 			content: "<pre style='width:500px;margin-bottom: 0px;height:100%;border-radius:0px; text-align: left;background-color: #000;color: #fff;white-space: pre-wrap;' id='install_show'>"+ config.msg +"</pre>",
 			success:function(layers,index){
-				$(config.event).removeAttr('onclick').html('Installing');
+				$(config.event).removeAttr('onclick').html('正在安装');
 				$('.layui-layer-max').hide();
 				bt.soft.is_loop_speed = true;
 				bt.soft.is_install = true;
@@ -5158,8 +5154,8 @@ bt.soft = {
 		item.title = bt.replace_all(item.title,'-' + version,'');
 		layer.confirm(item.type!=5?lan.soft.lib_insatll_confirm.replace('{1}',item.title):lan.get('install_confirm',[item.title,version]),{ title:item.type!=5?lan.soft.lib_install:lan.soft.install_title,icon:0,closeBtn:2},function(){
 				layer.closeAll();
-				bt.soft.show_speed_window({title:'Installing '+ item.title +', please wait...',msg:lan.soft.lib_install_the,soft:item,event:that},function(){
-					if(item.type == 10) loadT = layer.msg('Getting third party installation information, please wait<img src="/static/img/ing.gif">', { icon: 16, time: 0, shade: [0.3, '#000'] });
+				bt.soft.show_speed_window({title:'安装 '+ item.title +', 请稍等...',msg:lan.soft.lib_install_the,soft:item,event:that},function(){
+					if(item.type == 10) loadT = layer.msg('正在获取第三方安装信息，请稍候<img src="/static/img/ing.gif">', { icon: 16, time: 0, shade: [0.3, '#000'] });
 					bt.send('install_plugin', 'plugin/install_plugin', { sName: item.name, version: version, type: type }, function (rdata) {
 						if (rdata.size) {
 							layer.close(loadT);
@@ -5235,7 +5231,7 @@ bt.soft = {
             //         bt.msg(rdata);
             //     })
             // })
-            bt.soft.show_speed_window({title:'Updating to [' + title+'-'+version+'.'+min_version+'],Please wait...',status:true,soft:{type:parseInt(type)}},function(){
+            bt.soft.show_speed_window({title:'正在更新到 [' + title+'-'+version+'.'+min_version+'],请稍等...',status:true,soft:{type:parseInt(type)}},function(){
 				bt.send('install_plugin', 'plugin/install_plugin', { sName: name, version: version, upgrade: version }, function (rdata) {
 					if (rdata.size) {
 						_this.install_other(rdata)
@@ -5412,17 +5408,17 @@ bt.database = {
                     var open_type = $("#force_ssl").prop('checked');
                     if (open_type) {
                         var t = '<div>\
-                                <h3 style="font-size: 18px;font-weight:600;">Warning! This feature requires Advanced Knowledge!</h3>\
+                                <h3 style="font-size: 18px;font-weight:600;">警告！ 此功能需要高级知识!</h3>\
                                 <ul style="width:91%;margin-top: 19px;border: 1px solid #ececec;border-radius: 10px;background: #f7f7f7;padding: 15px;list-style-type: inherit;padding-left:25px;">\
-                                    <li style="color:red;">After enabling the forced SSL connection, it may affect your application connection and database performance.</li>\
+                                    <li style="color:red;">启用强制 SSL 连接后，可能会影响您的应用程序连接和数据库性能.</li>\
                                 </ul>\
                         </div>';
                         var loadP = layer.confirm(t, {
-                            btn: ['Confirm', 'Cancel'],
+                            btn: ['确定', '取消'],
                             icon: 3,
                             area: '561px',
                             closeBtn: 2,
-                            title: 'Confirm Open?'
+                            title: '确认打开?'
                         }, function() {
                             $("#force_ssl").prop('checked',true);
                             layer.close(loadP);
@@ -6120,7 +6116,7 @@ bt.site = {
                 });
                 $('.webname' + bs).focus(function(){
                     var _this = $(this),
-                    tips = 'www will not add by default, if you need to access,please add it like:\
+                    tips = '默认情况下，www不会添加，如果您需要访问，请按如下方式添加:\
                     <br>hostname.com\
                     <br>www.hostname.com';
                     _this.attr('placeholder', '');
@@ -6321,7 +6317,7 @@ bt.form = {
     },
     item: {
         data_access: {
-            title: 'Permission',
+            title: '访问权限',
             items: [{
                 name: 'dataAccess',
                 type: 'select',
@@ -6378,7 +6374,7 @@ bt.data = {
             title: lan.database.add_title,
             area: '530px',
             list: [{
-                    title: 'DBName',
+                    title: '数据库名',
                     items: [{
                             name: 'name',
                             placeholder: lan.public_backup.new_db_name,
@@ -6445,7 +6441,7 @@ bt.data = {
                 { title: 'name', name: 'name', hide: true },
                 bt.form.item.data_access,
                 {
-                    title: 'Force SSL',
+                    title: '强制SSL',
                     items: [{
                         name: 'force_ssl',
                         type: 'switch',
@@ -6545,9 +6541,9 @@ bt.data = {
                             bt.setTimeouts =  setTimeout(function(){
                                 if(bt.check_domain(ress)){
                                     if(ress.indexOf('www.') !== 0){
-                                        $('.redirect_checkbox label').html('Add [<span>www.'+ ress +'</span>] domain name to the main domain name');
+                                        $('.redirect_checkbox label').html('添加 [<span>www.'+ ress +'</span>] 域名到主域名');
                                     }else if(ress.indexOf('www.') === 0){
-                                        $('.redirect_checkbox label').html('Add <span>'+ ress.replace(/^www\./,'') +'</span> to the main domain');
+                                        $('.redirect_checkbox label').html('添加 <span>'+ ress.replace(/^www\./,'') +'</span> 到主域');
                                     }
                                     $('.redirect_checkbox').show();
                                 }else{
@@ -6581,8 +6577,8 @@ bt.data = {
                                         value:0,
                                         list:[
                                             {value:0,text:'No'},
-                                            {value:1,text:'Redirect the main domain name [<span title="'+ domain_one +'"> '+ domain_one +'</span>] to [<span title="'+ domain +'">'+ domain +'</span>] domain name'},
-                                            {value:2,text:'Redirect the [<span title="'+ domain +'">'+ domain +'</span>] domain name to the main domain [<span title="'+ domain_one +'">'+ domain_one +'</span>]'}
+                                            {value:1,text:'重定向主域名 [<span title="'+ domain_one +'"> '+ domain_one +'</span>] to [<span title="'+ domain +'">'+ domain +'</span>] domain name'},
+                                            {value:2,text:'重定向 [<span title="'+ domain +'">'+ domain +'</span>] 将域名添加到主域 [<span title="'+ domain_one +'">'+ domain_one +'</span>]'}
                                         ]
                                     }],
                                 }).html);
@@ -6686,7 +6682,7 @@ bt.data = {
                     ]
                 },
                 {
-                    title: 'Program type',
+                    title: '程序类型',
                     type: 'select',
                     name: 'type',
                     disabled: (bt.contains(bt.get_cookie('serverType'), 'IIS') ? false : true),
@@ -6741,7 +6737,7 @@ bt.data = {
                         }
                     },{
                         type:'html',
-                        html:'<ul class="help-info-text c7" style="color:red;margin-top:0;"><li style="line-height: 17px;">If you need to apply for SSL, please make sure that the domain name has added A record resolution for the domain name</li></ul>'
+                        html:'<ul class="help-info-text c7" style="color:red;margin-top:0;"><li style="line-height: 17px;">如果您需要申请SSL，请确保该域名已添加该域名的记录解析</li></ul>'
                     }]
                 }
             ],
@@ -7010,7 +7006,7 @@ function setPanelSSL(){
         layer.close(loadT);
         var sdata = rdata;
         var _data = {
-            title: 'Panel SSL',
+            title: '面板SSL',
             area: '630px',
 			class:'ssl_cert_from',
             list: [
@@ -7018,7 +7014,7 @@ function setPanelSSL(){
               		html:'<div><i class="layui-layer-ico layui-layer-ico3"></i><h3>'+lan.config.ssl_open_ps+'</h3><ul><li style="color:red;">'+lan.config.ssl_open_ps_1+'</li><li>'+lan.config.ssl_open_ps_2+'</li><li>'+lan.config.ssl_open_ps_3+'</li></ul></div>'
               },
                 {
-                    title: 'Cert Type',
+                    title: '证书类型',
                     name: 'cert_type',
                     type: 'select',
                     width: '200px',
@@ -7029,7 +7025,7 @@ function setPanelSSL(){
                         $('#' + subid).remove();
                         if (obj.val() == '2') {
                             var _tr = bt.render_form_line({
-                                title: 'Admin E-Mail',
+                                title: '管理员邮件',
                                 name: 'email',
 								width: '320px',
                                 placeholder: 'Admin E-Mail',
@@ -7046,18 +7042,18 @@ function setPanelSSL(){
             ],
             btns: [
                 {
-                    title: 'Close', name: 'close', callback: function (rdata, load, callback) {
+                    title: '关闭', name: 'close', callback: function (rdata, load, callback) {
                         load.close();
                         $("#panelSSL").prop("checked", false);
                     }
                 },
                 {
-                    title: 'Submit', name: 'submit', css: 'btn-success', callback: function (rdata, load, callback) {
+                    title: '提交', name: 'submit', css: 'btn-success', callback: function (rdata, load, callback) {
                       	if(!$('#checkSSL').is(':checked')){
-                        	bt.msg({status:false,msg:'Please confirm the risk first!'})
+                        	bt.msg({status:false,msg:'请先确认风险!'})
                           	return;
                         }
-                    	var confirm = layer.confirm('Whether to open the panel SSL certificate', {title:'Tips',btn: ['Confirm','Cancel'],icon:0,closeBtn:2}, function() {
+                    	var confirm = layer.confirm('是否打开面板SSL证书', {title:'Tips',btn: ['确认','取消'],icon:0,closeBtn:2}, function() {
                         var loading = bt.load();
                         bt.send('SetPanelSSL', 'config/SetPanelSSL', rdata, function (rdata) {
                             loading.close()

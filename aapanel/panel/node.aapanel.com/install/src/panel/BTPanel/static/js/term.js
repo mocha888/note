@@ -146,7 +146,7 @@ Terms.prototype = {
             try {
                 that.bws.send(data)
             } catch (e) {
-                that.term.write('\r\nConnection lost, trying to connect again!\r\n')
+                that.term.write('\r\n连接丢失,正在尝试重新连接!\r\n')
                 that.connect()
             }
         });
@@ -186,10 +186,10 @@ var host_trem = {
                     $('#term_box_view,.term_tootls').height(win_height);
                     $('.tootls_host_list').height((win_height - 80) * .75);
                     $('.tootls_commonly_list').height((win_height - 80) * .25);
-                    $('.tab_tootls .glyphicon').removeClass('glyphicon-resize-full').addClass('glyphicon-resize-small').attr('title','Exit full screen');
+                    $('.tab_tootls .glyphicon').removeClass('glyphicon-resize-full').addClass('glyphicon-resize-small').attr('title','退出全屏');
                 }else{
                     $('body').removeClass('full_term_view');
-                    $('.tab_tootls .glyphicon').removeClass('glyphicon-resize-small').addClass('glyphicon-resize-full').attr('title','Full Screen');
+                    $('.tab_tootls .glyphicon').removeClass('glyphicon-resize-small').addClass('glyphicon-resize-full').attr('title','全屏显示');
                 }
             }
         });
@@ -211,12 +211,12 @@ var host_trem = {
             that.on_resize(that);
         });
         $('.tab_tootls').on('click','.glyphicon-resize-full',function(){
-            $(this).removeClass('glyphicon-resize-full').addClass('glyphicon-resize-small').attr('title','Exit full Screen');
+            $(this).removeClass('glyphicon-resize-full').addClass('glyphicon-resize-small').attr('title','退出全屏');
             $('body').addClass('full_term_view');
             that.requestFullScreen();
         });
         $('.tab_tootls').on('click','.glyphicon-resize-small',function(){
-            $(this).removeClass('glyphicon-resize-small').addClass('glyphicon-resize-full').attr('title','Full Screen');
+            $(this).removeClass('glyphicon-resize-small').addClass('glyphicon-resize-full').attr('title','全屏显示');
             $('body').removeClass('full_term_view');
             that.exitFullscreen();
         });
@@ -339,11 +339,11 @@ var host_trem = {
                     }
                     that.editor_host_view({
                         form:rdata,
-                        config: {btn: 'Save', title: 'Edit server information 【'+ host +'】'}
+                        config: {btn: '保存', title: '编辑服务器信息【'+ host +'】'}
                     });
                 });
             }else{
-                bt.confirm({title:'Delete information',msg:'Delete service information 【'+ host +'】, continue?',icon:0},function(index){
+                bt.confirm({title:'删除信息',msg:'是否删除服务信息【'+ host +'】, 是否继续?',icon:0},function(index){
                     that.remove_host(host,function(rdata){
                         layer.close(index);
                         that.reader_host_list(function(){
@@ -365,11 +365,11 @@ var host_trem = {
                     }
                     that.editor_command_view({
                         form:rdata,
-                        config: {btn: 'Save', title: 'Edit command information【'+ title +'】'}
+                        config: {btn: '保存', title: '编辑常用命令信息【'+ title +'】'}
                     });
                 });
             }else{
-                bt.confirm({title:'Delete command',msg:'Delete service command 【'+ title +'】, continue?',icon:0},function(index){
+                bt.confirm({title:'删除常用命令',msg:'是否删除常用命令信息【'+ title +'】, 是否继续?',icon:0},function(index){
                     that.remove_command(title,function(rdata){
                         layer.close(index);
                         that.reader_command_list(function(){
@@ -387,20 +387,20 @@ var host_trem = {
                     el:$(this),
                     position:[ev.clientX,ev.clientY],
                     list:[
-                        [{title:'Copy session',event:function(el,data){
+                        [{title:'复制会话',event:function(el,data){
                             that.open_term_view(that.host_term[data.id].ssh_info);
                         }}],
-                        [{title:'Close session',event:function(el,data){
+                        [{title:'关闭会话',event:function(el,data){
                             that.remove_term_view(data.id);
                         }},
-                        {title:'Close to right',event:function(el,data){
-                            bt.confirm({msg:'After closing the terminal session, the command in progress in the current command line session may be aborted. Continue?',title: "Close the terminal session?"},function(index){
+                        {title:'关闭到右侧',event:function(el,data){
+                            bt.confirm({msg:'关闭SSH会话后，当前命令行会话正在执行的命令可能被中止，确定关闭吗?',title: "确定要关闭SSH会话吗?"},function(index){
                                 that.remove_term_right_view(data.id);
                                 layer.close(index);
                             });
                         }},
-                        {title:'Close other',event:function(el,data){
-                            bt.confirm({msg:'After closing the terminal session, the command in progress in the current command line session may be aborted. Continue?',title: "Close the terminal session?"},function(index){
+                        {title:'关闭其他',event:function(el,data){
+                            bt.confirm({msg:'关闭SSH会话后，当前命令行会话正在执行的命令可能被中止，确定关闭吗?',title: "确定要关闭SSH会话吗?"},function(index){
                                 that.remove_term_other_view(data.id);
                                 layer.close(index);
                             });
@@ -442,7 +442,7 @@ var host_trem = {
             var index = $(this).index(),host = $(this).data('host');
             $(this).find('i').addClass('active');
             if($('.item[data-host="'+ host +'"]').length > 0){
-                layer.msg('For multi session window, right click the terminal title to copy the session!',{icon:0,time:3000})
+                layer.msg('如需多会话窗口，请右键终端标题复制会话!',{icon:0,time:3000})
             }else{
                 that.open_term_view(that.host_list[index]);
             }
@@ -540,8 +540,8 @@ var host_trem = {
     localhost_login_form:function(result){
         var that = this,form = $(this.render_template({html:host_form_view.innerHTML,data:{form:$.extend(that.host_form,{host:'127.0.0.1'})}})),id = $('.localhost_item').data('id')
         form.find('.ssh_ps_tips').remove();
-        form.prepend('<div class="localhost-form-title"><i class="localhost-form_tip"></i><span style="vertical-align: middle;">Login failed, please fill the local server information!</span></div>');
-        form.append('<button type="submit" class="btn btn-sm btn-success">Login</button>');
+        form.prepend('<div class="localhost-form-title"><i class="localhost-form_tip"></i><span style="vertical-align: middle;">无法自动认证，请填写本地服务器的登录信息!</span></div>');
+        form.append('<button type="submit" class="btn btn-sm btn-success">登录</button>');
         $('#'+id).append('<div class="localhost-form-shade"><div class="localhost-form-view bt-form-2x">'+ form[0].innerHTML +'</div></div>');
         if(result){
             if(result.indexOf('@127.0.0.1') != -1){
@@ -575,36 +575,36 @@ var host_trem = {
                 switch(name){
                     case 'port':
                         if(!bt.check_port(value)){
-                            bt.msg({status:false,msg:'Server port format error!'});
+                            bt.msg({status:false,msg:'服务器端口格式错误!'});
                             return false;
                         }
                     break;
                     case 'username':
                         if(value == ''){
-                            bt.msg({status:false,msg:'Server user name cannot be empty!'});
+                            bt.msg({status:false,msg:'服务器用户名不能为空!'});
                             return false;
                         }
                     break;
                     case 'password':
                         if(value == '' && $('.c_password_view').hasClass('show')){
-                            bt.msg({status:false,msg:'Server password cannot be empty!'});
+                            bt.msg({status:false,msg:'服务器密码不能为空!'});
                             return false;
                         }
                     break;   
                     case 'pkey':
                         if(value == '' && $('.c_pkey_view').hasClass('show')){
-                            bt.msg({status:false,msg:'The server key cannot be empty!'});
+                            bt.msg({status:false,msg:'服务器秘钥不能为空!'});
                             return false;
                         }
                     break;
                 }
             });
             delete form.sort
-            form.ps = 'Local server';
+            form.ps = '本地服务器';
             that.create_host(form,function(res){
                 bt.msg(res);
                 if(res.status){
-                    bt.msg({status:true,msg:'Login successful!'});
+                    bt.msg({status:true,msg:'登录成功!'});
                     $('.localhost_item .icon-trem-close').click();
                     that.open_term_view();
                 }
@@ -652,7 +652,7 @@ var host_trem = {
     */
     editor_host_view:function(obj){
         var that = this;
-        if (!obj) obj = {form: this.host_form, config: {btn: 'Submit', title: 'Add host information'}}
+        if (!obj) obj = {form: this.host_form, config: {btn: '提交', title: '添加主机信息'}}
         this.render_template({
             html: host_form_view.innerHTML,
             data: obj
@@ -662,7 +662,7 @@ var host_trem = {
                 ,area: '510px'
                 ,closeBtn: 2
                 ,title: obj.config.title
-                ,btn: [obj.config.btn, 'Cancel']
+                ,btn: [obj.config.btn, '取消']
                 ,content: html
                 ,success: function (layers, index){
                     $('.auth_type_checkbox').click(function(){
@@ -735,25 +735,25 @@ var host_trem = {
                             // break;
                             case 'port':
                                 if(!bt.check_port(value)){
-                                    bt.msg({status:false,msg:'Server port format error!'});
+                                    bt.msg({status:false,msg:'服务器端口格式错误!'});
                                     return false;
                                 }
                             break;
                             case 'username':
                                 if(value == ''){
-                                    bt.msg({status:false,msg:'Server user name cannot be empty!'});
+                                    bt.msg({status:false,msg:'服务器用户名不能为空!'});
                                     return false;
                                 }
                             break;
                             case 'password':
                                 if(value == '' && $('.c_password_view').hasClass('show')){
-                                    bt.msg({status:false,msg:'Server password cannot be empty!'});
+                                    bt.msg({status:false,msg:'服务器密码不能为空!'});
                                     return false;
                                 }
                             break;   
                             case 'pkey':
                                 if(value == '' && $('.c_pkey_view').hasClass('show')){
-                                    bt.msg({status:false,msg:'Server key cannot be empty!'});
+                                    bt.msg({status:false,msg:'服务器秘钥不能为空!'});
                                     return false;
                                 }
                             break;
@@ -795,7 +795,7 @@ var host_trem = {
     */
     editor_command_view:function(obj){
         var that = this;
-        if (!obj) obj = {form: this.command_form, config: {btn: 'Submit', title: 'Add command information'}};
+        if (!obj) obj = {form: this.command_form, config: {btn: '提交', title: '添加常用命令信息'}};
         this.render_template({
             html: shell_form_view.innerHTML,
             data: obj
@@ -805,16 +805,16 @@ var host_trem = {
                 ,area: '510px'
                 ,closeBtn: 2
                 ,title: obj.config.title
-                ,btn: [obj.config.btn, 'Cancel']
+                ,btn: [obj.config.btn, '取消']
                 ,content: html
                 ,yes: function (indexs,layero){
                     var shell = $('[name="shell"]').val(),title = $('[name="title"]').val();
                     if(title == ''){
-                        bt.msg({status:false,msg:'Command description cannot be empty!'});
+                        bt.msg({status:false,msg:'常用命令描述不能为空!'});
                         return false;
                     }
                     if(shell == ''){
-                        bt.msg({status:false,msg:'Command cannot be empty!'});
+                        bt.msg({status:false,msg:'常用命令不能为空!'});
                         return false;
                     }
 
@@ -863,7 +863,7 @@ var host_trem = {
      * @return void 
     */
     open_term_view:function(info){
-        if(typeof info  === "undefined") info = {host:'127.0.0.1',ps:'Local server'}
+        if(typeof info  === "undefined") info = {host:'127.0.0.1',ps:'本地服务器'}
         var random = bt.get_random(9),tab_content = $('.term_content_tab'),item_list = $('.term_item_tab .list');
         tab_content.find('.term_item').removeClass('active').siblings().removeClass('active');
         tab_content.append('<div class="term_item active" id="'+ random +'" data-host="'+ info.host +'"></div>');
@@ -951,14 +951,14 @@ var host_trem = {
         this.get_command_list(function(rdata){
             bt.each(rdata,function(index,item){
                 html += '<li data-title="'+ item.title +'" data-index="'+ index +'" data-clipboard-text="'+ item.shell +'"><i></i><span>'+ item.title +'</span><span class="tootls">'+
-                    '<span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit common command information"></span>'+
-                    '<span class="glyphicon glyphicon-trash" aria-hidden="true" title="Delete common command information"></span>'+
+                    '<span class="glyphicon glyphicon-edit" aria-hidden="true" title="编辑常用命令信息"></span>'+
+                    '<span class="glyphicon glyphicon-trash" aria-hidden="true" title="删除常用命令信息"></span>'+
                 '</span></li>';
             });
             $('.tootls_commonly_list').html(html);
             var clipboard = new ClipboardJS('.tootls_commonly_list li');
             clipboard.on('success', function(e) {
-                layer.msg('Copy succeeded!',{icon:1});
+                layer.msg('复制成功!',{icon:1});
                 e.clearSelection();
             });
 
@@ -984,8 +984,8 @@ var host_trem = {
         this.get_host_list(function(rdata){
             bt.each(rdata,function(index,item){
                 html += '<li data-host="'+ item.host +'" data-index="'+ index +'"><i></i><span>'+ (item.ps == item.host?item.ps:(item.ps +'【'+ item.host +'】')) +'</span><span class="tootls">'+
-                    '<span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit server information"></span>'+
-                    '<span class="glyphicon glyphicon-trash" aria-hidden="true" title="Delete server information"></span>'+
+                    '<span class="glyphicon glyphicon-edit" aria-hidden="true" title="编辑服务器信息"></span>'+
+                    '<span class="glyphicon glyphicon-trash" aria-hidden="true" title="删除服务器信息"></span>'+
                 '</span></li>';
             });
             $('.tootls_host_list').html(html);
@@ -1000,7 +1000,7 @@ var host_trem = {
      * @return void 
      */
     get_host_list:function(callback){
-        var loadT = bt.load('Getting server list, please wait...');
+        var loadT = bt.load('正在获取服务器列表，请稍后...');
         this.post('get_host_list',{},function(rdata){
             loadT.close();
             if(callback) callback(rdata);
@@ -1014,7 +1014,7 @@ var host_trem = {
      * @return void
      */
     get_host_find:function(host,callback){
-        var loadT = bt.load('Getting the specified server information, please wait...');
+        var loadT = bt.load('正在获取指定服务器信息，请稍后...');
         this.post('get_host_find',{host:host},function(rdata){
             loadT.close();
             if(callback) callback(rdata);
@@ -1036,7 +1036,7 @@ var host_trem = {
      * @return void
      */
      create_host:function(ssh_info,callback){
-        var loadT = bt.load('Adding server information, please wait...');
+        var loadT = bt.load('正在添加服务器信息，请稍后...');
         this.post('create_host',ssh_info,function(rdata){
             loadT.close();
             if(!rdata.status){
@@ -1062,7 +1062,7 @@ var host_trem = {
      * @return void
      */
      modify_host:function(ssh_info,callback){
-        var loadT = bt.load('Modifying the specified server information, please wait...');
+        var loadT = bt.load('正在修改指定服务器信息，请稍后...');
         this.post('modify_host',ssh_info,function(rdata){
             loadT.close();
             if(callback) callback(rdata);
@@ -1077,7 +1077,7 @@ var host_trem = {
      * @return void
      */
      remove_host:function(host,callback){
-        var loadT = bt.load('Deleting specified server information, please wait...');
+        var loadT = bt.load('正在删除指定服务器信息，请稍后...');
         this.post('remove_host',{host:host},function(rdata){
             loadT.close();
             if(callback) callback(rdata);
@@ -1107,7 +1107,7 @@ var host_trem = {
      * @return void
      */
     get_command_list: function(callback){
-        var loadT = bt.load('Getting list of frequently used commands, please wait...');
+        var loadT = bt.load('正在获取常用命令列表，请稍后...');
         this.post('get_command_list',{},function(rdata){
             loadT.close();
             if(callback) callback(rdata);
@@ -1122,7 +1122,7 @@ var host_trem = {
      * @return void
      */
     create_command: function(obj,callback){
-        var loadT = bt.load('Creating common commands, please wait...');
+        var loadT = bt.load('正在创建常用命令，请稍后...');
         this.post('create_command',obj,function(rdata){
             loadT.close();
             if(callback) callback(rdata);
@@ -1137,7 +1137,7 @@ var host_trem = {
      * @return void
      */
     get_command_find: function(title,callback){
-        var loadT = bt.load('Getting specified common command data, please wait...');
+        var loadT = bt.load('正在获取指定常用命令数据，请稍后...');
         this.post('get_command_find',{title:title},function(rdata){
             loadT.close();
             if(callback) callback(rdata);
@@ -1153,7 +1153,7 @@ var host_trem = {
      * @return void
      */
     modify_command: function(obj,callback){
-        var loadT = bt.load('Modifying specified common commands, please wait...');
+        var loadT = bt.load('正在修改指定常用命令，请稍后...');
         this.post('modify_command',obj,function(rdata){
             loadT.close();
             if(callback) callback(rdata);
@@ -1167,7 +1167,7 @@ var host_trem = {
      * @return void
      */
     remove_command: function(title,callback){
-        var loadT = bt.load('Deleting specified common commands, please wait...');
+        var loadT = bt.load('正在删除指定常用命令，请稍后...');
         this.post('remove_command',{title:title},function(rdata){
             loadT.close();
             // console.log(rdata)

@@ -509,26 +509,26 @@ session.save_handler = files'''.format(path, sess_path, sess_path)
             return public.readFile(f_key2)
 
         pss = {
-            '/www/server/data':'MySQL data storage directory!',
-            '/www/server/mysql':'MySQL program directory',
-            '/www/server/redis':'Redis program directory',
-            '/www/server/mongodb':'MongoDB program directory',
-            '/www/server/nvm':'PM2/NVM/NPM program directory',
-            '/www/server/pass':'Website Basic Auth authentication password storage directory',
-            '/www/server/speed':'Website speed plugin directory',
-            '/www/server/docker':'Docker and data directory',
-            '/www/server/total':'Website Statistics Directory',
-            '/www/server/btwaf':'WAF directory',
-            '/www/server/pure-ftpd':'ftp program directory',
-            '/www/server/phpmyadmin':'phpMyAdmin program directory',
-            '/www/server/rar':'rar extension library directory, after deleting, it will lose support for RAR compressed files',
-            '/www/server/stop':'Website disabled page directory, please do not delete!',
-            '/www/server/nginx':'Nginx program directory',
-            '/www/server/apache':'Apache program directory',
-            '/www/server/cron':'Cron script and log directory',
-            '/www/server/php':'All interpreters of PHP versions are in this directory',
-            '/www/server/tomcat':'Tomcat program directory',
-            '/www/php_session':'PHP-SESSION Quarantine directory'
+            '/www/server/data':'此为MySQL数据库默认数据目录，请勿删除!',
+            '/www/server/mysql':'MySQL程序目录',
+            '/www/server/redis':'Redis程序目录',
+            '/www/server/mongodb':'MongoDB程序目录',
+            '/www/server/nvm':'PM2/NVM/NPM程序目录',
+            '/www/server/pass':'网站BasicAuth认证密码存储目录',
+            '/www/server/speed':'网站加速数据目录',
+            '/www/server/docker':'Docker插件程序与数据目录',
+            '/www/server/total':'网站监控报表数据目录',
+            '/www/server/btwaf':'WAF防火墙数据目录',
+            '/www/server/pure-ftpd':'ftp程序目录',
+            '/www/server/phpmyadmin':'phpMyAdmin程序目录',
+            '/www/server/rar':'rar扩展库目录，删除后将失去对RAR压缩文件的支持',
+            '/www/server/stop':'网站停用页面目录,请勿删除!',
+            '/www/server/nginx':'Nginx程序目录',
+            '/www/server/apache':'Apache程序目录',
+            '/www/server/cron':'计划任务脚本与日志目录',
+            '/www/server/php':'PHP目录，所有PHP版本的解释器都在此目录下',
+            '/www/server/tomcat':'Tomcat程序目录',
+            '/www/php_session':'PHP-SESSION隔离目录'
         }
         if filename in pss:  return pss[filename]
         return ''
@@ -1148,14 +1148,6 @@ session.save_handler = files'''.format(path, sess_path, sess_path)
             get.path = get.path.encode('utf-8')
 
         get.path = self.xssdecode(get.path)
-
-        if get.path.find('/rewrite/null/') != -1:
-            webserver = public.get_webserver()
-            get.path = get.path.replace("/rewrite/null/", "/rewrite/{}/".format(webserver))
-        if get.path.find('/vhost/null/') != -1:
-            webserver = public.get_webserver()
-            get.path = get.path.replace("/vhost/null/", "/vhost/{}/".format(webserver))
-
         if not os.path.exists(get.path):
             if get.path.find('rewrite') == -1:
                 return public.returnMsg(False,'FILE_NOT_EXISTS',(get.path,))
@@ -1202,7 +1194,6 @@ session.save_handler = files'''.format(path, sess_path, sess_path)
                 get.path = get.filename
             data['historys'] = self.get_history(get.path)
             data['auto_save'] = self.get_auto_save(get.path)
-            data['st_mtime'] = str(int(os.stat(get.path).st_mtime))
             return data
         except Exception as ex:
             return public.returnMsg(False,'INCOMPATIBLE_FILECODE',(str(ex)),)
@@ -1213,14 +1204,6 @@ session.save_handler = files'''.format(path, sess_path, sess_path)
             return public.returnMsg(False,'PATH_PARA_ERR')
         if sys.version_info[0] == 2:
             get.path = get.path.encode('utf-8')
-
-        if get.path.find('/rewrite/null/') != -1:
-            webserver = public.get_webserver()
-            get.path = get.path.replace("/rewrite/null/", "/rewrite/{}/".format(webserver))
-        if get.path.find('/vhost/null/') != -1:
-            webserver = public.get_webserver()
-            get.path = get.path.replace("/vhost/null/", "/vhost/{}/".format(webserver))
-
         if not os.path.exists(get.path):
             if get.path.find('.htaccess') == -1:
                 return public.returnMsg(False, 'FILE_NOT_EXISTS')
@@ -1580,7 +1563,7 @@ session.save_handler = files'''.format(path, sess_path, sess_path)
                     dfile = get.path + '/' + key
 
                 if dfile.find(sfile) == 0:
-                    return public.returnMsg(False,'Wrong copy logic, from {} copy to {} has an inclusive relationship, there is an infinite loop copy risk!'.format(sfile,dfile))
+                    return public.returnMsg(False,'错误的复制逻辑，从{}复制到{}有包含关系，存在无限循环复制风险!'.format(sfile,dfile))
 
             for key in myfiles:
                 i += 1
@@ -1717,7 +1700,7 @@ session.save_handler = files'''.format(path, sess_path, sess_path)
         else:
             id = None
         sql.table('tasks').add('id,name,type,status,addtime,execstr', (None,
-                                                                       'Install ['+get.name+'-'+get.version+']', 'execshell', '0', time.strftime('%Y-%m-%d %H:%M:%S'), execstr))
+                                                                       '安装 ['+get.name+'-'+get.version+']', 'execshell', '0', time.strftime('%Y-%m-%d %H:%M:%S'), execstr))
         public.writeFile(isTask, 'True')
         public.WriteLog('TYPE_SETUP', 'PLUGIN_ADD', (get.name, get.version))
         time.sleep(0.1)
@@ -1748,7 +1731,7 @@ done
             ''')
 
                 public.ExecShell(
-                    'rm -f ' + name.replace('Scan dir [', '').replace(']', '') + '/scan.pl')
+                    'rm -f ' + name.replace('扫描目录[', '').replace(']', '') + '/scan.pl')
                 isTask = '/tmp/panelTask.pl'
                 public.writeFile(isTask, 'True')
                 public.ExecShell('/etc/init.d/bt start')
@@ -2115,9 +2098,9 @@ cd %s
         if 'password' in get:
             pdata['password'] = get.password
             if len(pdata['password']) < 4 and len(pdata['password']) > 0:
-                return public.returnMsg(False,'The length of the extracted password cannot be less than 4 digits')
+                return public.returnMsg(False,'提取密码长度不能小于4位')
             if not re.match('^\w+$',pdata['password']):
-                return public.returnMsg(False,'The password only supports a combination of uppercase and lowercase letters and numbers')
+                return public.returnMsg(False,'提取密码中不能带有特殊符号')
 
         if 'ps' in get: pdata['ps'] = get.ps
         public.M(my_table).where('id=?', (id,)).update(pdata)
@@ -2141,7 +2124,7 @@ cd %s
         if len(pdata['password']) < 4 and len(pdata['password']) > 0:
             return public.returnMsg(False,'PASSWD_ERR')
         if not re.match('^\w+$',pdata['password']) and pdata['password']:
-            return public.returnMsg(False,'The password only supports a combination of uppercase and lowercase letters and numbers')
+            return public.returnMsg(False,'提取密码只支持大小写字母和数字的组合')
         #更新 or 插入
         token = public.M(my_table).where('filename=?',(get.filename,)).getField('token')
         if token:
@@ -2295,7 +2278,7 @@ cd %s
         if not composer_bin:
             return public.returnMsg(False,'NO_COMPOSER_AVAILABLE')
         php_bin = self.__get_php_bin()
-        if not php_bin:  return public.returnMsg(False,'No available PHP version found!')
+        if not php_bin:  return public.returnMsg(False,'没有找到可用的PHP版本!')
         #设置指定源
         # if 'repo' in get:
         #     if get.repo:
@@ -2397,7 +2380,7 @@ cd %s
     def get_file_attribute(self,args):
         filename = args.filename.strip()
         if not os.path.exists(filename):
-            return public.returnMsg(False,'the specified file does not exist!')
+            return public.returnMsg(False,'指定文件不存在!')
         attribute = {}
         attribute['name'] = os.path.basename(filename)
         attribute['path'] = os.path.dirname(filename)
@@ -2415,15 +2398,15 @@ cd %s
         attribute['user'] = self.get_mode_user(f_stat.st_uid)   # 所属用户
         attribute['group'] = self.get_mode_user(f_stat.st_gid)  # 所属组
         attribute['mode'] = str(oct(f_stat.st_mode)[-3:])         # 文件权限号
-        attribute['md5'] = 'Do not count files or directories larger than 100MB'                        # 文件MD5
-        attribute['sha1'] = 'Do not count files or directories larger than 100MB'                       # 文件sha1
+        attribute['md5'] = '大于100M或目录不计算'                        # 文件MD5
+        attribute['sha1'] = '大于100M或目录不计算'                       # 文件sha1
         attribute['lsattr'] = self.get_lsattr(filename)
         attribute['is_dir'] = os.path.isdir(filename)   # 是否为目录
         attribute['is_link'] = os.path.islink(filename)  # 是否为链接文件
         if attribute['is_link']:
-            attribute['st_type'] = 'Link file'
+            attribute['st_type'] = '链接文件'
         elif attribute['is_dir']:
-            attribute['st_type'] = 'Dir'
+            attribute['st_type'] = '文件夹'
         else:
              attribute['st_type'] = self.get_file_ext(filename)
         attribute['history'] = []
@@ -2599,9 +2582,9 @@ CREATE TABLE index_tb(
     def back_path_permissions(self,get):
         back_limit = 100
         if self._get_total_back() >= back_limit:
-            return public.returnMsg(False,"The number of backup versions has exceeded {} ,Please go to the upper right corner [Backup Permissions] to clean up the old backup before operating".format(back_limit))
+            return public.returnMsg(False,"备份版本数已超过{},请到右上角[备份权限]清理旧的备份后再操作。".format(back_limit))
         if not os.path.exists(get.path):
-            return public.returnMsg(False,"Path is incorrect {}".format(get.path))
+            return public.returnMsg(False,"路径不正确 {}".format(get.path))
         path = get.path
         back_sub_dir = get.back_sub_dir
         remark = get.remark
@@ -2616,12 +2599,12 @@ CREATE TABLE index_tb(
             else:
                 self.back_single_file_perm(path,date,remark,tb_name)
         except Exception as e:
-            return public.returnMsg(False,"Backup error {} ".format(e))
+            return public.returnMsg(False,"备份错误 {} ".format(e))
         finally:
             self.sqlite_connection.commit()
         self.sqlite_connection.close()
         self.sqlite_connection=None
-        return public.returnMsg(True,"Backup succeeded")
+        return public.returnMsg(True,"备份成功")
 
     # 获取所有需要还原文件和文件夹
     def _get_restore_file(self,path):
@@ -2674,7 +2657,7 @@ CREATE TABLE index_tb(
             public.set_own(main_dir_data[0][0], main_dir_data[0][1])
         if restore_sub_dir == "0":
             print(main_dir_data[0][0])
-            public.returnMsg(True, "Permission restored successfully")
+            public.returnMsg(True, "权限恢复成功")
         self._get_restore_file(path_full)
         if tb_name:
             data = self._operate_db("select path,owner,mode from TB_NAME",permissions_tb=tb_name[0][0]).fetchall()
@@ -2684,7 +2667,7 @@ CREATE TABLE index_tb(
                 if d[0] in self.file_permission_list:
                     public.set_mode(d[0], d[2])
                     public.set_own(d[0], d[1])
-        return public.returnMsg(True, "Permission restored successfully")
+        return public.returnMsg(True, "权限恢复成功")
 
     # 还原单个文件权限
     def restore_single_file_perm(self,path_full,date):
@@ -2693,8 +2676,8 @@ CREATE TABLE index_tb(
         if main_dir_data:
             public.set_mode(main_dir_data[0][0], main_dir_data[0][2])
             public.set_own(main_dir_data[0][0], main_dir_data[0][1])
-            return public.returnMsg(True, "Permission restored successfully")
-        return public.returnMsg(False, "The file does not have backup permissions")
+            return public.returnMsg(True, "权限恢复成功")
+        return public.returnMsg(False, "该文件没有备份权限")
 
 
     # 还原权限
@@ -2740,7 +2723,7 @@ CREATE TABLE index_tb(
             self._operate_db("drop table '{}'".format(p_tb[0][0]))
         self.sqlite_connection.commit()
         self.sqlite_connection.close()
-        return public.returnMsg(True, "successfully deleted")
+        return public.returnMsg(True, "成功删除")
 
     # 获取所有备份
     def get_all_back(self,get):
@@ -2761,7 +2744,7 @@ CREATE TABLE index_tb(
         if os.path.isfile(path):
             os.chown(path, get.uid, get.gid)
             os.chmod(path, 0o644)
-            return public.returnMsg(True, "Permission repair succeeded")
+            return public.returnMsg(True, "权限修复成功")
         os.chown(path, get.uid, get.gid)
         os.chmod(path, 0o755)
         for file in os.listdir(path):
@@ -2776,7 +2759,7 @@ CREATE TABLE index_tb(
                 os.chmod(filename,0o644)
             except:
                 print(public.get_error_info())
-        return public.returnMsg(True,"Permission repair succeeded")
+        return public.returnMsg(True,"权限修复成功")
 
     def restore_website(self,args):
         """

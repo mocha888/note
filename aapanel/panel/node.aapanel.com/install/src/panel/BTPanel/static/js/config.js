@@ -2,30 +2,30 @@ function modify_port_val(port){
 	layer.open({
 		type: 1,
 		area: '400px',
-		title: 'Change Panel Port',
+		title: '修改端口',
 		closeBtn:2,
 		shadeClose: false,
-		btn:['Confirm','Cancel'],
+		btn:['确认','取消'],
 		content: '<div class="bt-form pd20 pd70" style="padding:20px 35px;">\
 				<ul style="margin-bottom:10px;color:red;width: 100%;background: #f7f7f7;padding: 10px;border-radius: 5px;font-size: 12px;">\
-					<li style="color:red;font-size:13px;">1. Have a security group server, please release the new port in the security group in advance.</li>\
-					<li style="color:red;font-size:13px;">2. If the panel is inaccessible after modifying the port, change the original port to the SSH command line by using the bt command.</li>\
+					<li style="color:red;font-size:13px;">1. 有安全组的服务器请提前在安全组放行新端口.</li>\
+					<li style="color:red;font-size:13px;">2. 如果修改端口导致面板无法访问，请在SSH命令行通过bt命令改回原来的端口.</li>\
 				</ul>\
 				<div class="line">\
-	                <span class="tname" style="width: 70px;">Port</span>\
+	                <span class="tname" style="width: 70px;">面板端口</span>\
 	                <div class="info-r" style="margin-left:70px">\
 	                    <input name="portss" class="bt-input-text mr5" type="text" style="width:200px" value="'+ port +'">\
 	                </div>\
                 </div>\
                 <div class="details" style="margin-top:5px;padding-left: 3px;">\
 					<input type="checkbox" id="check_port">\
-					<label style="font-weight: 400;margin: 3px 5px 0px;" for="check_port">I already understand</label>,<a target="_blank" class="btlink" href="https://forum.aapanel.com/d/599-how-to-release-the-aapanel-port">How to release the port?</a>\
+					<label style="font-weight: 400;margin: 3px 5px 0px;" for="check_port">我已经了解</label>,<a target="_blank" class="btlink" href="https://forum.aapanel.com/d/599-how-to-release-the-aapanel-port">如何开放端口?</a>\
 				</div>\
 			</div>',
 		yes:function(index,layero){
 			var check_port = $('#check_port').prop('checked'),_tips = '';
 			if(!check_port){
-				_tips = layer.tips('Please tick the one I already know', '#check_port', {tips:[1,'#ff0000'],time:5000});
+				_tips = layer.tips('请勾选我已了解', '#check_port', {tips:[1,'#ff0000'],time:5000});
 				return false;
 			}
 			layer.close(_tips);
@@ -100,39 +100,39 @@ $('#panel_verification').click(function(){
 		layer.open({
 			type: 1,
 			area: ['600px','420px'],
-			title: 'Google authentication binding',
+			title: 'Google 动态口令设置',
 			closeBtn: 2,
 			shift: 5,
 			shadeClose: false,
 			content: '<div class="bt-form pd20 pd70 ssl_cert_from google_verify" style="padding:20px 35px;">\
 				<div class="">\
 					<i class="layui-layer-ico layui-layer-ico3"></i>\
-					<h3>Warning! Do not understand this feature, do not open!</h3>\
+					<h3>危险！此功能不懂别开启!</h3>\
 					<ul style="width:91%;margin-bottom:10px;margin-top:10px;">\
-						<li style="color:red;">You must use and understand this feature to decide if you want to open it!</li>\
-						<li style="color:red;">If it is not possible to verify, enter "bt 24" on the command line to cancel Google authentication.</li>\
-						<li>Once the service is turned on, bind it immediately to avoid the panel being inaccessible.</li>\
-						<li>After opening, the panel will not be accessible. You can click the link below to find out the solution.</li>\
+						<li style="color:red;">必须要用到且了解此功能才决定自己是否要开启!</li>\
+						<li style="color:red;">如果无法验证，命令行输入"bt 24" 取消动态口令认证n.</li>\
+						<li>开启服务后，请立即绑定，以免出现面板不能访问.</li>\
+						<li>基于google Authenticator 开发,如遇到问题请点击.</li>\
 					</ul>\
 				</div>\
 				<div class="details" style="width: 90%;margin-bottom:10px;">\
 					<input type="checkbox" id="check_verification">\
-					<label style="font-weight: 400;margin: 3px 5px 0px;" for="check_verification">I already know the details and are willing to take risks</label>\
-					<a target="_blank" class="btlink" href="https://forum.aapanel.com/d/357-how-to-use-google-authenticator-in-the-aapanel">Learn more</a>\
+					<label style="font-weight: 400;margin: 3px 5px 0px;" for="check_verification">我已安装APP和了解详情,并愿意承担风险！</label>\
+					<a target="_blank" class="btlink" href="https://forum.aapanel.com/d/357-how-to-use-google-authenticator-in-the-aapanel">了解详情</a>\
 				</div>\
 				<div class="bt-form-submit-btn">\
-					<button type="button" class="btn btn-sm btn-danger close_verify">Close</button>\
-					<button type="button" class="btn btn-sm btn-success submit_verify">Confirm</button>\
+					<button type="button" class="btn btn-sm btn-danger close_verify">关闭</button>\
+					<button type="button" class="btn btn-sm btn-success submit_verify">确认</button>\
 				</div>\
 			</div>',
 			success:function(layers,index){
 				$('.submit_verify').click(function(e){
 					var check_verification = $('#check_verification').prop('checked');
 					if(!check_verification){
-						layer.msg('Please check the consent risk first.',{icon:0});
+						layer.msg('请先勾选同意风险.',{icon:0});
 						return false;
 					}
-					var loadT = layer.msg('Opening Google authentication, please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+					var loadT = layer.msg('正在开启Google动态口令认证，请稍后...', { icon: 16, time: 0, shade: [0.3, '#000'] });
 					set_two_step_auth({act:_checked},function(rdata){
 						layer.close(loadT);
 						if (rdata.status) layer.closeAll();
@@ -153,12 +153,12 @@ $('#panel_verification').click(function(){
 		});
 	}else{
 		bt.confirm({
-			title: 'Google authentication',
-			msg: 'Turn off Google authentication, do you want to continue?',
+			title: 'Google 动态口令认证n',
+			msg: '是否关闭动态口令认证，是否继续?',
 			cancel: function () {
 				$('#panel_verification').prop('checked',!_checked);
 			}}, function () {
-				var loadT = layer.msg('Google authentication is being turned off, please wait...', { icon: 16, time: 0, shade: [0.3, '#000'] });
+				var loadT = layer.msg('正在关闭动态口令认证，请稍后...', { icon: 16, time: 0, shade: [0.3, '#000'] });
 				set_two_step_auth({act:_checked},function(rdata){
 					layer.close(loadT);
 					if (rdata.status) layer.closeAll();
@@ -179,37 +179,37 @@ $('#panel_verification').click(function(){
 $('.open_two_verify_view').click(function(){
 	var _checked = $('#panel_verification').prop('checked');
 	if(!_checked){
-		layer.msg('Please turn on Google authentication first.',{icon:0});
+		layer.msg('请先开启动态口令认证.',{icon:0});
 		return false;
 	}
 	layer.open({
         type: 1,
         area: ['600px','670px'],
-        title: 'Google authentication binding',
+        title: 'Google 动态口令认证绑定',
         closeBtn: 2,
         shift: 5,
         shadeClose: false,
         content: '<div class="bt-form pd20" style="padding:20px 35px;">\
-					<div class="verify_title">Login authentication based on Google Authenticator</div>\
+					<div class="verify_title">基于Google Authenticator的登录认证</div>\
 					<div class="verify_item">\
-						<div class="verify_vice_title">1. Key binding</div>\
+						<div class="verify_vice_title">1. Key 绑定</div>\
 						<div class="verify_conter">\
 							<div class="verify_box">\
-								<div class="verify_box_line">Account：<span class="username"></sapn></div>\
+								<div class="verify_box_line">账号：<span class="username"></sapn></div>\
 								<div class="verify_box_line">Key：<span class="userkey"></sapn></div>\
-								<div class="verify_box_line">Type：<span class="usertype">Time based</sapn></div>\
+								<div class="verify_box_line">类型：<span class="usertype">基于时间</sapn></div>\
 							</div>\
 						</div>\
 					</div>\
 					<div class="verify_item">\
-						<div class="verify_vice_title">2. Scan code binding (Using Google Authenticator APP scan)</div>\
+						<div class="verify_vice_title">2. 扫码绑定（使用宝塔面板APP或Google身份验证器APP扫码）</div>\
 						<div class="verify_conter" style="text-align:center;padding-top:10px;">\
 							<div id="verify_qrcode"></div>\
 						</div>\
 					</div>\
 					<div class="verify_tips">\
-						<p>Tips: Please use the "Google Authenticator APP" binding to support Android, IOS system.<a href="https://forum.aapanel.com/d/357-how-to-use-google-authenticator-in-the-aapanel" class="btlink" target="_blank">Use tutorial</a></p>\
-						<p style="color:red;">Once you have turned on the service, use the Google Authenticator app binding now to avoid having to sign in.</p>\
+						<p>提示：请使用“ 宝塔面板APP或Google身份验证器APP ”绑定,各大软件商店均可下载该APP，支持安卓、IOS系统。<a href="https://forum.aapanel.com/d/357-how-to-use-google-authenticator-in-the-aapanel" class="btlink" target="_blank">使用教程</a></p>\
+						<p style="color:red;">开启服务后，请立即使用“宝塔面板APP或Google身份验证器APP”绑定，以免出现无法登录的情况.</p>\
 					</div>\
 				</div>',
 		success:function(e){
@@ -235,10 +235,10 @@ var three_channel_status = {};
 	});
 	get_three_channel(function(res){
 		three_channel_status = res;
-		$('#channel_auth').val(!res.user_mail.user_name && !res.telegram.setup ? 'Email is not set':(res.user_mail.user_name? 'Email is set':(res.telegram.setup? 'Telegram is set': '')))
+		$('#channel_auth').val(!res.user_mail.user_name && !res.telegram.setup ? '邮箱未设置':(res.user_mail.user_name? '邮箱已设置':(res.telegram.setup? 'Telegram 已设置': '')))
 	});
 	get_login_send(function(rdata){
-		$('#panel_report').val(!rdata.status ? 'Email is not set':(rdata.msg.mail? 'Already set':'Not set'))
+		$('#panel_report').val(!rdata.status ? '邮箱未设置':(rdata.msg.mail? '已经设置':'未设置'))
 	})
 })()
 
@@ -248,14 +248,14 @@ function get_three_channel(callback){
 	});
 }
 function get_login_send(callback){
-    var loadS = bt.load('Getting login information, please wait...')
+    var loadS = bt.load('正在获取登录信息，请稍等...')
     $.post('/config?action=get_login_send',function(res){
         loadS.close()
 		if(callback) callback(res);
 	});
 }
 function login_ipwhite(obj,callback){
-    var loadY = bt.load('Getting IP lists, please wait...')
+    var loadY = bt.load('正在获取IP列表，请稍候...')
     $.post('/config?action=login_ipwhite',obj,function(res){
         loadY.close()
 		if(!res.status) return layer.msg(res.msg,{icon:res.status?1:2})
@@ -448,7 +448,7 @@ function setPanelSSL(){
 	var status = $("#panelSSL").prop("checked");
 	var loadT = layer.msg(lan.config.ssl_msg,{icon:16,time:0,shade: [0.3, '#000']});
 	if(status){
-		var confirm = layer.confirm('Whether to close the panel SSL certificate', {title:'Tips',btn: ['Confirm','Cancel'],icon:0,closeBtn:2}, function() {
+		var confirm = layer.confirm('是否关闭面板SSL证书', {title:'确定',btn: ['确定','确定'],icon:0,closeBtn:2}, function() {
             bt.send('SetPanelSSL', 'config/SetPanelSSL', {}, function (rdata) {
                 layer.close(loadT);
                 if (rdata.status) {
@@ -471,7 +471,7 @@ function setPanelSSL(){
 			layer.close(loadT);
 			var sdata = rdata;
 			var _data = {
-					title: 'Panel SSL',
+					title: '面板SSL',
 					area: '630px',
 					class: 'ssl_cert_from ssl_cert_panel_from',
 					list: [
@@ -483,22 +483,22 @@ function setPanelSSL(){
 													<ul style="width: 100%;">\
 															<li style="color:red;">' + lan.config.ssl_open_ps_1 + '</li>\
 															<li>' + lan.config.ssl_open_ps_2 + '</li>\
-															<li>If panel is not accessible, you can click the <a class="btlink" href="https://forum.aapanel.com/d/167-common-problems-after-opening-the-panel-certificate" target="_blank">link</a> below to find solutions</li>\
+															<li>如果面板无法访问，你可以点击 <a class="btlink" href="https://forum.aapanel.com/d/167-common-problems-after-opening-the-panel-certificate" target="_blank">链接</a> 在里面寻找解决方案</li>\
 													</ul>\
 											</div>\
 									'
 							},
 							{
-									title: 'Cert Type',
+									title: '类型',
 									name: 'cert_type',
 									type: 'select',
 									width: '260px',
 									// value: sdata.cert_type,
 									value: '3',
 									items: [
-										{value: '1', title: 'Self-signed certificate'},
+										{value: '1', title: '自签证书'},
 										{value: '2', title: 'Let\'s Encrypt'},
-										{value: '3', title: 'I have certficate'}
+										{value: '3', title: '我有证书'}
 									],
 									callback: function (obj) {
 											var set_height = function () {
@@ -519,10 +519,10 @@ function setPanelSSL(){
 											}
 											if (obj.val() == '2') {
 													var _tr = bt.render_form_line({
-															title: 'E-Mail',
+															title: '邮箱',
 															name: 'email',
 															width: '260px',
-															placeholder: 'Admin E-Mail',
+															placeholder: '管理员邮箱',
 															value: sdata.email
 													});
 													obj.parents('div.line').append('<div class="line" id=' + subid + '>' + _tr.html + '</div>');
@@ -533,17 +533,17 @@ function setPanelSSL(){
 													$.post('/config?action=GetPanelSSL', {}, function (cert) {
 															layer.close(loadT);
 															if (cert.privateKey === 'false') {
-																	cert.privateKey = 'paste your Private key (KEY) here';
+																	cert.privateKey = '粘贴你的私钥（KEY here';
 															}
 															if (cert.certPem === 'false') {
-																	cert.certPem = 'paste your Certificate (CRT/PEM) here';
+																	cert.certPem = '在此粘贴您的证书（CRT/PEM）';
 															}
 															obj.parents('div.line').append('\
 																	<div class="myKeyCon" id="' + keyid + '" style="margin: 0 auto; padding: 16px 0 0;">\
-																			<div class="ssl-con-key pull-left">Key<br>\
+																			<div class="ssl-con-key pull-left">密钥(KEY)<br>\
 																					<textarea id="key" class="bt-input-text">' + cert.privateKey + '</textarea>\
 																			</div>\
-																			<div class="ssl-con-key pull-right">Certificate (in pem format)<br>\
+																			<div class="ssl-con-key pull-right">证书（pem 格式）<br>\
 																					<textarea id="csr" class="bt-input-text">' + cert.certPem + '</textarea>\
 																			</div>\
 																			<div style="clear: both;"></div>\
@@ -568,23 +568,23 @@ function setPanelSSL(){
 					],
 					btns: [
 							{
-									title: 'Close', name: 'close', callback: function (rdata, load, callback) {
+									title: '关闭', name: 'close', callback: function (rdata, load, callback) {
 											load.close();
 											$("#panelSSL").prop("checked", false);
 									}
 							},
 							{
-									title: 'Submit',
+									title: '提交',
 									name: 'submit',
 									css: 'btn-success',
 									callback: function (rdata, load, callback) {
 											if (!$('#checkSSL').is(':checked')) return bt.msg({
 													status: false,
-													msg: 'Please confirm the risk first!'
+													msg: '请先确认风险!'
 											});
-											layer.confirm('Whether to open the panel SSL certificate', {
-													title: 'Tips',
-													btn: ['Confirm', 'Cancel'],
+											layer.confirm('是否开启面板SSL证书', {
+													title: '提示',
+													btn: ['确定', '取消'],
 													icon: 0,
 													closeBtn: 2
 											}, function () {
@@ -621,6 +621,7 @@ function setPanelSSL(){
   }
 }
 
+// 设置证书
 function SetPanelSSL(rdata, callback) {
 	bt.send('SetPanelSSL', 'config/SetPanelSSL', rdata, function (rdata) {
 			if (callback) callback(rdata);
@@ -683,14 +684,15 @@ function GetPanelSSL(){
 // 	});
 // }
 
+// 保存证书
 function SavePanelSSL(option) {
 	option = option || {
 			loading: true
 	};
 	var privateKey = $("#key").val().trim();
 	var certPem = $("#csr").val().trim();
-	if (privateKey === 'false') return layer.msg('Please paste your Private key (KEY) here', {icon: 2});
-	if (certPem === 'false') return layer.msg('Please paste your Certificate (CRT/PEM) here', {icon: 2});
+	if (privateKey === 'false') return layer.msg('请在此粘贴您的私钥（KEY）', {icon: 2});
+	if (certPem === 'false') return layer.msg('请在此粘贴您的证书（CRT/PEM）', {icon: 2});
 	var data = {
 			privateKey: privateKey,
 			certPem: certPem
@@ -715,11 +717,11 @@ function SavePanelSSL(option) {
 }
 
 function SetDebug() {
-    var status_s = {false:'open',true:'close'}
+    var status_s = {false:'开启',true:'关闭'}
     var debug_stat = $("#panelDebug").prop('checked');
     bt.confirm({
-		title: (debug_stat?'Open':'Close') + " developer mode",
-		msg: "Do you confirm to "+ (debug_stat?'open':'close') +" developer mode?",
+		title: (debug_stat?'开启':'关闭') + " 开发者模式",
+		msg: "您确定要 "+ (debug_stat?'开启':'关闭') +" 开发者模式吗?",
 		cancel: function () {
 			$("#panelDebug").prop('checked',debug_stat);
     	}}, function () {
@@ -735,11 +737,11 @@ function SetDebug() {
 }
 
 function set_local() {
-    var status_s = { false: 'Open', true: 'Close' }
+    var status_s = { false: '开启', true: '关闭' }
     var debug_stat = $("#panelLocal").prop('checked');
     bt.confirm({
-		title: status_s[debug_stat] + "Offline mode",
-		msg: "Do you really want "+ status_s[debug_stat] + "offline mode?",
+		title: status_s[debug_stat] + "离线模式",
+		msg: "您真的要 "+ status_s[debug_stat] + "离线模式？",
 	    cancel: function () {
 			$("#panelLocal").prop('checked',debug_stat);
     	}}, function () {
@@ -993,11 +995,11 @@ function SetPanelApi(t_type,index) {
         pdata['limit_addr'] = $("textarea[name='api_limit_addr']").val()
     }
     if(t_type == 1){
-    	var bdinding = layer.confirm('Are you sure you want to reset your current key?<br><span style="color:red;">After the key is reset, the associated key product will be invalid. Please re-add the new key to the product.</span>',{
-			btn:['Confirm','Cancel'],
+    	var bdinding = layer.confirm('您确定要重置当前密钥吗？<br><span style="color:red;">重置密钥后，已关联密钥产品，将失效，请重新添加新密钥至产品。</span>',{
+			btn:['确定','取消'],
 			icon:3,
 			closeBtn: 2,
-			title:'Reset key'
+			title:'重置密钥'
 		},function(){
 		    var loadT = layer.msg(lan.config.is_submitting, { icon: 16, time: 0, shade: [0.3, '#000'] });
 		    set_token_req(pdata,function(rdata){
@@ -1014,10 +1016,10 @@ function SetPanelApi(t_type,index) {
     }
     set_token_req(pdata,function(rdata){
 		layer.close(layer.index);
-        if (rdata.msg == 'Open success!') {
+        if (rdata.msg == '开启成功!') {
             if(t_type == 2 && index != '1') GetPanelApi();
 		}
-		if(t_type == 2) $('#panelApi').prop('checked',rdata.msg == 'Open success!'?true:false);
+		if(t_type == 2) $('#panelApi').prop('checked',rdata.msg == '打开成功!'?true:false);
 		layer.msg(rdata.msg, { icon: rdata.status ? 1 : 2 });
     });
 }
@@ -1057,27 +1059,27 @@ function modify_basic_auth_to() {
 
 }
 function set_panel_report(){
-	if(!three_channel_status.user_mail.user_name) return layer.msg('Please set up the [ Notification ] first',{icon:2})
+	if(!three_channel_status.user_mail.user_name) return layer.msg('请先设置[通知]',{icon:2})
 	get_login_send(function(rdata){
 		layer.open({
 			type: 1,
 			area:'700px',
-			title: "Login panel alarm",
+			title: "登录面板报警",
 			closeBtn: 2,
 			shift: 5,
 			shadeClose: false,
 			content: '<div class="bt-form">\
 						<div class="bt-w-main">\
 							<div class="bt-w-menu" style="width: 140px;">\
-								<p class="bgw">Alarm settings</p>\
-								<p>IP whitelist</p>\
+								<p class="bgw">报警设置</p>\
+								<p>IP白名单</p>\
 							</div>\
 							<div class="bt-w-con pd15" style="margin-left: 140px;">\
 								<div class="plugin_body">\
 									<div class="conter_box active" >\
 										<div class="bt-form" style="height:500px">\
 											<div class="line">\
-												<span class="set-tit" style="display:inline-block;vertical-align: top;margin: 3px;color:#666" title="Notification email">Send to mailbox</span>\
+												<span class="set-tit" style="display:inline-block;vertical-align: top;margin: 3px;color:#666" title="Notification email">发送到邮箱</span>\
 												<div class="mail" name="server_input" style="display:inline-block;margin:0px 10px 0px 0px">\
 													<input class="btswitch btswitch-ios" id="mail" type="checkbox" '+(!rdata.status?"":(rdata.msg.mail?"checked":""))+' >\
 													 <label class="btswitch-btn" for="mail"></label>\
@@ -1085,7 +1087,7 @@ function set_panel_report(){
 											</div>\
 											<div class="line" style="max-height:400px;height:auto;overflow:auto">\
 												<div class="divtable">\
-													<table class="table table-hover" width="100%" cellspacing="0" cellpadding="0" border="0"><thead><tr><th width="75%">login info</th><th width="25%" style="text-align:right">time</th></tr></thead>\
+													<table class="table table-hover" width="100%" cellspacing="0" cellpadding="0" border="0"><thead><tr><th width="75%">登录信息</th><th width="25%" style="text-align:right">时间</th></tr></thead>\
 													 <tbody id="server_table"></tbody>\
 													</table>\
 												</div>\
@@ -1099,22 +1101,22 @@ function set_panel_report(){
 									<div class="conter_box" style="display:none;height:500px">\
 										<div class="bt-form">\
 											<div class="line" style="display:inline-block">\
-												<input name="ip_write" class="bt-input-text mr5" type="text" style="width: 220px;" placeholder="Please enter the IP">\
-												<button class="btn btn-success btn-sm add_ip_write" style="padding: 4px 15px">Add</button>\
+												<input name="ip_write" class="bt-input-text mr5" type="text" style="width: 220px;" placeholder="请输入IP">\
+												<button class="btn btn-success btn-sm add_ip_write" style="padding: 4px 15px">添加</button>\
 											</div>\
 											<div class="line" style="float:right">\
-												<button class="btn btn-default btn-sm clear_all" style="padding: 4px 15px;text-align:right">Clean all</button>\
+												<button class="btn btn-default btn-sm clear_all" style="padding: 4px 15px;text-align:right">清空全部</button>\
 											</div>\
 											 <div class="line" style="max-height:400px;height:auto;overflow:auto">\
 												<div class="divtable">\
-													<table class="table table-hover" width="100%" cellspacing="0" cellpadding="0" border="0"><thead><tr><th width="60%">IP</th><th width="40%" style="text-align:right">Opt</th></tr></thead>\
+													<table class="table table-hover" width="100%" cellspacing="0" cellpadding="0" border="0"><thead><tr><th width="60%">IP</th><th width="40%" style="text-align:right">操作</th></tr></thead>\
 													 <tbody id="ip_write_table"></tbody>\
 													</table>\
 												</div>\
 											</div>\
 										</div>\
 										  <ul class="mtl0 c7" style="font-size: 13px;position:absolute;bottom:0;padding-right: 40px;">\
-										   <li style="list-style:inside disc">Only allow to set ipv4 whitelist</li>\
+										   <li style="list-style:inside disc">只允许设置ipv4白名单</li>\
 										</ul>\
 									</div>\
 								</div>\
@@ -1170,7 +1172,7 @@ function set_panel_report(){
 				});
 				//清空全部
 				$('.clear_all').on('click',function(){
-					layer.confirm('Whether to clear the IP whitelist', {title:'Tips',btn: ['Confirm','Cancel'],icon:0,closeBtn:2}, function() {
+					layer.confirm('是否清空所有白名单IP', {title:'提示',btn: ['确定','取消'],icon:0,closeBtn:2}, function() {
 						login_ipwhite({type:'clear'},function(res){
 							if(res.status) get_ip_write_table()
 							layer.msg(res.msg,{icon:res.status?1:2});
@@ -1186,14 +1188,14 @@ function set_panel_report(){
 				})
 			},
 			cancel:function(){
-				$('#panel_report').val( $('#mail').prop('checked') ? 'Already set' : 'Not set');
+				$('#panel_report').val( $('#mail').prop('checked') ? '已设置' : '未设置');
 			}
 		})
 	})
 }
 function get_log_table(obj){
     if(!obj) obj = {p:1}
-    var loadT = bt.load('Getting Logs list, please wait')
+    var loadT = bt.load('正在获取日志列表')
 	$.post('/config?action=get_login_log',obj,function(res){
 		loadT.close()
         $('#server_table').empty()
@@ -1205,7 +1207,7 @@ function get_log_table(obj){
 					</tr>').data({data:item,index:index}))
 			});
 		}else{
-			$('#server_table').html('<tr><td colspan="2" style="text-align:center">None Data</td></tr>')
+			$('#server_table').html('<tr><td colspan="2" style="text-align:center">列表暂无数据</td></tr>')
 		}
 		$('#server_table_page').html(res.page)
 	});
@@ -1218,12 +1220,12 @@ function get_ip_write_table(){
 				$('#ip_write_table').append($('<tr>\
 					<td>'+ item +'</td>\
 					<td style="text-align:right">\
-						<a href="javascript:;" class="btlink del_ip_write" >Del</a>\
+						<a href="javascript:;" class="btlink del_ip_write" >删除</a>\
 					</td>\
 					</tr>').data({data:item,index:index}))
 			});
 		}else{
-			$('#ip_write_table').html('<tr><td colspan="2" style="text-align:center">None Data</td></tr>')
+			$('#ip_write_table').html('<tr><td colspan="2" style="text-align:center">列表暂无数据</td></tr>')
 		}
     })
 }
@@ -1235,20 +1237,20 @@ function modify_basic_auth() {
             show_basic_auth(rdata);
         } else {
             m_html = '<div class="risk_form"><i class="layui-layer-ico layui-layer-ico3"></i>'
-                + '<h3 class="risk_tilte">Warning! Do not understand this feature, do not open!</h3>'
+                + '<h3 class="risk_tilte">危险！此功能不懂别开启!</h3>'
                 + '<ul style="border: 1px solid #ececec;border-radius: 10px; margin: 0px auto;margin-top: 20px;margin-bottom: 20px;background: #f7f7f7; width: 100 %;padding: 33px;list-style-type: inherit;">'
-					+ '<li style="color:red;">You must use and understand this feature to decide if you want to open it!</li>'
-					+ '<li>After opening, access the panel in any way, you will be asked to enter the BasicAuth username and password first.</li>'
-					+ '<li>After being turned on, it can effectively prevent the panel from being scanned and found, but it cannot replace the account password of the panel itself.</li>'
-					+ '<li>Please remember the BasicAuth password, but forget that you will not be able to access the panel.</li>'
-					+ '<li>If you forget your password, you can disable BasicAuth authentication by using the bt command in SSH.</li>'
+					+ '<li style="color:red;">必须要用到且了解此功能才决定自己是否要开启!</li>'
+					+ '<li>开启后，以任何方式访问面板，将先要求输入BasicAuth用户名和密码.</li>'
+					+ '<li>开启后，能有效防止面板被扫描发现，但并不能代替面板本身的帐号密码.</li>'
+					+ '<li>请牢记BasicAuth密码，一但忘记将无法访问面板.</li>'
+					+ '<li>如忘记密码，可在SSH通过bt命令来关闭BasicAuth验证.</li>'
                 + '</ul></div>'
                 + '<div class="details">'
-                + '<input type="checkbox" id="check_basic"><label style="font-weight: 400;margin: 3px 10px 0px;font-size:12px;" for="check_basic">I already know the details and are willing to take risks</label>'
-                + '<a target="_blank" style="font-size:12px;" class="btlink" href="https://www.bt.cn/bbs/thread-34374-1-1.html">What is BasicAuth authentication?</a><p></p></div>'
-            var loadT = layer.confirm(m_html, { title: "Risk reminder", area: "600px",closeBtn:2 }, function () {
+                + '<input type="checkbox" id="check_basic"><label style="font-weight: 400;margin: 3px 10px 0px;font-size:12px;" for="check_basic">我已经了解详情,并愿意承担风险</label>'
+                + '<a target="_blank" style="font-size:12px;" class="btlink" href="https://www.bt.cn/bbs/thread-34374-1-1.html">什么是BasicAuth认证？</a><p></p></div>'
+            var loadT = layer.confirm(m_html, { title: "风险提醒", area: "600px",closeBtn:2 }, function () {
                 if (!$("#check_basic").prop("checked")) {
-                    layer.msg("Please read the precautions carefully and check to agree to take risks!");
+                    layer.msg("请仔细阅读注意事项，并勾选同意承担风险!");
                     setTimeout(function () { modify_basic_auth();},3000)
                     return;
                 }
@@ -1266,7 +1268,7 @@ function show_basic_auth(rdata) {
     layer.open({
         type: 1,
         area: "500px",
-        title: "Configure BasicAuth authentication",
+        title: "配置BasicAuth认证",
         closeBtn: 2,
         shift: 5,
         shadeClose: false,
@@ -1302,13 +1304,13 @@ function show_basic_auth(rdata) {
     })
 }
 function get_panel_hide_list(){
-	var loadT = bt.load('Getting panel menu bar, please wait...'),arry = [];
+	var loadT = bt.load('正在获取面板菜单栏目，请稍后...'),arry = [];
 	$.post('/config?action=get_menu_list',function(rdata){
 		loadT.close();
 		$.each(rdata,function(index,item){
 			if(!item.show) arry.push(item.title)
 		});
-		$('#panel_menu_hide').val(arry.length > 0?arry.join('/'):'No hidden bar');
+		$('#panel_menu_hide').val(arry.length > 0?arry.join('/'):'无隐藏栏目');
 	});
 
 }
@@ -1317,23 +1319,23 @@ get_panel_hide_list();
 
 // 设置面板菜单显示功能
 function set_panel_ground(){
-	var loadT = bt.load('Getting panel menu bar, please wait...');
+	var loadT = bt.load('正在获取面板菜单栏目，请稍后...');
 	$.post('/config?action=get_menu_list',function(rdata){
 		var html = '',arry = ["dologin","memuAconfig","memuAsoft","memuA"],is_option = '';
 		loadT.close();
 		$.each(rdata,function(index,item){
 			is_option = '<div class="index-item" style="float:right;"><input class="btswitch btswitch-ios" id="'+ item.id +'0000" name="'+ item.id +'" type="checkbox" '+ (item.show?'checked':'') +'><label class="btswitch-btn" for="'+ item.id +'0000"></label></div>'
 			
-			if(item.id == 'dologin' || item.id == 'memuAconfig' || item.id == 'memuAsoft' || item.id == 'memuA') is_option = 'Inoperable';
+			if(item.id == 'dologin' || item.id == 'memuAconfig' || item.id == 'memuAsoft' || item.id == 'memuA') is_option = '不可操作';
 			html += '<tr><td>'+ item.title +'</td><td><div style="float:right;">'+ is_option +'</div></td></tr>';
 		});
 		layer.open({
 			type:1,
-			title:'Manage panel menu bar',
+			title:'设置面板菜单栏目管理',
 			area:['350px','536px'],
 			shadeClose:false,
 			closeBtn:2,
-			content:'<div class="divtable softlist" id="panel_menu_tab" style="padding: 20px 15px;"><table class="table table-hover"><thead><tr><th>Menu bar</th><th style="text-align:right;width:120px;">Display</th></tr></thead><tbody>'+ html +'</tbody></table></div>',
+			content:'<div class="divtable softlist" id="panel_menu_tab" style="padding: 20px 15px;"><table class="table table-hover"><thead><tr><th>菜单栏目</th><th style="text-align:right;width:120px;">是否显示</th></tr></thead><tbody>'+ html +'</tbody></table></div>',
 			success:function(){
 				$('#panel_menu_tab input').click(function(){
 					var arry = [];
@@ -1345,7 +1347,7 @@ function set_panel_ground(){
 					if(!$(this).prop('checked')){
 						arry.push($(this).attr('name'));
 					}
-					var loadT = bt.load('Setting panel menu bar display status, please wait...');
+					var loadT = bt.load('正在设置面板菜单栏目显示状态，请稍后...');
 					$.post('/config?action=set_hide_menu_list',{hide_list:JSON.stringify(arry)},function(rdata){
 						loadT.close();
 						bt.msg(rdata);
@@ -1363,7 +1365,7 @@ function set_panel_ground(){
  * @returns void
  */
 function get_temp_login(data,callback){
-	var loadT = bt.load('Get temporary authorization list, please wait...');
+	var loadT = bt.load('获取临时授权列表，请稍后...');
 	bt.send('get_temp_login','config/get_temp_login',data,function(res){
 		if(res.status === false){
 			layer.closeAll();
@@ -1381,7 +1383,7 @@ function get_temp_login(data,callback){
  * @returns void
  */
 function set_temp_login(callback){
-	var loadT = bt.load('Setting temporary links, please wait...');
+	var loadT = bt.load('正在设置临时链接，请稍后...');
 	bt.send('set_temp_login','config/set_temp_login',{},function(res){
 		loadT.close();
 		if(callback) callback(res)
@@ -1395,7 +1397,7 @@ function set_temp_login(callback){
  * @returns void
 */
 function remove_temp_login(data,callback){
-	var loadT = bt.load('Deleting temporary authorization record, please wait...');
+	var loadT = bt.load('正在删除临时授权记录，请稍后...');
 	bt.send('remove_temp_login','config/remove_temp_login',{id:data.id},function(res){
 		loadT.close();
 		if(callback) callback(res)
@@ -1408,7 +1410,7 @@ function remove_temp_login(data,callback){
  * @returns void
 */
 function clear_temp_login(data,callback){
-	var loadT = bt.load('Forcing user to log out, please wait...');
+	var loadT = bt.load('正在强制用户登出，请稍后...');
 	bt.send('clear_temp_login','config/clear_temp_login',{id:data.id},function(res){
 		loadT.close();
 		if(callback) callback(res)
@@ -1426,26 +1428,26 @@ function reader_temp_list(data,callback){
 	get_temp_login(data,function(rdata){
 		var html = '';
 		$.each(rdata.data,function(index,item){
-			html += '<tr><td>'+ (item.login_addr || 'Not login') +'</td><td>'+ (function(){
+			html += '<tr><td>'+ (item.login_addr || '未登录') +'</td><td>'+ (function(){
 				switch(item.state){
 					case 0:
-						return 'Not login';
+						return '待使用';
 					break;
 					case 1:
-						return 'Logged in';
+						return '已使用';
 					break;
 					case -1:
-						return 'Expired';
+						return '已过期';
 					break;
 				}
-			}()) +'</td><td >'+ (item.login_time == 0?'Not login':bt.format_data(item.login_time)) +'</td><td>'+ bt.format_data(item.expire) +'</td><td style="text-align:right;">'+ (function(){
+			}()) +'</td><td >'+ (item.login_time == 0?'未登录':bt.format_data(item.login_time)) +'</td><td>'+ bt.format_data(item.expire) +'</td><td style="text-align:right;">'+ (function(){
 				if(item.state != 1){
-					return '<a href="javascript:;" class="btlink remove_temp_login" data-ip="'+ item.login_addr +'" data-id="'+ item.id +'">Del</a>';
+					return '<a href="javascript:;" class="btlink remove_temp_login" data-ip="'+ item.login_addr +'" data-id="'+ item.id +'">删除</a>';
 				}
 				if(item.online_state){
-					return '<a href="javascript:;" class="btlink clear_temp_login" style="color:red" data-ip="'+ item.login_addr +'" data-id="'+ item.id +'">Force logout </a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" class="btlink logs_temp_login" data-ip="'+ item.login_addr +'" data-id="'+ item.id +'">Logs</a>';
+					return '<a href="javascript:;" class="btlink clear_temp_login" style="color:red" data-ip="'+ item.login_addr +'" data-id="'+ item.id +'">强制登出</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" class="btlink logs_temp_login" data-ip="'+ item.login_addr +'" data-id="'+ item.id +'">操作日志</a>';
 				}
-				return '<a href="javascript:;" class="btlink logs_temp_login" data-ip="'+ item.login_addr +'" data-id="'+ item.id +'">Logs</a>';
+				return '<a href="javascript:;" class="btlink logs_temp_login" data-ip="'+ item.login_addr +'" data-id="'+ item.id +'">操作日志</a>';
 			}()) +'</td></tr>';
 		});
 		$('#temp_login_view_tbody').html(html);
@@ -1464,7 +1466,7 @@ function reader_temp_list(data,callback){
  * @returns void
 */
 function get_temp_login_logs(data,callback){
-	var loadT = bt.load('Getting operation log, please wait...');
+	var loadT = bt.load('正在获取操作日志，请稍后...');
 	bt.send('clear_temp_login','config/get_temp_login_logs',{id:data.id},function(res){
 		loadT.close();
 		if(callback) callback(res)
@@ -1499,15 +1501,15 @@ function get_temp_login_view(){
 	layer.open({
 		type: 1,
         area:["700px",'600px'],
-        title: "Temporary authorization management",
+        title: "临时授权管理",
         closeBtn: 2,
         shift: 5,
 		shadeClose: false,
 		content:'<div class="login_view_table pd15">'+
-			'<button class="btn btn-success btn-sm va0 create_temp_login" >Create authorization</button>'+
+			'<button class="btn btn-success btn-sm va0 create_temp_login" >创建临时授权</button>'+
 			'<div class="divtable mt10">'+
 				'<table class="table table-hover">'+
-					'<thead><tr><th>Login IP</th><th>Status</th><th>Login time</th><th>Expiration time</th><th style="text-align:right;">Opt</th></tr></thead>'+
+					'<thead><tr><th>登录IP</th><th>状态</th><th>登录时间</th><th>过期时间</th><th style="text-align:right;">操作</th></tr></thead>'+
 					'<tbody id="temp_login_view_tbody"></tbody>'+
 				'</table>'+
 				'<div class="temp_login_view_page page"></div>'+
@@ -1517,18 +1519,18 @@ function get_temp_login_view(){
 			reader_temp_list();
 			// 创建临时授权
 			$('.create_temp_login').click(function(){
-				bt.confirm({title:'Risk tips',msg:'<span style="color:red">Note 1: Abuse of temporary authorization may lead to security risks.</br>Note 2: Not publish temporary authorized connections in public</span></br>Temporary authorization connection is about to be created. Continue?'},function(){
+				bt.confirm({title:'风险提示',msg:'<span style="color:red">注意1：滥用临时授权可能导致安全风险。</br>注意2：请勿在公共场合发布临时授权连接</span></br>即将创建临时授权连接，继续吗？'},function(){
 					layer.open({
 						type: 1,
 						area:'570px',
-						title: "Create temporary authorization",
+						title: "创建临时授权",
 						closeBtn: 2,
 						shift: 5,
 						shadeClose: false,
 						content:'<div class="bt-form create_temp_view">'+
-							'<div class="line"><span class="tname" style="width: auto;">Temporary authorized address</span><div class="info-r ml0"><textarea id="temp_link" class="bt-input-text mr20" style="margin: 0px;width: 500px;height: 50px;line-height: 19px;"></textarea></div></div>'+
-							'<div class="line"><button type="submit" class="btn btn-success btn-sm btn-copy-temp-link" data-clipboard-text="">Copy address</button></div>'+
-							'<ul class="help-info-text c7"><li>The temporary authorization is valid within 1 hour after it is generated. It is a one-time authorization and will be invalid immediately after use</li><li>Use temporary authorization to log in to the panel within 1 hour. Do not publish temporary authorization connection in public</li><li>The authorized connection information is only displayed here once. If you forget it before use, please regenerate it</li></ul>'+
+							'<div class="line"><span class="tname" style="width: auto;">临时授权地址</span><div class="info-r ml0"><textarea id="temp_link" class="bt-input-text mr20" style="margin: 0px;width: 500px;height: 50px;line-height: 19px;"></textarea></div></div>'+
+							'<div class="line"><button type="submit" class="btn btn-success btn-sm btn-copy-temp-link" data-clipboard-text="">复制地址</button></div>'+
+							'<ul class="help-info-text c7"><li>临时授权生成后1小时内使用有效，为一次性授权，使用后立即失效</li><li>使用临时授权登录面板后1小时内拥有面板所有权限，请勿在公共场合发布临时授权连接</li><li>授权连接信息仅在此处显示一次，若在使用前忘记，请重新生成</li></ul>'+
 						'</div>',
 						success:function(){
 							set_temp_login(function(res){
@@ -1540,11 +1542,11 @@ function get_temp_login_view(){
 							});
 							var clipboard = new ClipboardJS('.btn');
 							clipboard.on('success', function(e) {
-								bt.msg({status:true,msg:'Copy succeeded!'});
+								bt.msg({status:true,msg:'复制成功!'});
 								e.clearSelection();
 							});
 							clipboard.on('error', function(e) {
-								bt.msg({status:false,msg:'Copy failed, please copy address manually'});
+								bt.msg({status:false,msg:'复制失败，请手动复制地址'});
 							});
 						},
 						end:function(){
@@ -1559,15 +1561,15 @@ function get_temp_login_view(){
 				layer.open({
 					type: 1,
 					area:['700px','550px'],
-					title:'Operation logs ['+ ip +']',
+					title:'查看操作日志 ['+ ip +']',
 					closeBtn: 2,
 					shift: 5,
 					shadeClose: false,
 					content:'<div class="pd15">'+
-						'<button class="btn btn-default btn-sm va0 refresh_login_logs">Refresh logs</button>'+
+						'<button class="btn btn-default btn-sm va0 refresh_login_logs">刷新日志</button>'+
 						'<div class="divtable mt10 tablescroll" style="max-height: 420px;overflow-y: auto;border:none">'+
 							'<table class="table table-hover" id="logs_login_view_table">'+
-								'<thead><tr><th width="90px">Operation</th><th width="150px">Time</th><th>logs</th></tr></thead>'+
+								'<thead><tr><th width="90px">操作类型</th><th width="150px">操作时间</th><th>日志</th></tr></thead>'+
 								'<tbody ></tbody>'+
 							'</table>'+
 						'</div>'+
@@ -1592,8 +1594,8 @@ function get_temp_login_view(){
 			$('#temp_login_view_tbody').on('click','.remove_temp_login',function(){
 				var id = $(this).data('id');
 				bt.confirm({
-					title:'Remove unused licenses',
-					msg:'Delete unused authorization record, continue?'
+					title:'删除未使用授权',
+					msg:'是否删除未使用授权记录，是否继续？'
 				},function(){
 					remove_temp_login({id:id},function(res){
 						reader_temp_list(function(){
@@ -1606,8 +1608,8 @@ function get_temp_login_view(){
 			$('#temp_login_view_tbody').on('click','.clear_temp_login',function(){
 				var id = $(this).data('id'),ip= $(this).data('ip');
 				bt.confirm({
-					title:'Force logout [ '+ ip +' ]',
-					msg:'Confirm to force logout [ '+ ip +' ]?'
+					title:'强制登出 [ '+ ip +' ]',
+					msg:'是否强制登出 [ '+ ip +' ]，是否继续？'
 				},function(){
 					clear_temp_login({id:id},function(res){
 						reader_temp_list(function(){

@@ -189,10 +189,10 @@ class panelSearch:
         noword 1 不输出行信息  0 默认
     '''
     def get_search(self, args):
-        if 'text' not in args or not args.text: return {'error': 'Search content cannot be empty'}
-        if 'exts' not in args or not args.exts: return {'error': 'The suffix cannot be empty; please enter [ *.* ] to search all files'}
-        if 'path' not in args or not args.path or args.path == '/': return {'error': 'The directory cannot be empty or /'}
-        if not os.path.isdir(args.path): return {'error': 'Directory does not exist'}
+        if 'text' not in args or not args.text: return {'error': '搜索信息不能为空'}
+        if 'exts' not in args or not args.exts: return {'error': '后缀不能为空； 请输入 [ *.* ] 搜索所有文件'}
+        if 'path' not in args or not args.path or args.path == '/': return {'error': '目录不能为空或者不能为/'}
+        if not os.path.isdir(args.path): return {'error': '目录不存在'}
         text=args.text
         exts=args.exts
         path=args.path
@@ -217,11 +217,11 @@ class panelSearch:
         noword 1 不输出行信息  0 默认
     '''
     def get_replace(self, args):
-        if 'text' not in args or not args.text: return {'error': 'Search content cannot be empty'}
-        if 'rtext' not in args or not args.text: return {'error': 'The content to be replaced cannot be empty'}
-        if 'exts' not in args or not args.exts: return {'error': 'The suffix cannot be empty; please enter [ *.* ] to search all files'}
-        if 'path' not in args or not args.path or args.path == '/': return {'error': 'The directory cannot be empty or /'}
-        if not os.path.isdir(args.path): return {'error': 'Directory does not exist'}
+        if 'text' not in args or not args.text: return {'error': '搜索信息不能为空'}
+        if 'rtext' not in args or not args.text: return {'error': '需要替换的内容不能为空'}
+        if 'exts' not in args or not args.exts: return {'error': '后缀不能为空； 请输入 [ *.* ] 搜索所有文件'}
+        if 'path' not in args or not args.path or args.path == '/': return {'error': '目录不能为空或者不能为/'}
+        if not os.path.isdir(args.path): return {'error': '目录不存在'}
         is_backup = int(args.isbackup) if 'isbackup' in args else 0
         text = args.text
         rtext = args.rtext

@@ -64,7 +64,7 @@ var bt_tools = {
             */
             $refresh_table_list: function (load,callback) {
                 var _that = this,loadT;
-                if (load) loadT = bt_tools.load(lan.database.get_data);
+                if(load) loadT = bt_tools.load(lan.database.get_data);
                 this.$http(function(data) {
                     if (loadT) loadT.close();
                     if (callback) callback(data);
@@ -494,7 +494,7 @@ var bt_tools = {
                                     delete this.config.param['bacth'];
                                 }
                                 if (!_this.bacth_status) return false;
-                                if (active.load) $('#layui-layer' + _this.loadT).find('.layui-layer-content').html('<i class="layui-layer-ico layui-layer-ico16"></i>'+lan['public'].executeing + active.title + '，<span class="batch_progress">'+lan['public'].schedule+':'+ index +'/'+ _this.check_list.length +'</span>,'+lan['public'].please_wait+ (active.clear?'<a href="javascript:;" class="btlink clear_batch" style="margin-left:20px;">cancel</a>':''));
+                                if (active.load) $('#layui-layer' + _this.loadT).find('.layui-layer-content').html('<i class="layui-layer-ico layui-layer-ico16"></i>'+lan['public'].executeing + active.title + '，<span class="batch_progress">'+lan['public'].schedule+':'+ index +'/'+ _this.check_list.length +'</span>,'+lan['public'].please_wait+ (active.clear?'<a href="javascript:;" class="btlink clear_batch" style="margin-left:20px;">取消</a>':''));
                                 bt_tools.send({
                                     url: this.config.url,
                                     data: this.config.param,
@@ -649,7 +649,7 @@ var bt_tools = {
                                             bt.open({
                                                 title: config.title || 'Batch execute',
                                                 area: config.area || '350px',
-                                                btn: config.btn || ['Confirm', 'Cancel'],
+                                                btn: config.btn || ['确定', '取消'],
                                                 content: config.content,
                                                 success: function (layero, index) {
                                                     config.success(layero, index, active);
@@ -705,7 +705,7 @@ var bt_tools = {
                                     var _text = $(this).text(),
                                         _index = $(this).index();
                                     $(this).addClass('active').siblings().removeClass('active');
-                                    $(_that.config.el + ' .bt_select_tips').html('Batch execute ' + _text + '<em>('+lan.site.have_been_selected + _that.checkbox_list.length + ')</em>');
+                                    $(_that.config.el + ' .bt_select_tips').html('批量' + _text + '<em>('+lan.site.have_been_selected + _that.checkbox_list.length + ')</em>');
                                     _that.batch_active = batch_list[_index];
                                     if (!_that.checked) $('.bt_table_select_group').removeClass('active');
                                 });
@@ -1887,8 +1887,7 @@ var bt_tools = {
      * @return void
      */
     load: function (title) {
-        title = title.indexOf(', please wait...') !== -1 ? title : title + ', please wait...'
-        var random = bt.get_random(5),layel = $('<div class="layui-layer layui-layer-dialog layui-layer-msg layer-anim" id="'+ random +'" type="dialog" style="z-index: 99891031;"><div class="layui-layer-content layui-layer-padding"><i class="layui-layer-ico layui-layer-ico16"></i>'+ title +'</div><span class="layui-layer-setwin"></span></div><div class="layui-layer-shade" id="layer-mask-'+ random +'" times="17" style="z-index:99891000; background-color:#000; opacity:0.3; filter:alpha(opacity=30);"></div>'),mask = '',loadT = '';
+        var random = bt.get_random(5),layel = $('<div class="layui-layer layui-layer-dialog layui-layer-msg layer-anim" id="'+ random +'" type="dialog" style="z-index: 99891031;"><div class="layui-layer-content layui-layer-padding"><i class="layui-layer-ico layui-layer-ico16"></i>'+ title +'，please wait...</div><span class="layui-layer-setwin"></span></div><div class="layui-layer-shade" id="layer-mask-'+ random +'" times="17" style="z-index:99891000; background-color:#000; opacity:0.3; filter:alpha(opacity=30);"></div>'),mask = '',loadT = '';
         $('body').append(layel);
         var win = $(window),msak = $('.layer-loading-mask'),layel = $('#'+random);
         layel.css({'top':((win.height() - 64)/2),'left':((win.width() -320)/2)});

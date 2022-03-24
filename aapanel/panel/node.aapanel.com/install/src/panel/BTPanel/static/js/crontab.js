@@ -172,9 +172,9 @@ function edit_task_info(id){
                     obj.sBody.channelInitVal= 'user_name,telegram'
                           obj.sBody.messageChannelDom = '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="telegram,mail">All</a></li><li><a role="menuitem" tabindex="-1" href="javascript:;" value="telegram">Telegram</a></li><li><a role="menuitem" tabindex="-1" href="javascript:;" value="mail">Email</a></li>'
             } else if(!rdata.user_mail.user_name && !rdata.telegram.setup){
-              obj.sBody.messageChannelBtnText = 'No Data'
+              obj.sBody.messageChannelBtnText = '未配置消息'
               obj.sBody.channelInitVal= ''
-              obj.sBody.messageChannelDom += '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="">No Data</a></li>'
+              obj.sBody.messageChannelDom += '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="">未配置消息</a></li>'
             } else if(rdata.telegram.setup) {
               obj.sBody.messageChannelBtnText = 'Telegram'
               obj.sBody.channelInitVal= 'telegram'
@@ -264,17 +264,17 @@ function edit_task_info(id){
                 </div>\
             </div>\
             <div class="clearfix plan ptb10 site_list">\
-              <span class="typename controls c4 pull-left f14 text-right mr20" style="display:'+ (obj.from.sType == "logs"?'none':'block') +';">Backup reminder</span>\
+              <span class="typename controls c4 pull-left f14 text-right mr20" style="display:'+ (obj.from.sType == "logs"?'none':'block') +';">备份提醒</span>\
               <div style="line-height:34px" ><div class="dropdown pull-left mr20 sName_btn" id="modNotice" style="display:'+ (obj.from.sType == "logs"?'none':'block') +';">\
                 <button class="btn btn-default dropdown-toggle" type="button" id="excode" data-toggle="dropdown" style="width:180px;">\
-                  <b val="'+obj.from.notice+'">'+ (obj.from.notice == 1 ? 'Notify on failure' : 'Dont notify') +'</b> <span class="caret"></span>\
+                  <b val="'+obj.from.notice+'">'+ (obj.from.notice == 1 ? 'Notify on failure' : '不接收任何消息通知') +'</b> <span class="caret"></span>\
                 </button>\
                 <ul class="dropdown-menu" role="menu" aria-labelledby="excode">\
-                  <li><a role="menuitem" tabindex="-1" href="javascript:;" value="0">Dont notify</a></li>\
-                  <li><a role="menuitem" tabindex="-1" href="javascript:;" value="1">Notify on failure</a></li>\
+                  <li><a role="menuitem" tabindex="-1" href="javascript:;" value="0">不接收任何消息通知</a></li>\
+                  <li><a role="menuitem" tabindex="-1" href="javascript:;" value="1">任务执行失败接收通知</a></li>\
                 </ul>\
               </div>\
-              <div class="pull-left mr20"  style="display:'+ (parseInt(obj.from.notice) == 1 && obj.from.sType != 'logs' ?'block':'none') +';">notification</div>\
+              <div class="pull-left mr20"  style="display:'+ (parseInt(obj.from.notice) == 1 && obj.from.sType != 'logs' ?'block':'none') +';">消息通道</div>\
                 <div class="dropdown  pull-left mr20"  style="display:'+ (obj.from.notice == 1 ?'block':'none') +';">\
                   <button class="btn btn-default dropdown-toggle"  type="button"  data-toggle="dropdown" style="width:auto;" id="modNotice_channel">\
                     <b val="'+obj.from.notice_channel+'" id="modNotice_channelValue">'+ obj.sBody.title +'</b> <span class="caret"></span>\
@@ -282,12 +282,12 @@ function edit_task_info(id){
                   <ul class="dropdown-menu" role="menu">'+obj.sBody.messageChannelDom+'</ul>\
                 </div>\
                 <div class="textname pull-left mr20" id="selmodnoticeBox" onclick="modSelSave_local()">\
-                  <span style="display:'+ (obj.from.sType == "logs"?'none':'block') +';"><input type="checkbox" value="'+obj.from.save_local+'" '+ (obj.from.save_local == 1 ? 'checked': '') +' style="margin-left: 20px;margin-right: 10px;" id="modSave_local">Keep local backup</span>\
+                  <span style="display:'+ (obj.from.sType == "logs"?'none':'block') +';"><input type="checkbox" value="'+obj.from.save_local+'" '+ (obj.from.save_local == 1 ? 'checked': '') +' style="margin-left: 20px;margin-right: 10px;" id="modSave_local">设置消息通道</span>\
                 </div>\
               </div>\
             </div>\
             <div class="clearfix plan ptb10"  style="display:'+ ((obj.from.sType == "toShell" || obj.from.sType == 'site' || obj.from.sType == 'path')?'block;':'none') +'">\
-              <span class="typename controls c4 pull-left f14 text-right mr20">'+ (obj.from.sType == "toShell" ?'Script content':'Exclusion rule')+'</span>\
+              <span class="typename controls c4 pull-left f14 text-right mr20">'+ (obj.from.sType == "toShell" ?'脚本内容':'排除规则')+'</span>\
               <div style="line-height:22px"><textarea style="line-height:22px" class="txtsjs bt-input-text sBody_create" name="sBody">'+ obj.from.sBody +'</textarea></div>\
             </div>\
             <div class="clearfix plan ptb10" style="display:'+ (obj.from.sType == "rememory"?'block;':'none') +'">\
@@ -569,8 +569,8 @@ function allDeleteCron(){
 }
 //批量执行和批量清除日志
 function allCron(type){
-  var message = type=='log' ? 'Confirm to delete the logs of the selected task?' : 'Confirm to execute the selected task?',
-  tit = type=='log' ? 'Confirm Delete' : 'Confirm Execute',
+  var message = type=='log' ? '确认删除所选任务的日志吗？' : '确认执行所选任务吗？',
+  tit = type=='log' ? '确认删除' : '确认执行',
   url = type=='log' ? '/crontab?action=DelLogs' : '/crontab?action=StartTask',
   confirm = layer.confirm(message, {title:tit,icon:3,closeBtn:2},function() {
     var checkList = $("input[name=id]");
@@ -991,11 +991,11 @@ function toBackup(type){
 			  channelInitVal= 'user_name,telegram'
               messageChannelDom = '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="telegram,mail">ALL</a></li><li><a role="menuitem" tabindex="-1" href="javascript:;" value="telegram">Telegram</a></li><li><a role="menuitem" tabindex="-1" href="javascript:;" value="mail">Email</a></li>'
             } else if(!rdata.user_mail.user_name && !rdata.telegram.setup){
-              messageChannelBtnText = 'No Data'
+              messageChannelBtnText = '未配置消息'
 			  channelInitVal= ''
-              messageChannelDom += '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="">No Data</a></li>'
+              messageChannelDom += '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="">未配置消息</a></li>'
             } else if(rdata.telegram.setup) {
-              messageChannelBtnText = 'Telegram'
+              messageChannelBtnText = '钉钉'
 			  channelInitVal= 'telegram'
               messageChannelDom += '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="telegram">Telegram</a></li>'
             } else if(rdata.user_mail.user_name) {
@@ -1004,18 +1004,18 @@ function toBackup(type){
               messageChannelDom += '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="mail">Email</a></li>'
             }
             sBody += '<p class="clearfix plan">\
-                <div class="textname pull-left mr20" style="width: 120px;text-align: right; font-size: 14px;">Backup reminder</div>\
+                <div class="textname pull-left mr20" style="width: 120px;text-align: right; font-size: 14px;">备份提醒</div>\
                   <div class="dropdown planBackupTo pull-left mr20" style="display:'+ (type === 'logs'?'none':'inline-block') +'"  id="notice">\
                     <button class="btn btn-default dropdown-toggle" type="button" id="excode" data-toggle="dropdown" style="width:180px;">\
-                      <b val="0">No notice</b> <span class="caret"></span>\
+                      <b val="0">不接收任何消息通知</b> <span class="caret"></span>\
                     </button>\
                     <ul class="dropdown-menu" role="menu" aria-labelledby="excode">\
-                      <li><a role="menuitem" tabindex="-1" href="javascript:;" value="0">No notice</a></li>\
-                      <li><a role="menuitem" tabindex="-1" href="javascript:;" value="1">Notify on failure</a></li>\
+                      <li><a role="menuitem" tabindex="-1" href="javascript:;" value="0">不接收任何消息通知</a></li>\
+                      <li><a role="menuitem" tabindex="-1" href="javascript:;" value="1">任务执行失败接收通知</a></li>\
                     </ul>\
                   </div>\
                 </div>\
-                <div class="textname pull-left mr20" style="font-size: 14px;display:none;" id="messageChannelBox">Notification</div>\
+                <div class="textname pull-left mr20" style="font-size: 14px;display:none;" id="messageChannelBox">消息通道</div>\
                   <div class="dropdown planBackupTo pull-left mr20" style="display:none;" id="notice_channel">\
                     <button class="btn btn-default dropdown-toggle" type="button" id="excode" data-toggle="dropdown" style="width:auto;">\
                       <b val="'+channelInitVal+'">'+ messageChannelBtnText +'</b> <span class="caret"></span>\
@@ -1025,8 +1025,8 @@ function toBackup(type){
                     </ul>\
                   </div>\
                 </div>\
-                <a role="menuitem" tabindex="-1" href="javascript:;" onclick="MessageChannelSettings()" value="0" style="color: #20a53a;">Set notifications</a>\
-				<span  id="selnoticeBox"  onclick="selSave_local()" style="display:none;"><input type="checkbox" value="0" style="margin-left: 20px;margin-right: 10px;" id="save_local">Keep local backup</span>\
+                <a role="menuitem" tabindex="-1" href="javascript:;" onclick="MessageChannelSettings()" value="0" style="color: #20a53a;">设置消息通道</a>\
+				<span  id="selnoticeBox"  onclick="selSave_local()" style="display:none;"><input type="checkbox" value="0" style="margin-left: 20px;margin-right: 10px;" id="save_local">保留本地备份</span>\
             </p>';
             if(type == 'sites' || type == "path") {
 				sBody += '<p class="clearfix plan">\

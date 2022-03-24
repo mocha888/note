@@ -81,9 +81,9 @@
           <p class="pwinfo" style="display:none">{{data['lan']['N12']}}</p>
           {% if data['hosts'] != '[]' %}
           <a class="static-cdn">
-            <span class="span-tname">Acceleration node</span>
+            <span class="span-tname">加速节点</span>
             <select name="cdn_url" id="static_cdn">
-              <option value="localhost">Counting...</option>
+              <option value="localhost">计算中...</option>
             </select>
           </a>
           {% endif %}
@@ -154,7 +154,7 @@
       function controlTime() {
         $.get('/public?name=app&fun=is_scan_ok', function (res) {
           if (res.status) {
-            layer.msg('Scanning code succeeded, waiting...', {
+            layer.msg('扫码成功，等待中...', {
               icon: 1
             });
             clearInterval(setTime);
@@ -196,11 +196,11 @@
           $(this).removeClass('pc');
           $('.scanCode').hide().prev().show();
           clearInterval(setTime);
-          $('.tips>span').html('<img src="/static/img/scan_ico.png"><span>Login with aaPanel mobile</span>');
+          $('.tips>span').html('<img src="/static/img/scan_ico.png"><span>切换扫码登录</span>');
         } else {
           $(this).addClass('pc');
           $('.account').hide().next().show();
-          $('.tips>span').html('<img src="/static/img/safety_ico.png"><span>Switch account login</span>')
+          $('.tips>span').html('<img src="/static/img/safety_ico.png"><span>切换账号登录</span>')
           setTime = window.setInterval(controlTime, 2000);
         }
       });
@@ -238,7 +238,7 @@
                                     <div class="v_title">Google authentication</div>\
                                     <div class="v_input"><input type="text" class="v_code" name="v_code" placeholder="Verification code"/></div>\
                                     <div class="v_btn"><input id="auth_verif_btn" value="Log in" type="submit"></div>\
-                                    <div class="v_tips">* Please use the Google Authenticator app to get the verification code<br><a target="_blank" href="https://forum.aapanel.com/d/357-how-to-use-google-authenticator-in-the-aapanel"  class="btlink">Unable to verify, click Help</a></div>\
+                                    <div class="v_tips">* 请使用 Google Authenticator 应用获取验证码<br><a target="_blank" href="https://forum.aapanel.com/d/357-how-to-use-google-authenticator-in-the-aapanel"  class="btlink">Unable to verify, click Help</a></div>\
                                 </div>',
               success: function () {
                 // 点击验证登录
@@ -304,7 +304,7 @@
       if ("{{data['app_login']}}" == 'True') {
         $('.bg_img').addClass('pc');
         $('.account').hide().next().show();
-        $('.tips>span').html('<img src="/static/img/safety_ico.png"><span>Switch account login</span>')
+        $('.tips>span').html('<img src="/static/img/safety_ico.png"><span>切换账号登录</span>')
         setTime = window.setInterval(controlTime, 2000);
       }
       $(window).on('resize', function () {
