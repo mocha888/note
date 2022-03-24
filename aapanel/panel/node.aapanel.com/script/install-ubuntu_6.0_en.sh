@@ -842,7 +842,7 @@ Setup_Count(){
 Install_Main(){
 	setenforce 0
 	startTime=`date +%s`
-	Lock_Clear
+	# Lock_Clear
 	System_Check
 	#Set_Ssl
 	Get_Pack_Manager
