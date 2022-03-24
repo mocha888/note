@@ -6,6 +6,10 @@ panelPort="7800"
 
 NODE_URL='http://node.aapanel.com';
 
+#https://github.com/mocha888/note/raw/main/aapanel/panel/node.aapanel.com/install/public.sh
+#https://github.com/mocha888/note/raw/main/aapanel/panel/node.aapanel.com/install/pyenv/pyenv-debian10-x64.tar.gz
+DOWNLOAD_NODE_URL='https://github.com/mocha888/note/raw/main/aapanel/panel/node.aapanel.com';
+
 if [ $(whoami) != "root" ];then
 	echo "Please use the [root] user to execute the aapanel installation script!"
 	exit 1;
@@ -223,7 +227,7 @@ get_node_url(){
 	fi
  	echo '---------------------------------------------';
 	echo "Selected download node...";
-	download_Url=${NODE_URL}
+	download_Url=${DOWNLOAD_NODE_URL}
 	echo "Download node: $download_Url";
 	echo '---------------------------------------------';
 }
