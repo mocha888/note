@@ -17,7 +17,7 @@ _LAN_PUBLIC = None
 _LAN_LOG = None
 _LAN_TEMPLATE = None
 
-NODE_URL='https://node.aapanel.com'
+_NODE_URL='https://node.aapanel.com'
 
 if sys.version_info[0] == 2:
     reload(sys)
@@ -655,7 +655,8 @@ def get_timeout(url,timeout=3):
     except: return 0,False
 
 def get_url(timeout = 0.5):
-    return ${NODE_URL};
+    global _NODE_URL
+    return _NODE_URL
 
     import json
     try:
