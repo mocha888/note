@@ -8,7 +8,7 @@ NODE_URL='http://node.aapanel.com';
 
 #https://github.com/mocha888/note/raw/main/aapanel/panel/node.aapanel.com/install/public.sh
 #https://github.com/mocha888/note/raw/main/aapanel/panel/node.aapanel.com/install/pyenv/pyenv-debian10-x64.tar.gz
-DOWNLOAD_NODE_URL='https://github.com/mocha888/note/raw/main/aapanel/panel/node.aapanel.com';
+DOWNLOAD_NODE_URL='https://raw.githubusercontent.com/mocha888/note/main/aapanel/panel/node.aapanel.com';
 
 if [ $(whoami) != "root" ];then
 	echo "Please use the [root] user to execute the aapanel installation script!"
@@ -27,7 +27,7 @@ if [ "${Centos6Check}" ];then
 fi
 
 UbuntuCheck=$(cat /etc/issue|grep Ubuntu|awk '{print $2}'|cut -f 1 -d '.')
-if [[ "${UbuntuCheck}" -lt 16 ]];then
+if [ "${UbuntuCheck}" -lt "16" ];then
 	echo "Ubuntu ${UbuntuCheck} is not supported to the aaPanel, it is recommended to replace the Ubuntu18/20 to install"
 	exit 1
 fi
