@@ -858,7 +858,7 @@ Install_Main(){
 	Set_Firewall
 
 	Get_Ip_Address
-	Setup_Count ${IDC_CODE}
+	# Setup_Count ${IDC_CODE}
 }
 
 echo "
