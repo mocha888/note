@@ -27,7 +27,7 @@ if [ "${Centos6Check}" ];then
 fi
 
 UbuntuCheck=$(cat /etc/issue|grep Ubuntu|awk '{print $2}'|cut -f 1 -d '.')
-if [ "${UbuntuCheck}" -lt "16" ];then
+if [[ "${UbuntuCheck}" -lt 16 ]];then
 	echo "Ubuntu ${UbuntuCheck} is not supported to the aaPanel, it is recommended to replace the Ubuntu18/20 to install"
 	exit 1
 fi
@@ -57,12 +57,14 @@ GetSysInfo(){
 	echo -e ${SYS_INFO}
 	echo -e "Please screenshot the above error message and post to the forum forum.aapanel.com for help"
 }
+
 Red_Error(){
 	echo '=================================================';
 	printf '\033[1;31;40m%b\033[0m\n' "$@";
 	GetSysInfo
 	exit 1;
 }
+
 Lock_Clear(){
 	if [ -f "/etc/bt_crack.pl" ];then
 		chattr -R -ia /www
@@ -72,6 +74,7 @@ Lock_Clear(){
 		rm -f /etc/bt_crack.pl
 	fi
 }
+
 Install_Check(){
 	if [ "${INSTALL_FORCE}" ];then
 		return
@@ -88,6 +91,7 @@ Install_Check(){
 	fi
 	INSTALL_FORCE="true"
 }
+
 System_Check(){
 	MYSQLD_CHECK=$(ps -ef |grep mysqld|grep -v grep|grep -v /www/server/mysql)
 	PHP_CHECK=$(ps -ef|grep php-fpm|grep master|grep -v /www/server/php)
@@ -97,6 +101,7 @@ System_Check(){
 		Install_Check
 	fi
 }
+
 Set_Ssl(){
         echo -e ""
         echo -e "----------------------------------------------------------------------"
@@ -112,6 +117,7 @@ Set_Ssl(){
                 Set_Ssl
         fi
 }
+
 Get_Pack_Manager(){
 	if [ -f "/usr/bin/yum" ] && [ -d "/etc/yum.repos.d" ]; then
 		PM="yum"
@@ -491,6 +497,7 @@ Install_Python_Lib(){
 		Red_Error "ERROR: psutil/gevent install failed!"
 	fi
 }
+
 Install_Bt(){
 	if [ -f ${setup_path}/server/panel/data/port.pl ];then
 		panelPort=$(cat ${setup_path}/server/panel/data/port.pl)
@@ -568,6 +575,7 @@ Install_Bt(){
 	wget -O /www/server/panel/init.sh ${download_Url}/install/src/bt6_en.init -T 10
 	wget -O /www/server/panel/data/softList.conf ${download_Url}/install/conf/softList_en.conf
 }
+
 Other_Openssl(){
 	openssl_version=$(openssl version|grep -Eo '[0-9]\.[0-9]\.[0-9]')
 	if [ "$openssl_version" = '1.0.1' ] || [ "$openssl_version" = '1.0.0' ];then
@@ -725,6 +733,7 @@ Set_Bt_Panel(){
 		Red_Error "ERROR: The BT-Panel service startup failed."
 	fi
 }
+
 Set_Firewall(){
 	sshPort=$(cat /etc/ssh/sshd_config | grep 'Port '|awk '{print $2}')
 	if [ "${PM}" = "apt-get" ]; then
@@ -818,6 +827,7 @@ Get_Ip_Address(){
 		echo "${getIpAddress}" > ${setup_path}/server/panel/data/iplist.txt
 	fi
 }
+
 Setup_Count(){
     # curl -sS --connect-timeout 10 -m 60 https://brandnew.aapanel.com/api/setupCount/setupPanel?type=Linux > /dev/null 2>&1
     # curl -sS --connect-timeout 10 -m 60 https://console.aapanel.com/Api/SetupCount?type=Linux > /dev/null 2>&1
