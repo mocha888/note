@@ -1,0 +1,15 @@
+{
+    "beta": {
+        "downUrl": "http://103.224.251.67/install/update/LinuxPanel_EN-6.9.60.zip",
+        "updateMsg": "<p>1. Add the site to join the wordpress deployment<br />2. Enhanced panel security<br />3. Optimizing Certificate Renewal<br />4. Optimize database management module<br />5. Fixed known bugs</p>",
+        "uptime": "2022/03/14",
+        "version": "6.9.60"
+    },
+    "btb": "<span></span>",
+    "downUrl": "http://103.224.251.67/install/update/LinuxPanel_EN-6.8.22.zip",
+    "force": false,
+    "is_beta": false,
+    "updateMsg": "<p>1. Add NFS plugin<br />2. Add website log risk analysis function<br />3. Optimized panel cache<br />4. Optimize TG message notification<br />5. Update the initial installation package<br />6. Fix missing enable-php.conf<br />7. Other known bug fixes</p>",
+    "uptime": "2022/03/08",
+    "version": "6.8.22"
+}
