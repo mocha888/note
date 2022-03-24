@@ -1,0 +1,9 @@
+http://node.aapanel.com/net_test
+http://node.aapanel.com/install/pyenv/pyenv-debian10-x64.tar.gz
+http://node.aapanel.com/install/src/panel6_en.zip
+http://node.aapanel.com/install/src/bt6_en.init
+http://node.aapanel.com/install/public.sh
+http://node.aapanel.com/install/src/bt6_en.init
+http://node.aapanel.com/install/src/bt6_en.init
+http://node.aapanel.com/install/conf/softList_en.conf
+http://www.bt.cn/api/idc/get_idc_info_bycode
