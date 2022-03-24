@@ -395,7 +395,7 @@ Install_Python_Lib(){
 			$pyenv_path/pyenv/bin/pip install cachelib
 			is_package=$($python_bin -m psutil 2>&1|grep package)
 			if [ "$is_package" = "" ];then
-				wget -O $pyenv_path/pyenv/pip.txt $download_Url/install/pyenv/pip.txt -T 5
+				wget --no-check-certificate -O $pyenv_path/pyenv/pip.txt $download_Url/install/pyenv/pip.txt -T 5
 				$pyenv_path/pyenv/bin/pip install -U pip
 				$pyenv_path/pyenv/bin/pip install -U setuptools
 				$pyenv_path/pyenv/bin/pip install -r $pyenv_path/pyenv/pip.txt
@@ -428,7 +428,7 @@ Install_Python_Lib(){
 	fi
 	if [ "${os_version}" != "" ];then
 		pyenv_file="/www/pyenv.tar.gz"
-		wget -O $pyenv_file $download_Url/install/pyenv/pyenv-${os_type}${os_version}-x${is64bit}.tar.gz -T 10
+		wget --no-check-certificate -O $pyenv_file $download_Url/install/pyenv/pyenv-${os_type}${os_version}-x${is64bit}.tar.gz -T 10
 		tmp_size=$(du -b $pyenv_file|awk '{print $1}')
 		if [ $tmp_size -lt 703460 ];then
 			rm -f $pyenv_file
@@ -458,7 +458,7 @@ Install_Python_Lib(){
 	cd /www
 	python_src='/www/python_src.tar.xz'
 	python_src_path="/www/Python-${py_version}"
-	wget -O $python_src $download_Url/src/Python-${py_version}.tar.xz -T 5
+	wget --no-check-certificate -O $python_src $download_Url/src/Python-${py_version}.tar.xz -T 5
 	tmp_size=$(du -b $python_src|awk '{print $1}')
 	if [ $tmp_size -lt 10703460 ];then
 		rm -f $python_src
@@ -476,8 +476,8 @@ Install_Python_Lib(){
 	fi
 	cd ~
 	rm -rf $python_src_path
-	wget -O $pyenv_path/pyenv/bin/activate $download_Url/install/pyenv/activate.panel -T 5
-	wget -O $pyenv_path/pyenv/pip.txt $download_Url/install/pyenv/pip-3.7.8.txt -T 5
+	wget --no-check-certificate -O $pyenv_path/pyenv/bin/activate $download_Url/install/pyenv/activate.panel -T 5
+	wget --no-check-certificate -O $pyenv_path/pyenv/pip.txt $download_Url/install/pyenv/pip-3.7.8.txt -T 5
 	ln -sf $pyenv_path/pyenv/bin/pip3.7 $pyenv_path/pyenv/bin/pip
 	ln -sf $pyenv_path/pyenv/bin/python3.7 $pyenv_path/pyenv/bin/python
 	ln -sf $pyenv_path/pyenv/bin/pip3.7 /usr/bin/btpip
@@ -519,9 +519,9 @@ Install_Bt(){
 		sleep 1
 	fi
 
-	wget -O panel.zip ${download_Url}/install/src/panel6_en.zip -T 10
-	wget -O /etc/init.d/bt ${download_Url}/install/src/bt6_en.init -T 10
-	wget -O /www/server/panel/install/public.sh ${download_Url}/install/public.sh -T 10
+	wget --no-check-certificate -O panel.zip ${download_Url}/install/src/panel6_en.zip -T 10
+	wget --no-check-certificate -O /etc/init.d/bt ${download_Url}/install/src/bt6_en.init -T 10
+	wget --no-check-certificate -O /www/server/panel/install/public.sh ${download_Url}/install/public.sh -T 10
 
 	if [ -f "${setup_path}/server/panel/data/default.db" ];then
 		if [ -d "/${setup_path}/server/panel/old_data" ];then
@@ -571,9 +571,9 @@ Install_Bt(){
 	chmod -R +x ${setup_path}/server/panel/script
 	ln -sf /etc/init.d/bt /usr/bin/bt
 	echo "${panelPort}" > ${setup_path}/server/panel/data/port.pl
-	wget -O /etc/init.d/bt ${download_Url}/install/src/bt6_en.init -T 10
-	wget -O /www/server/panel/init.sh ${download_Url}/install/src/bt6_en.init -T 10
-	wget -O /www/server/panel/data/softList.conf ${download_Url}/install/conf/softList_en.conf
+	wget --no-check-certificate -O /etc/init.d/bt ${download_Url}/install/src/bt6_en.init -T 10
+	wget --no-check-certificate -O /www/server/panel/init.sh ${download_Url}/install/src/bt6_en.init -T 10
+	wget --no-check-certificate -O /www/server/panel/data/softList.conf ${download_Url}/install/conf/softList_en.conf
 }
 
 Other_Openssl(){
@@ -583,7 +583,7 @@ Other_Openssl(){
 		if [ ! -f "/usr/local/openssl/lib/libssl.so" ];then
 			cd /www
 			openssl_src_file=/www/openssl.tar.gz
-			wget -O $openssl_src_file ${download_Url}/src/openssl-${opensslVersion}.tar.gz
+			wget --no-check-certificate -O $openssl_src_file ${download_Url}/src/openssl-${opensslVersion}.tar.gz
 			tmp_size=$(du -b $openssl_src_file|awk '{print $1}')
 			if [ $tmp_size -lt 703460 ];then
 				rm -f $openssl_src_file
@@ -612,7 +612,7 @@ Insatll_Libressl(){
 		opensslVersion="3.0.2"
 		cd /www
 		openssl_src_file=/www/openssl.tar.gz
-		wget -O $openssl_src_file ${download_Url}/install/pyenv/libressl-${opensslVersion}.tar.gz
+		wget --no-check-certificate -O $openssl_src_file ${download_Url}/install/pyenv/libressl-${opensslVersion}.tar.gz
 		tmp_size=$(du -b $openssl_src_file|awk '{print $1}')
 		if [ $tmp_size -lt 703460 ];then
 			rm -f $openssl_src_file
@@ -642,7 +642,7 @@ Centos6_Openssl(){
 	fi
 	echo 'Centos6 install openssl-1.0.2...'
 	openssl_rpm_file="/www/openssl.rpm"
-	wget -O $openssl_rpm_file $download_Url/rpm/centos6/${is64bit}/bt-openssl102.rpm -T 10
+	wget --no-check-certificate -O $openssl_rpm_file $download_Url/rpm/centos6/${is64bit}/bt-openssl102.rpm -T 10
 	tmp_size=$(du -b $openssl_rpm_file|awk '{print $1}')
 	if [ $tmp_size -lt 102400 ];then
 		rm -f $openssl_rpm_file
