@@ -5,7 +5,7 @@ LANG=en_US.UTF-8
 panelPort="7800"
 
 # 适当延长下载超时时间
-LONG_EXPIRE_SEC = 30;
+LONG_EXPIRE_SEC='30';
 
 NODE_URL='http://node.aapanel.com';
 
