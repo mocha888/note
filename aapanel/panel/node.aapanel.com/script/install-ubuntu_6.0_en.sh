@@ -4,6 +4,9 @@ export PATH
 LANG=en_US.UTF-8
 panelPort="7800"
 
+# 适当延长下载超时时间
+LONG_EXPIRE_SEC = 30;
+
 NODE_URL='http://node.aapanel.com';
 
 #https://github.com/mocha888/note/raw/main/aapanel/panel/node.aapanel.com/install/public.sh
@@ -428,7 +431,7 @@ Install_Python_Lib(){
 	fi
 	if [ "${os_version}" != "" ];then
 		pyenv_file="/www/pyenv.tar.gz"
-		wget --no-check-certificate -O $pyenv_file $download_Url/install/pyenv/pyenv-${os_type}${os_version}-x${is64bit}.tar.gz -T 10
+		wget --no-check-certificate -O $pyenv_file $download_Url/install/pyenv/pyenv-${os_type}${os_version}-x${is64bit}.tar.gz -T ${LONG_EXPIRE_SEC}
 		tmp_size=$(du -b $pyenv_file|awk '{print $1}')
 		if [ $tmp_size -lt 703460 ];then
 			rm -f $pyenv_file
@@ -458,7 +461,7 @@ Install_Python_Lib(){
 	cd /www
 	python_src='/www/python_src.tar.xz'
 	python_src_path="/www/Python-${py_version}"
-	wget --no-check-certificate -O $python_src $download_Url/src/Python-${py_version}.tar.xz -T 5
+	wget --no-check-certificate -O $python_src $download_Url/src/Python-${py_version}.tar.xz -T ${LONG_EXPIRE_SEC}
 	tmp_size=$(du -b $python_src|awk '{print $1}')
 	if [ $tmp_size -lt 10703460 ];then
 		rm -f $python_src
