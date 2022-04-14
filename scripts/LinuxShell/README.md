@@ -20,17 +20,17 @@ VNC端口为``` 1``` 或者``` 5901``` ,可自行尝试连接.(成功后VNC功�
 
 DD debian10 示例：
 ```
-wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/script/LinuxShell/InstallNET.sh && chmod +x InstallNET.sh && ./InstallNET.sh -d 10 -v 64 -p "自定义root密码"
+wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/main/scripts/LinuxShell/InstallNET.sh && chmod +x InstallNET.sh && ./InstallNET.sh -d 10 -v 64 -p "自定义root密码"
 ```
 
 DD debian10 小内存示例：
 ```
-wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/script/LinuxShell/InstallNET_lowmem.sh && chmod +x InstallNET_lowmem.sh && ./InstallNET_lowmem.sh -d 10 -v 64 -p "自定义root密码"
+wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/main/scripts/LinuxShell/InstallNET_lowmem.sh && chmod +x InstallNET_lowmem.sh && ./InstallNET_lowmem.sh -d 10 -v 64 -p "自定义root密码"
 ```
 
 DD debian11 更多参数示例：
 ```
-wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/script/LinuxShell/InstallNET.sh && chmod +x InstallNET.sh && ./InstallNET.sh -d 11 -v 64 -p "自定义root密码" -port "自定义ssh端口" --mirror 'http://www.debian.uz/debian/'
+wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/main/scripts/LinuxShell/InstallNET.sh && chmod +x InstallNET.sh && ./InstallNET.sh -d 11 -v 64 -p "自定义root密码" -port "自定义ssh端口" --mirror 'http://www.debian.uz/debian/'
 ```
 
 ## 关于debian8源报错
@@ -75,12 +75,12 @@ yum update
 
 ## 快速使用示例:
 ``` 	
-bash <(wget --no-check-certificate -qO- 'https://raw.githubusercontent.com/mocha888/note/script/LinuxShell/InstallNET.sh') -d 8 -v 64 -a
+bash <(wget --no-check-certificate -qO- 'https://raw.githubusercontent.com/mocha888/note/main/scripts/LinuxShell/InstallNET.sh') -d 8 -v 64 -a
 ``` 
 
 ## 下载及说明:
 ``` 
-wget --no-check-certificate -qO InstallNET.sh 'https://raw.githubusercontent.com/mocha888/note/script/LinuxShell/InstallNET.sh' && chmod +x InstallNET.sh
+wget --no-check-certificate -qO InstallNET.sh 'https://raw.githubusercontent.com/mocha888/note/main/scripts/LinuxShell/InstallNET.sh' && chmod +x InstallNET.sh
 ``` 
 ```
 Usage:
