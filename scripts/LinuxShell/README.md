@@ -18,16 +18,17 @@ VNC端口为``` 1``` 或者``` 5901``` ,可自行尝试连接.(成功后VNC功�
 
 ## 傻瓜式一键脚本
 
-DD debian 10示例：
+DD debian10 示例：
 ```
 wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/script/LinuxShell/InstallNET.sh && chmod +x InstallNET.sh && ./InstallNET.sh -d 10 -v 64 -p "自定义root密码"
+```
 
-
+DD debian10 小内存示例：
+```
 wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/script/LinuxShell/InstallNET_lowmem.sh && chmod +x InstallNET_lowmem.sh && ./InstallNET_lowmem.sh -d 10 -v 64 -p "自定义root密码"
 ```
 
-
-DD debian 11示例：
+DD debian11 更多参数示例：
 ```
 wget -N --no-check-certificate https://raw.githubusercontent.com/mocha888/note/script/LinuxShell/InstallNET.sh && chmod +x InstallNET.sh && ./InstallNET.sh -d 11 -v 64 -p "自定义root密码" -port "自定义ssh端口" --mirror 'http://www.debian.uz/debian/'
 ```
