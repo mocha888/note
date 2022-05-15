@@ -972,7 +972,7 @@ server {
     proxy_pass http://127.0.0.1:88;
     include proxy.conf;
   }
-  location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|mp4|ico)$ {
+  location ~ .*\.(gif|jpg|jpeg|png|bmp|webp|swf|flv|mp4|ico)$ {
     expires 30d;
     access_log off;
   }
