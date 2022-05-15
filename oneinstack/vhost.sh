@@ -593,7 +593,11 @@ server {
   #error_page 404 /404.html;
   #error_page 502 /502.html;
   ${anti_hotlinking}
-  location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|mp4|ico)$ {
+
+  location = /favicon.ico { access_log off; log_not_found off; }
+  location = /robots.txt  { access_log off; log_not_found off; }
+
+  location ~ .*\.(gif|jpg|jpeg|png|bmp|webp|swf|flv|mp4|ico)$ {
     expires 30d;
     access_log off;
   }
@@ -692,7 +696,10 @@ server {
   ${anti_hotlinking}
   ${NGX_CONF}
 
-  location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|mp4|ico)$ {
+  location = /favicon.ico { access_log off; log_not_found off; }
+  location = /robots.txt  { access_log off; log_not_found off; }
+
+  location ~ .*\.(gif|jpg|jpeg|png|bmp|webp|swf|flv|mp4|ico)$ {
     expires 30d;
     access_log off;
   }
@@ -794,7 +801,10 @@ server {
   #error_page 502 /502.html;
   ${anti_hotlinking}
 
-  location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|mp4|ico)$ {
+  location = /favicon.ico { access_log off; log_not_found off; }
+  location = /robots.txt  { access_log off; log_not_found off; }
+
+  location ~ .*\.(gif|jpg|jpeg|png|bmp|webp|swf|flv|mp4|ico)$ {
     expires 30d;
     access_log off;
   }
