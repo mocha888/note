@@ -40,9 +40,9 @@ Install_fail2ban() {
   cat > /etc/fail2ban/jail.local << EOF
 [DEFAULT]
 ignoreip = 127.0.0.1/8
-bantime  = 86400
-findtime = 600
-maxretry = 5
+bantime  = 365d
+findtime = 30d
+maxretry = 3
 [ssh-iptables]
 enabled = true
 filter  = sshd
