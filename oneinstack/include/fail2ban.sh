@@ -40,11 +40,12 @@ Install_fail2ban() {
   cat > /etc/fail2ban/jail.local << EOF
 [DEFAULT]
 ignoreip = 127.0.0.1/8
-bantime  = 365d
-findtime = 30d
-maxretry = 3
+bantime  = 86400
+findtime = 600
+maxretry = 5
 [ssh-iptables]
 enabled = true
+maxretry = 2
 filter  = sshd
 action  = iptables[name=SSH, port=${now_ssh_port}, protocol=tcp]
 logpath = ${LOGPATH}
